@@ -2,30 +2,135 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Madhan Aadithya</title>
+  <title>3D Survival Game</title>
   <style>
+    *{
+      color: white;
+    }
     body { margin: 0; overflow: hidden; }
     #joystick-container {
       position: absolute;
       bottom: 20px;
-      left: 20px;
+      right: 20px;
       width: 120px;
       height: 120px;
       z-index: 10;
     }
+    #health-bar-container {
+      
+      
+      width: 200px;
+      height: 20px;
+      background: #444;
+      border: 2px solid #000;
+      z-index: 20;
+    }
+    #health-bar {
+      width: 100%;
+      height: 100%;
+      background: limegreen;
+    }
+    .bar{
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      padding: 10px;
+    }
+    .bar p{
+      text-align: center;
+      font-family: sans-serif;
+      font-weight: 900;
+    }
+    #wave{
+      position: fixed;
+      width: 100vw;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
+      padding: 7.5px;
+      text-transform: uppercase;
+      font-family: sans-serif;
+    }
+#wave{
+  font-weight: 900;
+  background-color: red;
+  color: black;
+}
+#popup{
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1000;
+  font-family: sans-serif;
+  font-size: 5vw;
+}
+@media (min-width: 600px) {
+  #popup {
+    font-size: 2vw;
+  }
+}
   </style>
 </head>
 <body>
+  <div id="wave" class="wave"><p>Wave 1</p></div>
+  <div class="bar"><p>Health</p>
+  <div id="health-bar-container"><div id="health-bar"></div></div></div>
   <div id="joystick-container"></div>
+<div id="popup" >
+  <h1>How to Play</h1>
+  <p>WASD or joystick to move</p>
+  <p>Click to shoot</p>
+  <p>Survive enemy waves!</p>
+  <button  onclick="startGame()" style="padding: 10px 20px; font-size: 16px; margin-top: 20px;color:black;">Start Game</button>
+</div>
 
   <script src="https://cdn.jsdelivr.net/npm/three@0.138.0/build/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.138.0/examples/js/loaders/GLTFLoader.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/nipplejs@0.9.0/dist/nipplejs.min.js"></script>
 
   <script>
+    let gamePaused = true;
+
     let scene, camera, renderer, fox, joystick;
     const keys = {};
     let moveForward = false, moveBackward = false, rotateLeft = false, rotateRight = false;
+
+    const mixers = [];
+    const enemies = [];
+let wave = 1;
+let enemyCount = 5;
+let waveInProgress = false;
+
+
+function spawnWave() {
+  for (let i = 0; i < enemyCount; i++) {
+    const geometry = new THREE.BoxGeometry(1, 2, 1);
+    const material = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+    const enemy = new THREE.Mesh(geometry, material);
+const radius = Math.random() * 30 + 20; // 20 to 50 units away
+const angle = Math.random() * Math.PI * 2;
+const x = fox.position.x + Math.cos(angle) * radius;
+const z = fox.position.z + Math.sin(angle) * radius;
+
+    enemy.position.set(x,0, z);
+    enemy.castShadow = true;
+    scene.add(enemy);
+    enemies.push(enemy);
+  }
+  console.log(`cl ${wave-1} started with ${enemyCount} enemies.`);
+  document.getElementById('wave').innerHTML=`Wave ${wave-1} started with ${enemyCount} enemies.`;
+}
+
+    const bullets = [];
+    
+    let health = 100;
 
     init();
     animate();
@@ -39,89 +144,126 @@
 
       renderer = new THREE.WebGLRenderer({ antialias: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.shadowMap.enabled = true;
       document.body.appendChild(renderer.domElement);
 
       const light = new THREE.DirectionalLight(0xffffff, 1);
       light.position.set(10, 20, 10);
+      light.castShadow = true;
       scene.add(light);
       scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+// Add moonlight with directional shadows
+const moonlight = new THREE.DirectionalLight(0x000000, 1.0); // Cool bluish tone for moonlight
+moonlight.position.set(50, 100, -50);
+moonlight.castShadow = true;
 
-   // Textured ground using a mesh material
+moonlight.shadow.mapSize.width = 2048;
+moonlight.shadow.mapSize.height = 2048;
+moonlight.shadow.camera.near = 1;
+moonlight.shadow.camera.far = 500;
+moonlight.shadow.camera.left = -200;
+moonlight.shadow.camera.right = 200;
+moonlight.shadow.camera.top = 200;
+moonlight.shadow.camera.bottom = -200;
+
+scene.add(moonlight);
+scene.add(new THREE.AmbientLight(0x000000, 1.5)); // Dim, cool ambient light
+
+// Set dark night sky color
+scene.background = new THREE.Color(0x0a0a1a);
+scene.fog = new THREE.Fog(0x050510, 10, 200);
+      // Ground
+    
+// Make ground darker
 const groundTexture = new THREE.TextureLoader().load('https://cdn.jsdelivr.net/gh/mrdoob/three.js@master/examples/textures/terrain/grasslight-big.jpg');
 groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
-groundTexture.repeat.set(50, 50); // Repeat texture across the ground
+groundTexture.repeat.set(50, 50);
 
-const groundMaterial = new THREE.MeshStandardMaterial({ map: groundTexture });
+const darkGroundMaterial = new THREE.MeshStandardMaterial({
+  map: groundTexture,
+  color: 0x444444
+});
 
 const groundGeometry = new THREE.PlaneGeometry(1000, 1000);
-const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
+const groundMesh = new THREE.Mesh(groundGeometry, darkGroundMaterial);
 groundMesh.rotation.x = -Math.PI / 2;
 groundMesh.receiveShadow = true;
 
 scene.add(groundMesh);
 
-renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-light.castShadow = true;
-groundMesh.receiveShadow = true;
-
-const gltfLoader = new THREE.GLTFLoader();
-
-function loadModel(url, scale = 1, position = new THREE.Vector3(), animate = false) {
-  gltfLoader.load(url, gltf => {
-    const model = gltf.scene;
-    model.traverse(child => {
-      if (child.isMesh) {
-        child.castShadow = true;
-        child.receiveShadow = true;
-      }
-    });
-    model.scale.set(scale, scale, scale);
-    model.position.copy(position);
-    scene.add(model);
-
-    if (animate && gltf.animations.length > 0) {
-      const mixer = new THREE.AnimationMixer(model);
-      gltf.animations.forEach(clip => mixer.clipAction(clip).play());
-      mixers.push(mixer); // add this to your global update loop
-    }
-  });
-}
-const mixers = []; // for animations
-
-for (let i = 0; i < 150; i++) {
-  const x = Math.random() * 400 - 200;
-  const z = Math.random() * 400 - 200;
-  loadModel('Tree.glb', 0.1, new THREE.Vector3(x, 0, z), true);
-}
-for (let i = 0; i < 150; i++) {
-  const x = Math.random() * 400 - 200;
-  const z = Math.random() * 400 - 200;
-  loadModel('Bush.glb', Math.random(), new THREE.Vector3(x, 0, z), true);
-}
-
-
-
+      // Player
       const loader = new THREE.GLTFLoader();
-      loader.load('plane.glb', gltf => {
+      loader.load('https://threejs.org/examples/models/gltf/Flamingo.glb', gltf => {
         fox = gltf.scene;
-       
-        fox.scale.set(0.1, 0.1, 0.1);
-         
+        fox.scale.set(0.05, 0.05, 0.05);
+        fox.position.set(0, 0, 0);
         scene.add(fox);
       });
 
-      // Keyboard input
-      document.addEventListener('keydown', e => keys[e.code] = true);
-      document.addEventListener('keyup', e => keys[e.code] = false);
+      // Enemies
+      function spawnEnemy() {
+        const geometry = new THREE.BoxGeometry(1, 2, 1);
+        const material = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+        const enemy = new THREE.Mesh(geometry, material);
+        enemy.position.set(Math.random() * 200 - 100, 1, Math.random() * 200 - 100);
+        enemy.castShadow = true;
+        scene.add(enemy);
+        enemies.push(enemy);
+      }
 
-      // Joystick
+//Trees
+const trees = [];
+const treeLoader = new THREE.GLTFLoader();
+
+function loadTreeModel(url, count = 50) {
+  for (let i = 0; i < count; i++) {
+    treeLoader.load(url, (gltf) => {
+      const tree = gltf.scene;
+      tree.scale.set(5, 5, 5);
+      tree.position.set(
+        Math.random() * 200 - 100,
+        0,
+        Math.random() * 200 - 100
+      );
+      tree.traverse((child) => {
+        if (child.isMesh) {
+          child.castShadow = true;
+          child.receiveShadow = true;
+        }
+      });
+      scene.add(tree);
+      trees.push(tree);
+    });
+  }
+}
+
+loadTreeModel('tree1.glb', 50); // Replace with actual path to tree model
+
+function checkTreeCollision(playerBox) {
+  const treeBox = new THREE.Box3();
+  for (let i = 0; i < trees.length; i++) {
+    treeBox.setFromObject(trees[i]);
+    if (playerBox.intersectsBox(treeBox)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+
+      // Controls
+      document.addEventListener('keydown', e => {
+        keys[e.code] = true;
+        if (e.code === 'Space') shootBullet();
+      });
+      document.addEventListener('keyup', e => keys[e.code] = false);
+      document.addEventListener('click', shootBullet); // tap to shoot on mobile
+
       joystick = nipplejs.create({
         zone: document.getElementById('joystick-container'),
         mode: 'static',
         position: { left: '60px', bottom: '60px' },
-        color: 'blue'
+        color: 'white'
       });
 
       joystick.on('move', (evt, data) => {
@@ -144,8 +286,33 @@ for (let i = 0; i < 150; i++) {
       });
     }
 
+    function shootBullet() {
+      if (!fox) return;
+      const bullet = new THREE.Mesh(
+        new THREE.SphereGeometry(0.2, 8, 8),
+        new THREE.MeshStandardMaterial({ color: 0x000000 })
+      );
+      bullet.position.copy(fox.position);
+      const direction = new THREE.Vector3();
+      fox.getWorldDirection(direction);
+      direction.y = 0;
+      bullet.userData.velocity = direction.normalize().clone().multiplyScalar(0.5);
+      scene.add(bullet);
+      bullets.push(bullet);
+    }
+
+    function updateHealthBar() {
+      const bar = document.getElementById("health-bar");
+      bar.style.width = `${Math.max(0, health)}%`;
+      if (health <= 0) {
+        alert("Game Over!");
+        location.reload();
+      }
+    }
+
     function animate() {
-      requestAnimationFrame(animate);
+      if (!gamePaused) requestAnimationFrame(animate);
+
 
       if (fox) {
         const direction = new THREE.Vector3();
@@ -155,22 +322,74 @@ for (let i = 0; i < 150; i++) {
         forward.normalize();
 
         direction.set(0, 0, 0);
-
         if (keys['KeyW'] || moveForward) direction.add(forward);
         if (keys['KeyS'] || moveBackward) direction.sub(forward);
         if (keys['KeyA'] || rotateLeft) fox.rotation.y += 0.015;
         if (keys['KeyD'] || rotateRight) fox.rotation.y -= 0.015;
 
-        fox.position.add(direction.multiplyScalar(0.1));
+        fox.position.add(direction.multiplyScalar(0.09));
 
-        // Camera follows fox
+        // Camera
         const camOffset = new THREE.Vector3(0, 2.5, -10).applyQuaternion(fox.quaternion);
         camera.position.copy(fox.position.clone().add(camOffset));
         camera.lookAt(fox.position);
+
+        // Enemies follow
+        enemies.forEach(enemy => {
+          const dir = fox.position.clone().sub(enemy.position);
+          if (dir.length() < 1.5) {
+            health -= 0.5;
+            updateHealthBar();
+          } else {
+            dir.normalize();
+            enemy.position.add(dir.multiplyScalar(0.025));
+          }
+        });
+
+        // Update bullets
+        for (let i = bullets.length - 1; i >= 0; i--) {
+          const b = bullets[i];
+          b.position.add(b.userData.velocity);
+
+          if (b.position.distanceTo(fox.position) > 100) {
+            scene.remove(b);
+            bullets.splice(i, 1);
+            continue;
+          }
+
+          // Check hit
+          for (let j = enemies.length - 1; j >= 0; j--) {
+            if (b.position.distanceTo(enemies[j].position) < 1) {
+              scene.remove(enemies[j]);
+              enemies.splice(j, 1);
+              scene.remove(b);
+              bullets.splice(i, 1);
+              break;
+            }
+          }
+          // Start next wave when all enemies are gone
+if (enemies.length === 0 && !waveInProgress) {
+  waveInProgress = true;
+  wave++;
+  enemyCount += 2;
+  setTimeout(() => {
+    spawnWave();
+    waveInProgress = false;
+  }, 2); // 2-second delay
+}
+
+
+        }
       }
 
       renderer.render(scene, camera);
     }
-  </script>
+function startGame() {
+  document.getElementById("popup").style.display = "none";
+  gamePaused = false;
+  animate(); // resume animation
+}
+
+</script>
 </body>
 </html>
