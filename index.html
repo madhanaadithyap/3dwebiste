@@ -267,7 +267,7 @@ scene.add(stars);
 
       // Player
       const loader = new THREE.GLTFLoader();
-      loader.load('Ghost.glb', gltf => {
+      loader.load('./Ghost.glb', gltf => {
         fox = gltf.scene;
         fox.scale.set(2, 2, 2);
         fox.position.set(0, 0, 0);
