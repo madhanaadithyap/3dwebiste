@@ -3,9 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <title>Madhan Aadithya P</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+</style>
   <style>
     *{
       color: white;
+      font-family: "Space Mono", monospace;
+  font-weight: 900;
+  user-select: none;
+  font-style: normal;
     }
     body { margin: 0; overflow: hidden; }
     #joystick-container {
@@ -17,28 +24,18 @@
       z-index: 10;
     }
     #health-bar-container {
-      
-      
-      width: 200px;
-      height: 20px;
-      background: #444;
-      border: 2px solid #000;
+      text-align: center;
+      padding:10px;
+      width:100px;
+      border-radius: 5px;
+      background: red;
+      border: 2px solid #fff;
       z-index: 20;
     }
-    #health-bar {
-      width: 100%;
-      height: 100%;
-      background: limegreen;
-    }
-    .bar{
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      padding: 10px;
-    }
+  
     .bar p{
       text-align: center;
-      font-family: sans-serif;
+     
       font-weight: 900;
     }
     #wave{
@@ -50,7 +47,7 @@
       justify-content: center;
       padding: 7.5px;
       text-transform: uppercase;
-      font-family: sans-serif;
+     
     }
 #wave{
   font-weight: 900;
@@ -68,7 +65,7 @@
   align-items: center;
   flex-direction: column;
   z-index: 1000;
-  font-family: sans-serif;
+
   font-size: 5vw;
 }
 @media (min-width: 600px) {
@@ -82,14 +79,55 @@
   right:50%;
   transform: translate(-50%,-50%);
 }
+#over{
+  width: 100vw;
+  height:100vh;
+  position: fixed;
+  background-color: #000;
+  z-index: 4;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+
+}
+#over a{
+  background-color: red;
+  padding:10px;
+  text-decoration: none;
+  color: black;
+  font-weight: 900;
+  border: 0.5px solid white;
+}
+.contina{
+  position: fixed;
+  bottom:2%;
+  left:50%;
+  transform: translate(-50%,-50%);
+}
   </style>
 </head>
 <body>
-  <div class="barr"><p> <span id="score">0</span></p></div>
+  <button id="music-toggle" style="
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 2000;
+  padding: 10px;
+  font-weight: bold;
+  background-color: black;
+  color: white;
+  border: 1px solid white;
+  cursor: pointer;
+">🔊 Music: ON</button>
+
+  <div class="barr"><span id="score">0</span></div>
 
   <div id="wave" class="wave"><p>Wave 1</p></div>
+  <div class="contina">
   <div class="bar"><p>Health</p>
-  <div id="health-bar-container"><div id="health-bar"></div></div></div>
+  <div id="health-bar-container"><div id="health-bar">1000</div></div></div></div>
   <div id="joystick-container"></div>
 <div id="popup" >
   <h1>How to Play</h1>
@@ -111,6 +149,10 @@
   justify-content: center;
   z-index: 9999;">
   Loading...
+</div>
+<div id="over">
+  <h1>GAME OVER</h1>
+  <a href=".">RELOAD GAME</a>
 </div>
 
 
@@ -144,11 +186,28 @@ setInterval(() => {
 let wave = 1;
 let enemyCount = 20;
 let waveInProgress = false;
+//ufo light
+let ufoLight; // declare globally
+
+const loader = new THREE.GLTFLoader();
+loader.load('./Ghost.glb', gltf => {
+  fox = gltf.scene;
+  fox.scale.set(2, 2, 2);
+  fox.position.set(0, 0, 0);
+  scene.add(fox);
+
+  // Add a light above the UFO
+  ufoLight = new THREE.PointLight(0x00ffff, 5, 300); // bluish light
+  ufoLight.position.set(0, 5, 0); // initially above the UFO
+  scene.add(ufoLight);
+
+  document.getElementById('loader').style.display = 'none';
+});
 
 
 function spawnWave() {
   for (let i = 0; i < enemyCount; i++) {
-    const geometry = new THREE.BoxGeometry(2, 2, 2);
+    const geometry = new THREE.BoxGeometry(1, 1, 1);
     const material = new THREE.MeshStandardMaterial({ color: 0xff0000,emissive:0xff0000,emissiveIntensity:100,metalness:0.2,roughness:0.5 });
     const enemy = new THREE.Mesh(geometry, material);
 const radius = Math.random() * 30 + 20; // 20 to 50 units away
@@ -190,7 +249,7 @@ function getCookie(name) {
     const savedHealth = getCookie("gameHealth");
 const savedScore = getCookie("gameScore");
 
-if (savedHealth !== null) health = parseFloat(savedHealth);
+// if (savedHealth !== null) health = parseFloat(savedHealth);
 if (savedScore !== null) {
   score = parseInt(savedScore);
   updateScore(); // update the score bar visually
@@ -266,15 +325,9 @@ scene.add(stars);
 
 
       // Player
-      const loader = new THREE.GLTFLoader();
-      loader.load('./Ghost.glb', gltf => {
-        fox = gltf.scene;
-        fox.scale.set(2, 2, 2);
-        fox.position.set(0, 0, 0);
-        scene.add(fox);
-        document.getElementById('loader').style.display = 'none';
-      });
-      //shooting glow
+
+
+
   // Enemies
       function spawnEnemy() {
         const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -322,7 +375,7 @@ scene.add(stars);
       });
     }
       function flashMuzzle(position) {
-  const flash = new THREE.PointLight( 0x00ffff, 20, 10);
+  const flash = new THREE.PointLight( 0x00ffff, 20, 100);
   flash.position.copy(position);
   scene.add(flash);
   setTimeout(() => scene.remove(flash), 100);
@@ -355,10 +408,10 @@ const bullet = new THREE.Mesh(bulletGeometry, bulletMaterial);
     }
 function createBlastEffect(position) {
   const particles = [];
-  const particleCount = 20;
+  const particleCount = 200;
 
   for (let i = 0; i < particleCount; i++) {
-    const geometry = new THREE.SphereGeometry(0.1, 4, 4);
+    const geometry = new THREE.SphereGeometry(0.1, 2, 2);
     const material = new THREE.MeshStandardMaterial({ color: 0xff6600 });
     const particle = new THREE.Mesh(geometry, material);
     particle.position.copy(position);
@@ -391,10 +444,9 @@ function createBlastEffect(position) {
 
     function updateHealthBar() {
       const bar = document.getElementById("health-bar");
-      bar.style.width = `${Math.max(0, health)}%`;
+      bar.innerText = `${health}`;
       if (health <= 0) {
-        alert("Game Over!");
-        location.reload();
+        document.getElementById("over").style.display="flex"
       }
     }
 
@@ -426,8 +478,8 @@ function createBlastEffect(position) {
         // Enemies follow
         enemies.forEach(enemy => {
           const dir = fox.position.clone().sub(enemy.position);
-          if (dir.length() < 1.5) {
-            health -= 0.5;
+          if (dir.length() < 1.0) {
+            health -= 0.75;
             updateHealthBar();
           } else {
             dir.normalize();
@@ -486,5 +538,35 @@ function startGame() {
 }
 
 </script>
+<audio id="bg-music" loop>
+  <source src="audio.mp3" type="audio/mp3">
+  Your browser does not support the audio element.
+</audio>
+
+<script>
+  const bgMusic = document.getElementById('bg-music');
+  const musicToggle = document.getElementById('music-toggle');
+  let musicOn = true;
+
+  // Auto play music on start game
+  function startGame() {
+    document.getElementById("popup").style.display = "none";
+    gamePaused = false;
+    animate();
+    if (musicOn) bgMusic.play();
+  }
+
+  musicToggle.addEventListener('click', () => {
+    musicOn = !musicOn;
+    if (musicOn) {
+      bgMusic.play();
+      musicToggle.innerText = '🔊 Music: ON';
+    } else {
+      bgMusic.pause();
+      musicToggle.innerText = '🔇 Music: OFF';
+    }
+  });
+</script>
+
 </body>
 </html>
