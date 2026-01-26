@@ -39,7 +39,7 @@ nav a:hover{opacity:1;}
 .poster{
   position:relative;
   height:100vh;
-  background:#000 url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4') center/cover no-repeat;
+  background:#000 url('https://images.unsplash.com/photo-1511376777868-611b54f68947?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMTc3M3wwfDF8c2VjdGlvfHxtdXNpY3xlbnwwfHx8fDE2ODQ1OTAyNTc&ixlib=rb-4.0.3&q=80&w=1080') center/cover no-repeat;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -117,6 +117,18 @@ p{max-width:760px;opacity:.9;line-height:1.8;margin-top:24px;}
 .music-inner{text-align:center;padding:80px 20px;}
 audio{width:100%;margin-top:40px;}
 footer{height:70vh;display:flex;align-items:center;justify-content:center;text-align:center;opacity:.8;}
+.contact-btn{
+  padding:18px 42px;
+  background:#1db954;
+  color:#fff;
+  font-weight:700;
+  font-size:1.1rem;
+  border:none;
+  border-radius:40px;
+  cursor:pointer;
+  transition:0.3s;
+}
+.contact-btn:hover{background:#1ed760;}
 
 /* ===== ANIMATIONS ===== */
 @keyframes posterFade{to{opacity:1;}}
@@ -155,7 +167,7 @@ footer{height:70vh;display:flex;align-items:center;justify-content:center;text-a
 </nav>
 
 <!-- HERO SECTION -->
-<section class="hero">
+<section class="hero" style="background:url('https://images.unsplash.com/photo-1507874457470-272b3c8d8ee2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080') center/cover no-repeat;">
   <div class="overlay">
     <div>
       <h1>Madhan Aadithya</h1>
@@ -165,7 +177,7 @@ footer{height:70vh;display:flex;align-items:center;justify-content:center;text-a
 </section>
 
 <!-- VISION SECTION -->
-<section class="fs-1" id="vision">
+<section class="fs-1" id="vision" style="background:url('https://images.unsplash.com/photo-1511376777868-611b54f68947?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080') center/cover no-repeat;">
   <div class="overlay">
     <div>
       <h2>Vision</h2>
@@ -175,7 +187,7 @@ footer{height:70vh;display:flex;align-items:center;justify-content:center;text-a
 </section>
 
 <!-- WORKS / MUSIC SECTION -->
-<section class="music" id="works">
+<section class="music" id="works" style="background:url('https://images.unsplash.com/photo-1496181133206-80ce9b88a853?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080') center/cover no-repeat;">
   <div class="overlay">
     <div class="music-inner">
       <h2>Featured Composition</h2>
@@ -187,14 +199,11 @@ footer{height:70vh;display:flex;align-items:center;justify-content:center;text-a
   </div>
 </section>
 
-<!-- CONTACT / FOOTER -->
-<footer id="contact">
+<!-- CONTACT SECTION -->
+<footer id="contact" style="background:#111;">
   <div class="overlay">
     <div>
-      <h2>Contact & Collaborations</h2>
-      <p>Available for film, short-form media, independent projects, and creative collaborations.</p>
-      <p>Email: madhanaadithya@email.com</p>
-      <p>© Madhan Aadithya • Premium Music Portfolio</p>
+      <button class="contact-btn" onclick="window.location.href='mailto:madhanaadithya@email.com'">Email Me</button>
     </div>
   </div>
 </footer>
@@ -209,7 +218,7 @@ let played = false;
   },{once:true});
 });
 
-// Poster fade & lock title on scroll + cinematic section animations
+// Poster fade & lock title + cinematic section animation
 const poster = document.querySelector('.poster');
 const title = document.querySelector('.poster-title');
 window.addEventListener('scroll', ()=>{
