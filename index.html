@@ -1,43 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Madhan Aadithya</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Saga Orb Mini Chat</title>
+  <style>
+    :root {
+      --primary: #0095f6;
+      --dark: #121212;
+      --darker: #0a0a0a;
+      --light: #dbdbdb;
+      --gray: #8e8e8e;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: var(--dark);
+      color: white;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      background: #1a1a1a;
+      padding: 12px 16px;
+      border-bottom: 1px solid #333;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .chat-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .message {
+      max-width: 78%;
+      padding: 10px 14px;
+      border-radius: 18px;
+      line-height: 1.4;
+      word-wrap: break-word;
+      font-size: 0.95rem;
+    }
+
+    .message.sent {
+      align-self: flex-end;
+      background: var(--primary);
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+
+    .message.received {
+      align-self: flex-start;
+      background: #262626;
+      border-bottom-left-radius: 4px;
+    }
+
+    .message .sender {
+      font-size: 0.75rem;
+      opacity: 0.7;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .input-area {
+      padding: 12px 16px;
+      background: #1a1a1a;
+      border-top: 1px solid #333;
+      display: flex;
+      gap: 10px;
+    }
+
+    #messageInput {
+      flex: 1;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 22px;
+      background: #262626;
+      color: white;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    #messageInput::placeholder {
+      color: #888;
+    }
+
+    #sendBtn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 22px;
+      padding: 0 20px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    #sendBtn:hover {
+      opacity: 0.9;
+    }
+
+    #status {
+      text-align: center;
+      padding: 8px;
+      font-size: 0.8rem;
+      color: #555;
+    }
+
+    .typing {
+      font-style: italic;
+      color: #777;
+      font-size: 0.85rem;
+      padding-left: 14px;
+    }
+  </style>
 </head>
 <body>
-  <div id="inst" class="inst"><h1>Press space or swipe up to initialise</h1></div>
-  <div id="ui">
-    <div id="score">Score: 0</div>
-    <button id="music-toggle">🔊 Music: ON</button>
-  </div>
-  <div id="loader">Loading...</div>
 
-  <div id="popup">
-    <h1>How to Play</h1>
-    <div>Swipe left/right or use ← → keys or joystick to change lanes</div>
-    <div>Space / tap to jump — avoid obstacles and collect coins</div>
-    <button id="start-btn" style="padding:10px 16px;color:black;background:#fff;border:0">Start Game</button>
+  <div class="header">Saga Orb Chat</div>
+
+  <div id="status">Connecting...</div>
+
+  <div class="chat-container" id="chat"></div>
+
+  <div class="input-area">
+    <input type="text" id="messageInput" placeholder="Type a message..." autocomplete="off" />
+    <button id="sendBtn">Send</button>
   </div>
 
-  <div id="over">
-    <h1>GAME OVER</h1>
-    <div id="final-score" style="font-size:20px"></div>
-    <a id="restart-btn" onclick="location.reload()" >RESTART</a>
-  </div>
+  <script>
+    const chat = document.getElementById('chat');
+    const input = document.getElementById('messageInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const status = document.getElementById('status');
 
-  <div id="joystick-container"></div>
+    // For demo we use a public echo websocket server
+    // In real app → replace with your own server (e.g. socket.io, ws://your-domain.com/chat)
+    const ws = new WebSocket('wss://echo.websocket.org');
 
-  <audio id="bg-music" loop>
-    <source src="audio.mp3" type="audio/mp3">
-  </audio>
+    let myName = 'You';
+    // Optional: let myName = prompt("Your name?") || "You";
 
+    ws.onopen = () => {
+      status.textContent = 'Connected';
+      status.style.color = '#4caf50';
+      addSystemMessage('Connected to chat! 👋');
+    };
 
-  <script src="js/three.min.js"></script>
-    <script src="js/GLTFLoader.js"></script>
-  <script src="js/script.js"></script>
+    ws.onmessage = (event) => {
+      const text = event.data;
+      if (text.includes('echo.websocket.org')) return; // filter server messages
 
+      addMessage(text, 'received', 'Someone');
+    };
+
+    ws.onclose = () => {
+      status.textContent = 'Disconnected';
+      status.style.color = '#f44336';
+      addSystemMessage('Connection lost...');
+    };
+
+    ws.onerror = () => {
+      status.textContent = 'Connection error';
+      status.style.color = '#f44336';
+    };
+
+    function addMessage(text, type, sender = myName) {
+      const msgDiv = document.createElement('div');
+      msgDiv.classList.add('message', type);
+
+      if (type === 'received') {
+        const senderSpan = document.createElement('span');
+        senderSpan.classList.add('sender');
+        senderSpan.textContent = sender;
+        msgDiv.appendChild(senderSpan);
+      }
+
+      msgDiv.appendChild(document.createTextNode(text));
+      chat.appendChild(msgDiv);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function addSystemMessage(text) {
+      const div = document.createElement('div');
+      div.classList.add('message', 'received', 'typing');
+      div.textContent = text;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function sendMessage() {
+      const text = input.value.trim();
+      if (!text) return;
+
+      if (ws.readyState === WebSocket.OPEN) {
+        ws.send(text);
+        addMessage(text, 'sent');
+      } else {
+        addSystemMessage('Not connected...');
+      }
+
+      input.value = '';
+      input.focus();
+    }
+
+    // Send on button click
+    sendBtn.onclick = sendMessage;
+
+    // Send with Enter key
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    // Auto focus input
+    input.focus();
+  </script>
 
 </body>
 </html>
