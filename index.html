@@ -1,4 +1,129 @@
-<!-- ================= POSTER INTRO ================= -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Madhan Aadithya - Melophile</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ================= GLOBAL ================= */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#000;color:#fff;overflow-x:hidden;}
+html{scroll-snap-type:y mandatory;scroll-behavior:smooth;}
+section,footer{scroll-snap-align:start;}
+body::after{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="4"/></filter><rect width="100%25" height="100%25" filter="url(%23n)" opacity="0.15"/></svg>');
+  pointer-events:none;
+  z-index:99;
+}
+
+/* ================= NAV ================= */
+nav{
+  position:fixed;
+  top:0;left:0;width:100%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:26px 50px;
+  z-index:10;
+  background:linear-gradient(180deg,rgba(0,0,0,.75),transparent);
+}
+nav strong{letter-spacing:2px;}
+nav a{color:#fff;text-decoration:none;margin-left:34px;font-weight:500;opacity:.85;}
+
+/* ================= POSTER INTRO ================= */
+.poster{
+  position:relative;
+  height:100vh;
+  background:#000 url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4') center/cover no-repeat;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:1;
+  transition: opacity 1s ease;
+  overflow:hidden;
+}
+.poster-overlay{
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at center, rgba(255,255,255,0.06), rgba(0,0,0,0.95));
+  z-index:2;
+}
+.poster-content{
+  position:relative;
+  z-index:3;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+  text-align:center;
+  opacity:0;
+  animation: posterFade 2s ease forwards;
+}
+.tagline{font-size:0.85rem;letter-spacing:4px;opacity:1;animation:slideUp 1.8s ease forwards;animation-delay:0.5s;}
+.poster-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(4rem,8vw,6.8rem);
+  letter-spacing:6px;
+  margin:22px 0 14px;
+  opacity:0;
+  animation:blurIn 2s ease forwards;
+  animation-delay:1s;
+  animation-fill-mode:forwards;
+}
+.poster-sub{font-size:1.1rem;letter-spacing:2px;opacity:0;animation:slideUp 2s ease forwards;animation-delay:1.8s;margin-bottom:60px;}
+.poster-cta{margin-top:60px;font-size:0.85rem;letter-spacing:3px;opacity:0;animation:fadePulse 2.5s ease forwards;animation-delay:2.5s;}
+
+/* ================= SECTIONS ================= */
+section{position:relative;width:100%;height:100vh;overflow:hidden;}
+section::before{
+  content:'';
+  position:absolute;inset:0;
+  background:inherit;
+  z-index:-1;
+  transform:scale(1);
+  transition:transform 12s ease;
+}
+section:hover::before{transform:scale(1.12);}
+.overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.9));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:40px;
+}
+h1,h2{font-family:'Playfair Display',serif;letter-spacing:1px;}
+h1{font-size:clamp(3.8rem,8vw,6.5rem);}
+h2{font-size:clamp(2.5rem,5vw,3.8rem);}
+p{max-width:760px;opacity:.9;line-height:1.8;margin-top:24px;}
+.music{height:auto;min-height:100vh;background:#000;display:flex;align-items:center;justify-content:center;}
+.music-inner{text-align:center;padding:80px 20px;}
+audio{width:100%;margin-top:40px;}
+footer{height:70vh;display:flex;align-items:center;justify-content:center;text-align:center;opacity:.8;}
+
+/* ================= ANIMATIONS ================= */
+@keyframes posterFade{to{opacity:1;}}
+@keyframes slideUp{from{transform:translateY(40px);opacity:0;}to{transform:translateY(0);opacity:0.9;}}
+@keyframes blurIn{from{filter:blur(20px);opacity:0;transform:scale(1.05);}to{filter:none;opacity:1;transform:scale(1);}}
+@keyframes fadePulse{from{opacity:0;}to{opacity:0.8;}}
+@keyframes breath{0%{letter-spacing:6px;}50%{letter-spacing:7.5px;}100%{letter-spacing:6px;}}
+</style>
+</head>
+<body>
+
+<!-- Ambient intro sound -->
+<audio id="introSound" preload="auto">
+  <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_4b2b7c8c5c.mp3" type="audio/mpeg">
+</audio>
+
+<!-- POSTER INTRO -->
 <section class="poster">
   <div class="poster-overlay"></div>
   <div class="poster-content">
@@ -9,101 +134,78 @@
   </div>
 </section>
 
-<style>
-.poster {
-  position: relative;
-  height: 100vh;
-  background: #000 url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4') center/cover no-repeat;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-  transition: opacity 1s ease;
-  overflow: hidden;
-}
+<!-- NAVIGATION -->
+<nav>
+  <strong>MADHAN AADITHYA</strong>
+  <div>
+    <a href="#vision">Vision</a>
+    <a href="#works">Works</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
 
-.poster-overlay {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, rgba(255,255,255,0.06), rgba(0,0,0,0.95));
-  z-index: 2;
-}
+<!-- HERO SECTION -->
+<section class="hero">
+  <div class="overlay">
+    <div class="fade show">
+      <h1>Madhan Aadithya</h1>
+      <p>Melophile • Composer • Producer<br>Crafting premium cinematic soundscapes for film, media, and modern storytelling.</p>
+    </div>
+  </div>
+</section>
 
-.poster-content {
-  position: relative;
-  z-index: 3;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  text-align: center;
-  opacity: 0;
-  animation: posterFade 2s ease forwards;
-}
+<!-- VISION SECTION -->
+<section class="fs-1" id="vision">
+  <div class="overlay">
+    <div class="fade show">
+      <h2>Vision</h2>
+      <p>Sharing a cinematic journey through music, blending emotion, storytelling, and cinematic sound design.</p>
+    </div>
+  </div>
+</section>
 
-.tagline {
-  font-size: 0.85rem;
-  letter-spacing: 4px;
-  opacity: 0;
-  animation: slideUp 1.8s ease forwards;
-  animation-delay: 0.5s;
-}
+<!-- WORKS / MUSIC SECTION -->
+<section class="music" id="works">
+  <div class="music-inner fade show">
+    <h2>Featured Composition</h2>
+    <p>Experience my signature style in this selected track.</p>
+    <audio controls>
+      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+</section>
 
-.poster-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(4rem, 8vw, 6.8rem);
-  letter-spacing: 6px;
-  margin: 22px 0 14px;
-  opacity: 0;
-  animation: blurIn 2s ease forwards;
-  animation-delay: 1s;
-  animation-fill-mode: forwards;
-}
-
-.poster-sub {
-  font-size: 1.1rem;
-  letter-spacing: 2px;
-  opacity: 0;
-  animation: slideUp 2s ease forwards;
-  animation-delay: 1.8s;
-}
-
-.poster-cta {
-  margin-top: 60px;
-  font-size: 0.85rem;
-  letter-spacing: 3px;
-  opacity: 0;
-  animation: fadePulse 2.5s ease forwards;
-  animation-delay: 2.5s;
-}
-
-@keyframes posterFade { to { opacity: 1; } }
-@keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 0.9; } }
-@keyframes blurIn { from { filter: blur(20px); opacity: 0; transform: scale(1.05); } to { filter: none; opacity: 1; transform: scale(1); } }
-@keyframes fadePulse { from { opacity: 0; } to { opacity: 0.8; } }
-</style>
+<!-- CONTACT / FOOTER -->
+<footer id="contact">
+  <div class="fade show">
+    <h2>Contact & Collaborations</h2>
+    <p>Available for film, short-form media, independent projects, and creative collaborations.</p>
+    <p>Email: madhanaadithya@email.com</p>
+    <p>© Madhan Aadithya • Premium Music Portfolio</p>
+  </div>
+</footer>
 
 <script>
-// Optional ambient sound
-const sound = new Audio('https://cdn.pixabay.com/audio/2022/03/15/audio_4b2b7c8c5c.mp3');
-sound.volume = 0.35;
+// Ambient intro sound
+const sound = document.getElementById('introSound');
 let played = false;
 ['click','wheel','touchstart'].forEach(evt=>{
   window.addEventListener(evt,()=>{
-    if(!played){ sound.play().catch(()=>{}); played=true; }
+    if(!played){ sound.volume=0.35;sound.play().catch(()=>{}); played=true; }
   },{once:true});
 });
 
-// Fade out poster & lock title on scroll
+// Poster fade & lock title on scroll
 const poster = document.querySelector('.poster');
 const title = document.querySelector('.poster-title');
 window.addEventListener('scroll', ()=>{
   const y = window.scrollY;
   poster.style.opacity = Math.max(0,1-y/400); // fade poster
   if(y > 50){
-    title.style.animationPlayState = 'paused'; // stop breathing
+    title.style.animationPlayState = 'paused'; // lock breathing
     title.style.letterSpacing = '6px';
   }
 });
 </script>
+</body>
+</html>
