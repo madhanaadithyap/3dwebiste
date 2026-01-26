@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Madhan Aadithya • Official</title>
+  <title>Madhan Aadithya • Composer • Musician</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,76 +11,70 @@
 
   <style>
     :root {
-      --bg: #0a0a0a;
-      --text: #f5f5f5;
-      --text-light: #bbbbbb;
-      --accent: #e63946;
-      --accent-dark: #b32d38;
-      --card: #1e1e1e;
-      --gray: #555555;
-      --border: #333333;
+      --bg: #0b0b0e;
+      --text: #f0f0f0;
+      --text-light: #b0b0b0;
+      --accent: #c8102e;     /* deep red inspired by Indian classical */
+      --accent-gold: #d4af37;
+      --card: #16161a;
+      --border: #2a2a2f;
+      --transition: all 0.5s ease;
     }
 
     [data-theme="light"] {
-      --bg: #f8f9fa;
-      --text: #1a1a1a;
+      --bg: #f5f5f7;
+      --text: #111111;
       --text-light: #555555;
-      --accent: #d62839;
-      --accent-dark: #9b1d2c;
+      --accent: #a30824;
+      --accent-gold: #b8972e;
       --card: #ffffff;
-      --gray: #777777;
-      --border: #e0e0e0;
+      --border: #e0e0e5;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin:0; padding:0; box-sizing:border-box; }
 
     body {
-      font-family: 'Comfortaa', cursive, system-ui, sans-serif;
+      font-family: 'Comfortaa', cursive, sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.7;
-      transition: background 0.5s ease, color 0.5s ease;
+      transition: var(--transition);
     }
 
     header {
       position: fixed;
-      top: 0;
-      width: 100%;
+      top: 0; left: 0; right: 0;
       z-index: 1000;
-      padding: 1.4rem 6%;
+      padding: 1.4rem 7%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(10,10,10,0.88);
-      backdrop-filter: blur(12px);
-      transition: all 0.4s ease;
+      background: rgba(11,11,14,0.92);
+      backdrop-filter: blur(10px);
+      transition: var(--transition);
     }
 
     [data-theme="light"] header {
-      background: rgba(248,249,250,0.92);
+      background: rgba(245,245,247,0.94);
     }
 
     header.scrolled {
-      padding: 1rem 6%;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      padding: 1rem 7%;
+      box-shadow: 0 4px 25px rgba(0,0,0,0.3);
     }
 
     .logo {
       font-family: 'Playfair Display', serif;
-      font-size: 2.3rem;
+      font-size: 2.4rem;
       font-weight: 900;
-      letter-spacing: -1px;
       color: var(--accent);
+      letter-spacing: -0.5px;
     }
 
     nav {
       display: flex;
       align-items: center;
-      gap: 2.4rem;
+      gap: 2.5rem;
     }
 
     nav a {
@@ -88,52 +82,50 @@
       text-decoration: none;
       font-weight: 500;
       font-size: 1.05rem;
-      transition: color 0.3s ease;
+      transition: color 0.3s;
     }
 
-    nav a:hover {
-      color: var(--accent);
-    }
+    nav a:hover { color: var(--accent); }
 
     .theme-toggle {
       background: none;
       border: none;
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       cursor: pointer;
       color: var(--text);
-      transition: transform 0.4s ease;
-    }
-
-    .theme-toggle:hover {
-      transform: rotate(30deg);
     }
 
     section {
       min-height: 100vh;
-      padding: 140px 6% 100px;
+      padding: 140px 7% 100px;
       display: flex;
       flex-direction: column;
       justify-content: center;
     }
 
     .hero {
-      background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.8)),
+      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.85)),
                   url('https://images.unsplash.com/photo-1511671782779-c97d3d27c1d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2400&q=80') center/cover no-repeat fixed;
       color: white;
       text-align: center;
     }
 
     [data-theme="light"] .hero {
-      background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)),
+      background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.65)),
                   url('https://images.unsplash.com/photo-1511671782779-c97d3d27c1d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2400&q=80') center/cover no-repeat fixed;
+    }
+
+    .hero-content {
+      max-width: 1100px;
+      margin: 0 auto;
     }
 
     .hero h1 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(5.5rem, 14vw, 12rem);
-      line-height: 0.88;
+      font-size: clamp(6rem, 15vw, 13rem);
+      line-height: 0.85;
       margin-bottom: 1.2rem;
-      text-shadow: 0 10px 50px rgba(0,0,0,0.8);
+      text-shadow: 0 10px 60px rgba(0,0,0,0.9);
     }
 
     .hero h1 span {
@@ -141,158 +133,126 @@
     }
 
     .hero p {
-      font-size: clamp(1.6rem, 4.5vw, 2.6rem);
-      max-width: 780px;
-      margin: 0 auto 2.5rem;
+      font-size: clamp(1.7rem, 5vw, 2.8rem);
+      max-width: 820px;
+      margin: 0 auto 2.8rem;
       color: #ddd;
     }
 
     .btn {
       background: var(--accent);
       color: white;
-      padding: 1.1rem 3.2rem;
+      padding: 1.2rem 3.5rem;
       border-radius: 50px;
       text-decoration: none;
       font-weight: 600;
-      font-size: 1.3rem;
+      font-size: 1.35rem;
       display: inline-block;
-      transition: all 0.4s ease;
+      transition: var(--transition);
       border: 2px solid var(--accent);
     }
 
     .btn:hover {
       background: transparent;
       color: var(--accent);
-      transform: translateY(-5px);
-      box-shadow: 0 15px 40px rgba(230,57,70,0.3);
+      transform: translateY(-6px);
     }
 
     .section-title {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(4rem, 10vw, 8rem);
+      font-size: clamp(4.5rem, 11vw, 9rem);
       text-align: center;
-      margin-bottom: 4rem;
-      font-weight: 900;
+      margin-bottom: 4.5rem;
       color: var(--accent);
-      opacity: 0.9;
+      font-weight: 900;
+      opacity: 0.92;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
       gap: 3rem;
-      max-width: 1400px;
+      max-width: 1500px;
       margin: 0 auto;
     }
 
     .card {
       background: var(--card);
-      border-radius: 16px;
+      border-radius: 18px;
       overflow: hidden;
-      transition: all 0.4s ease;
+      transition: var(--transition);
       border: 1px solid var(--border);
     }
 
     .card:hover {
-      transform: translateY(-14px);
-      box-shadow: 0 25px 60px rgba(230,57,70,0.2);
+      transform: translateY(-16px);
+      box-shadow: 0 30px 70px rgba(200,16,46,0.18);
     }
 
     .card img {
       width: 100%;
-      height: 340px;
+      height: 360px;
       object-fit: cover;
     }
 
-    .card-info {
-      padding: 1.8rem;
+    .card-content {
+      padding: 2rem;
       text-align: center;
     }
 
     .card h3 {
-      font-size: 1.7rem;
-      margin-bottom: 0.6rem;
+      font-size: 1.8rem;
+      margin-bottom: 0.8rem;
     }
 
     .card p {
       color: var(--text-light);
+      font-size: 1.1rem;
     }
 
-    .gallery-grid {
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
+    .about-text {
+      max-width: 920px;
+      margin: 0 auto;
+      font-size: 1.35rem;
+      text-align: center;
+      color: var(--text-light);
     }
 
-    .gallery-grid .card img {
-      height: 280px;
+    .about-text strong {
+      color: var(--text);
     }
 
     .tour-dates {
-      max-width: 900px;
+      max-width: 1000px;
       margin: 0 auto;
     }
 
-    .date-item {
+    .date {
       background: var(--card);
-      padding: 2.2rem;
-      margin: 2rem 0;
-      border-radius: 12px;
+      padding: 2.4rem;
+      margin: 2.2rem 0;
+      border-radius: 14px;
       border: 1px solid var(--border);
       text-align: center;
     }
 
-    .date-item h3 {
-      font-size: 1.8rem;
+    .date h3 {
       color: var(--accent);
-    }
-
-    .newsletter {
-      text-align: center;
-      background: linear-gradient(135deg, #111, #1a1a1a);
-    }
-
-    [data-theme="light"] .newsletter {
-      background: linear-gradient(135deg, #f0f0f0, #e8e8e8);
-    }
-
-    .newsletter input {
-      padding: 1rem 1.5rem;
-      font-size: 1.1rem;
-      border: 2px solid var(--accent);
-      border-radius: 50px 0 0 50px;
-      background: var(--card);
-      color: var(--text);
-      width: 280px;
-      max-width: 70%;
-    }
-
-    .newsletter button {
-      padding: 1rem 2rem;
-      font-size: 1.1rem;
-      background: var(--accent);
-      color: white;
-      border: none;
-      border-radius: 0 50px 50px 0;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .newsletter button:hover {
-      background: var(--accent-dark);
+      font-size: 2rem;
     }
 
     footer {
       background: #000;
       text-align: center;
-      padding: 5rem 6% 3rem;
-      color: var(--gray);
-      font-size: 1rem;
+      padding: 6rem 7% 4rem;
+      color: var(--text-light);
+      font-size: 1.05rem;
     }
 
     @media (max-width: 768px) {
-      .hero h1 { font-size: 5.5rem; }
-      .section-title { font-size: 4.2rem; }
-      nav { gap: 1.4rem; }
+      .hero h1 { font-size: 6rem; }
+      .section-title { font-size: 4.5rem; }
+      nav { gap: 1.6rem; }
       nav a { font-size: 0.95rem; }
     }
   </style>
@@ -303,116 +263,118 @@
     <div class="logo">Madhan Aadithya</div>
     <nav>
       <a href="#music">Music</a>
+      <a href="#films">Films</a>
       <a href="#about">About</a>
       <a href="#tour">Tour</a>
-      <a href="#gallery">Gallery</a>
-      <a href="#store">Store</a>
+      <a href="#connect">Connect</a>
       <button class="theme-toggle" aria-label="Toggle theme">☀︎</button>
     </nav>
   </header>
 
   <section class="hero">
-    <div>
+    <div class="hero-content">
       <h1>Madhan <span>Aadithya</span></h1>
-      <p>Songs that feel like late-night drives and rainy days</p>
-      <a href="#music" class="btn">Listen Now</a>
+      <p>Composer • Musician • Soul of melodies</p>
+      <a href="#music" class="btn">Explore Music</a>
     </div>
   </section>
 
   <section id="music">
-    <h2 class="section-title">Latest Releases</h2>
+    <h2 class="section-title">Latest Works</h2>
     <div class="grid">
       <div class="card">
-        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27c1d4?w=800" alt="">
-        <div class="card-info">
-          <h3>Autumn Thoughts</h3>
-          <p>2025 • Single</p>
+        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27c1d4?w=800" alt="Release">
+        <div class="card-content">
+          <h3>Whispers of Dawn</h3>
+          <p>2025 • Original Score</p>
         </div>
       </div>
       <div class="card">
-        <img src="https://images.unsplash.com/photo-1493225457124-754a1d83b3e0?w=800" alt="">
-        <div class="card-info">
-          <h3>City Lights EP</h3>
-          <p>2024 • EP</p>
+        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27c1d4?w=800" alt="Release">
+        <div class="card-content">
+          <h3>Eternal Raga</h3>
+          <p>2024 • Fusion Album</p>
         </div>
       </div>
       <div class="card">
-        <img src="https://images.unsplash.com/photo-1501612780327-45045538702b?w=800" alt="">
-        <div class="card-info">
-          <h3>Road to Home</h3>
-          <p>2025 • Album</p>
+        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27c1d4?w=800" alt="Release">
+        <div class="card-content">
+          <h3>Silent Echoes</h3>
+          <p>2025 • Film Soundtrack</p>
         </div>
       </div>
     </div>
   </section>
 
   <section id="about" style="background:var(--card);">
-    <h2 class="section-title">About Me</h2>
-    <div style="max-width:860px; margin:0 auto; font-size:1.25rem; text-align:center;">
-      <p>
-        Hi, I'm Madhan Aadithya — a singer, songwriter, and storyteller from Tambaram.<br><br>
-        I write songs about love, heartbreak, late-night drives, small-town dreams, and everything that makes us feel alive.<br><br>
-        My music is a mix of acoustic warmth, pop melodies, and honest lyrics — the kind of songs you play when the world feels too loud or too quiet.
-      </p>
+    <h2 class="section-title">About</h2>
+    <p class="about-text">
+      Madhan Aadithya is a composer and musician from Tambaram, weaving emotions through melody, rhythm, and silence.<br><br>
+      <strong>Trained in Carnatic and contemporary styles</strong>, his work spans film scores, independent albums, live performances, and cross-cultural collaborations.<br><br>
+      Music, for him, is meditation — a bridge between tradition and tomorrow.
+    </p>
+  </section>
+
+  <section id="films">
+    <h2 class="section-title">Films & Scores</h2>
+    <div class="grid">
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27c1d4?w=800" alt="Film">
+        <div class="card-content">
+          <h3>Kadhal Mozhi</h3>
+          <p>Original Score • 2025</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27c1d4?w=800" alt="Film">
+        <div class="card-content">
+          <h3>Uyir Ezhuthu</h3>
+          <p>Music Director • 2024</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27c1d4?w=800" alt="Film">
+        <div class="card-content">
+          <h3>Thirisaalai</h3>
+          <p>Background Score • 2023</p>
+        </div>
+      </div>
     </div>
   </section>
 
   <section id="tour">
-    <h2 class="section-title">Tour Dates</h2>
+    <h2 class="section-title">Live</h2>
     <div class="tour-dates">
-      <div class="date-item">
-        <h3>Chennai • March 15, 2026</h3>
-        <p>Madras Music Arena • Sold Out</p>
+      <div class="date">
+        <h3>Chennai • February 14, 2026</h3>
+        <p>YMCA Grounds • Harmony in Strings</p>
       </div>
-      <div class="date-item">
-        <h3>Bengaluru • April 2, 2026</h3>
-        <p>Palace Grounds • Tickets Available</p>
+      <div class="date">
+        <h3>Bengaluru • March 22, 2026</h3>
+        <p>Chowdiah Memorial Hall • Raga Reflections</p>
       </div>
-      <div class="date-item">
-        <h3>Mumbai • May 10, 2026</h3>
-        <p>Jio World Garden • Coming Soon</p>
-      </div>
-      <div class="date-item">
-        <h3>Coimbatore • June 18, 2026</h3>
-        <p>CODISSIA Ground • Pre-sale soon</p>
+      <div class="date">
+        <h3>Hyderabad • April 18, 2026</h3>
+        <p>HICC • Soul Symphony</p>
       </div>
     </div>
   </section>
 
-  <section id="gallery">
-    <h2 class="section-title">Moments</h2>
-    <div class="grid gallery-grid">
-      <div class="card"><img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800" alt=""></div>
-      <div class="card"><img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800" alt=""></div>
-      <div class="card"><img src="https://images.unsplash.com/photo-1540039156098-7d3d7b618d8e?w=800" alt=""></div>
-      <div class="card"><img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800" alt=""></div>
-      <div class="card"><img src="https://images.unsplash.com/photo-1429962714451-bb934ec80000?w=800" alt=""></div>
-      <div class="card"><img src="https://images.unsplash.com/photo-1542744173-8e7f37783b3b?w=800" alt=""></div>
+  <section id="connect" style="text-align:center; background:var(--card);">
+    <h2 class="section-title">Connect</h2>
+    <p style="font-size:1.45rem; max-width:780px; margin:0 auto 3rem; color:var(--text-light);">
+      For collaborations, scores, live shows, or just to share the joy of music.
+    </p>
+    <a href="mailto:madhan@example.com" class="btn">Write to Me</a>
+    <div style="margin-top:3rem; font-size:1.3rem;">
+      <a href="#" style="color:var(--text-light); margin:0 1.5rem;">Instagram</a>
+      <a href="#" style="color:var(--text-light); margin:0 1.5rem;">YouTube</a>
+      <a href="#" style="color:var(--text-light); margin:0 1.5rem;">Spotify</a>
     </div>
-  </section>
-
-  <section id="store" style="background:var(--card); text-align:center;">
-    <h2 class="section-title">Store</h2>
-    <p style="font-size:1.4rem; max-width:700px; margin:0 auto 3rem; color:var(--text-light);">
-      Hoodies, vinyls, lyric books, signed posters — coming soon.<br>
-      Be the first to know when the shop opens!
-    </p>
-    <a href="#" class="btn">Join Waitlist</a>
-  </section>
-
-  <section id="contact" class="newsletter">
-    <h2 class="section-title">Stay Connected</h2>
-    <p style="font-size:1.4rem; max-width:720px; margin:0 auto 2.5rem; color:var(--text-light);">
-      Get new music, tour updates, and exclusive content straight to your inbox.
-    </p>
-    <form style="display:flex; justify-content:center; max-width:500px; margin:0 auto;">
-      <input type="email" placeholder="Your email address" required>
-      <button type="submit">Subscribe</button>
-    </form>
   </section>
 
   <footer>
-    © 2026 Madhan Aadithya • Made with love in Tambaram • All rights reserved
+    © 2026 Madhan Aadithya • From Tambaram with melody • All rights reserved
   </footer>
 
   <script>
@@ -424,9 +386,9 @@
       toggle.textContent = current === 'light' ? '☀︎' : '☾';
     });
 
-    // Header scroll effect
+    // Header scroll
     window.addEventListener('scroll', () => {
-      document.getElementById('header').classList.toggle('scrolled', window.scrollY > 80);
+      document.getElementById('header').classList.toggle('scrolled', window.scrollY > 100);
     });
   </script>
 </body>
