@@ -99,11 +99,16 @@ section:hover::before{transform:scale(1.12);}
   justify-content:center;
   text-align:center;
   padding:40px;
+}
+section .overlay > div {
   opacity:0;
   transform:translateY(40px);
-  transition:all 1.2s ease-out;
 }
-section.show .overlay{opacity:1;transform:translateY(0);}
+section.show .overlay > div {
+  animation: blurIn 1.5s ease forwards;
+}
+
+/* ===== TYPOGRAPHY ===== */
 h1,h2{font-family:'Playfair Display',serif;letter-spacing:1px;}
 h1{font-size:clamp(3.8rem,8vw,6.5rem);}
 h2{font-size:clamp(2.5rem,5vw,3.8rem);}
@@ -171,12 +176,14 @@ footer{height:70vh;display:flex;align-items:center;justify-content:center;text-a
 
 <!-- WORKS / MUSIC SECTION -->
 <section class="music" id="works">
-  <div class="music-inner overlay">
-    <h2>Featured Composition</h2>
-    <p>Experience my signature style in this selected track.</p>
-    <audio controls>
-      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
-    </audio>
+  <div class="overlay">
+    <div class="music-inner">
+      <h2>Featured Composition</h2>
+      <p>Experience my signature style in this selected track.</p>
+      <audio controls>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+      </audio>
+    </div>
   </div>
 </section>
 
@@ -202,18 +209,18 @@ let played = false;
   },{once:true});
 });
 
-// Poster fade & lock title on scroll
+// Poster fade & lock title on scroll + cinematic section animations
 const poster = document.querySelector('.poster');
 const title = document.querySelector('.poster-title');
 window.addEventListener('scroll', ()=>{
   const y = window.scrollY;
-  poster.style.opacity = Math.max(0,1-y/400); // fade poster
+  poster.style.opacity = Math.max(0,1-y/400);
   if(y > 50){
-    title.style.animationPlayState = 'paused'; // lock breathing
+    title.style.animationPlayState = 'paused';
     title.style.letterSpacing = '6px';
   }
 
-  // CINEMATIC SECTION FADE-IN
+  // Trigger cinematic blur/fade-in for each section
   document.querySelectorAll('section').forEach(section=>{
     const rect = section.getBoundingClientRect();
     if(rect.top < window.innerHeight*0.8){
