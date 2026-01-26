@@ -3,234 +3,78 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Saga Orb Mini Chat</title>
+  <title>Saga Orb Chat</title>
   <style>
-    :root {
-      --primary: #0095f6;
-      --dark: #121212;
-      --darker: #0a0a0a;
-      --light: #dbdbdb;
-      --gray: #8e8e8e;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      background: var(--dark);
-      color: white;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .header {
-      background: #1a1a1a;
-      padding: 12px 16px;
-      border-bottom: 1px solid #333;
-      text-align: center;
-      font-weight: 600;
-      font-size: 1.1rem;
-    }
-
-    .chat-container {
-      flex: 1;
-      overflow-y: auto;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .message {
-      max-width: 78%;
-      padding: 10px 14px;
-      border-radius: 18px;
-      line-height: 1.4;
-      word-wrap: break-word;
-      font-size: 0.95rem;
-    }
-
-    .message.sent {
-      align-self: flex-end;
-      background: var(--primary);
-      color: white;
-      border-bottom-right-radius: 4px;
-    }
-
-    .message.received {
-      align-self: flex-start;
-      background: #262626;
-      border-bottom-left-radius: 4px;
-    }
-
-    .message .sender {
-      font-size: 0.75rem;
-      opacity: 0.7;
-      margin-bottom: 4px;
-      display: block;
-    }
-
-    .input-area {
-      padding: 12px 16px;
-      background: #1a1a1a;
-      border-top: 1px solid #333;
-      display: flex;
-      gap: 10px;
-    }
-
-    #messageInput {
-      flex: 1;
-      padding: 12px 16px;
-      border: none;
-      border-radius: 22px;
-      background: #262626;
-      color: white;
-      font-size: 1rem;
-      outline: none;
-    }
-
-    #messageInput::placeholder {
-      color: #888;
-    }
-
-    #sendBtn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      border-radius: 22px;
-      padding: 0 20px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: opacity 0.2s;
-    }
-
-    #sendBtn:hover {
-      opacity: 0.9;
-    }
-
-    #status {
-      text-align: center;
-      padding: 8px;
-      font-size: 0.8rem;
-      color: #555;
-    }
-
-    .typing {
-      font-style: italic;
-      color: #777;
-      font-size: 0.85rem;
-      padding-left: 14px;
-    }
+    body { margin:0; font-family: system-ui, sans-serif; background:#000; color:white; height:100vh; display:flex; flex-direction:column; }
+    #chat { flex:1; overflow-y:auto; padding:15px; display:flex; flex-direction:column; gap:10px; }
+    .msg { max-width:80%; padding:9px 14px; border-radius:18px; line-height:1.4; font-size:15px; word-wrap:break-word; }
+    .sent { align-self:flex-end; background:#0095f6; border-bottom-right-radius:4px; }
+    .received { align-self:flex-start; background:#262626; border-bottom-left-radius:4px; }
+    .input-area { padding:10px; background:#111; display:flex; gap:8px; }
+    #msgInput { flex:1; padding:12px 16px; background:#262626; color:white; border:none; border-radius:25px; font-size:15px; outline:none; }
+    #sendBtn { background:#0095f6; color:white; border:none; padding:0 20px; border-radius:25px; font-weight:600; cursor:pointer; }
+    .name { font-size:12px; opacity:0.7; margin-bottom:3px; }
   </style>
 </head>
 <body>
-
-  <div class="header">Saga Orb Chat</div>
-
-  <div id="status">Connecting...</div>
-
-  <div class="chat-container" id="chat"></div>
-
+  <div id="chat"></div>
   <div class="input-area">
-    <input type="text" id="messageInput" placeholder="Type a message..." autocomplete="off" />
+    <input type="text" id="msgInput" placeholder="Message" autocomplete="off" />
     <button id="sendBtn">Send</button>
   </div>
 
   <script>
     const chat = document.getElementById('chat');
-    const input = document.getElementById('messageInput');
+    const input = document.getElementById('msgInput');
     const sendBtn = document.getElementById('sendBtn');
-    const status = document.getElementById('status');
-
-    // For demo we use a public echo websocket server
-    // In real app → replace with your own server (e.g. socket.io, ws://your-domain.com/chat)
-    const ws = new WebSocket('wss://echo.websocket.org');
-
-    let myName = 'You';
-    // Optional: let myName = prompt("Your name?") || "You";
+    
+    // Free public server - works forever, no signup
+    const ws = new WebSocket('wss://socketsbay.com/wss/v2/1/demo/');
+    
+    let myName = prompt("Enter your name:", "User") || "User";
 
     ws.onopen = () => {
-      status.textContent = 'Connected';
-      status.style.color = '#4caf50';
-      addSystemMessage('Connected to chat! 👋');
+      addMsg("Connected! Start chatting 👋", "received");
     };
 
     ws.onmessage = (event) => {
-      const text = event.data;
-      if (text.includes('echo.websocket.org')) return; // filter server messages
-
-      addMessage(text, 'received', 'Someone');
-    };
-
-    ws.onclose = () => {
-      status.textContent = 'Disconnected';
-      status.style.color = '#f44336';
-      addSystemMessage('Connection lost...');
-    };
-
-    ws.onerror = () => {
-      status.textContent = 'Connection error';
-      status.style.color = '#f44336';
-    };
-
-    function addMessage(text, type, sender = myName) {
-      const msgDiv = document.createElement('div');
-      msgDiv.classList.add('message', type);
-
-      if (type === 'received') {
-        const senderSpan = document.createElement('span');
-        senderSpan.classList.add('sender');
-        senderSpan.textContent = sender;
-        msgDiv.appendChild(senderSpan);
+      try {
+        const data = JSON.parse(event.data);
+        if (data.text) {
+          addMsg(data.text, "received", data.name);
+        }
+      } catch(e) {
+        // ignore non-json messages
       }
+    };
 
-      msgDiv.appendChild(document.createTextNode(text));
-      chat.appendChild(msgDiv);
-      chat.scrollTop = chat.scrollHeight;
-    }
-
-    function addSystemMessage(text) {
+    function addMsg(text, type, sender = myName) {
       const div = document.createElement('div');
-      div.classList.add('message', 'received', 'typing');
-      div.textContent = text;
+      div.className = 'msg ' + type;
+      if (type === 'received') {
+        const nameSpan = document.createElement('div');
+        nameSpan.className = 'name';
+        nameSpan.textContent = sender;
+        div.appendChild(nameSpan);
+      }
+      div.appendChild(document.createTextNode(text));
       chat.appendChild(div);
       chat.scrollTop = chat.scrollHeight;
     }
 
-    function sendMessage() {
+    function send() {
       const text = input.value.trim();
-      if (!text) return;
-
-      if (ws.readyState === WebSocket.OPEN) {
-        ws.send(text);
-        addMessage(text, 'sent');
-      } else {
-        addSystemMessage('Not connected...');
-      }
-
+      if (!text || ws.readyState !== WebSocket.OPEN) return;
+      
+      const payload = JSON.stringify({ name: myName, text: text });
+      ws.send(payload);
+      addMsg(text, "sent");
       input.value = '';
-      input.focus();
     }
 
-    // Send on button click
-    sendBtn.onclick = sendMessage;
-
-    // Send with Enter key
-    input.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        sendMessage();
-      }
-    });
-
-    // Auto focus input
+    sendBtn.onclick = send;
+    input.onkeydown = (e) => { if (e.key === 'Enter') send(); };
     input.focus();
   </script>
-
 </body>
 </html>
