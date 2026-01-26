@@ -3,381 +3,284 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Madhan • 3D Portfolio</title>
+  <title>Miles Morales • Into Your World</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@500;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      --pink: #ff69b4;
-      --hotpink: #ff1493;
-      --deepred: #c41e3a;
-      --black: #0d0012;
-      --bg: #0f0812;
-      --light: #fff5f8;
+      --black: #0a0a0a;
+      --red: #d32f2f;
+      --dark-red: #b71c1c;
+      --purple: #4a148c;
+      --cyan: #00e5ff;
+      --white: #f5f5f5;
+      --gray: #424242;
     }
 
-    * { margin:0; padding:0; box-sizing:border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: system-ui, -apple-system, sans-serif;
-      background: var(--bg);
-      color: white;
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Roboto', sans-serif;
       overflow-x: hidden;
       line-height: 1.6;
     }
 
-    #canvas-container {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
+    h1, h2, h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 2px;
     }
 
-    main {
-      position: relative;
-      z-index: 1;
-      min-height: 100vh;
-      padding: 2rem;
-      max-width: 1100px;
+    .container {
+      max-width: 1400px;
       margin: 0 auto;
+      padding: 0 5%;
     }
 
-    header {
-      text-align: center;
-      padding: 6rem 1rem 4rem;
+    /* Hero */
+    #hero {
+      height: 100vh;
+      min-height: 800px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a0033 100%);
+      overflow: hidden;
     }
 
-    h1 {
-      font-size: clamp(4.5rem, 12vw, 9rem);
-      color: var(--pink);
-      text-shadow: 0 0 40px rgba(255,105,180,0.6);
-      margin-bottom: 0.8rem;
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=2000') center/cover no-repeat;
+      opacity: 0.15;
+      filter: brightness(0.6) contrast(1.3);
     }
 
-    h1 span { color: white; }
-
-    .tagline {
-      font-size: 1.8rem;
-      opacity: 0.9;
-      margin-bottom: 2rem;
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
     }
 
+    .clip-reveal {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+      transition: clip-path 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: clip-path;
+    }
+
+    .clip-reveal.active {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    /* Miles mask inspired clip on hover/scroll */
+    .mask-clip {
+      clip-path: polygon(25% 0%, 75% 0%, 100% 30%, 100% 70%, 75% 100%, 25% 100%, 0% 70%, 0% 30%);
+      transition: clip-path 0.9s ease, transform 0.6s ease;
+    }
+
+    .mask-clip:hover {
+      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+      transform: scale(1.04);
+    }
+
+    .title {
+      font-size: clamp(6rem, 14vw, 12rem);
+      line-height: 0.9;
+      margin-bottom: 1rem;
+      color: var(--red);
+      text-shadow: 0 0 60px rgba(211,47,47,0.7);
+      background: linear-gradient(90deg, var(--red), var(--cyan), var(--red));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: glow 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 30px rgba(0,229,255,0.5); }
+      to   { text-shadow: 0 0 80px rgba(211,47,47,0.8); }
+    }
+
+    .subtitle {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      color: var(--cyan);
+      margin-bottom: 2.5rem;
+      text-shadow: 0 0 25px rgba(0,229,255,0.6);
+    }
+
+    .spider-web {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at 30% 40%, transparent 20%, rgba(211,47,47,0.08) 60%);
+      opacity: 0;
+      transition: opacity 1.8s ease 0.8s;
+    }
+
+    .spider-web.active {
+      opacity: 1;
+    }
+
+    /* Sections */
     section {
-      margin: 6rem 0;
-      padding: 3rem 2rem;
-      background: rgba(13,0,18,0.5);
-      border-radius: 20px;
-      border: 1px solid rgba(255,105,180,0.2);
-      backdrop-filter: blur(8px);
+      padding: 140px 0;
     }
 
     .section-title {
-      font-size: 3.2rem;
-      color: var(--hotpink);
-      margin-bottom: 2rem;
+      font-size: 5rem;
       text-align: center;
+      margin-bottom: 4rem;
+      color: var(--red);
+      text-shadow: 0 0 40px rgba(211,47,47,0.5);
     }
 
-    .skills-grid, .projects-grid {
+    .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.8rem;
-      margin-top: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 2.5rem;
     }
 
     .card {
-      background: rgba(255,105,180,0.08);
-      padding: 1.8rem;
+      background: rgba(20, 20, 40, 0.6);
+      border: 1px solid rgba(211,47,47,0.3);
       border-radius: 16px;
-      border: 1px solid var(--pink);
-      transition: all 0.4s ease;
+      padding: 2.5rem;
+      backdrop-filter: blur(10px);
+      transition: all 0.6s ease;
+      clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
+    }
+
+    .card.visible {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+      transform: translateY(0);
+      opacity: 1;
     }
 
     .card:hover {
+      border-color: var(--cyan);
+      box-shadow: 0 0 40px rgba(0,229,255,0.3);
       transform: translateY(-12px);
-      box-shadow: 0 20px 50px rgba(255,20,147,0.3);
-      border-color: white;
     }
 
-    .emoji { font-size: 3.5rem; margin-bottom: 1rem; }
+    .cta {
+      text-align: center;
+      padding: 160px 0;
+      background: linear-gradient(180deg, #0a0a0a, #1a0033);
+    }
 
     .btn {
       display: inline-block;
-      background: var(--hotpink);
+      background: var(--red);
       color: white;
-      padding: 1rem 2.2rem;
+      padding: 1.2rem 3.5rem;
+      font-size: 1.5rem;
       border-radius: 50px;
       text-decoration: none;
       font-weight: bold;
-      margin: 1rem;
-      transition: all 0.3s;
-      border: 2px solid white;
+      border: 3px solid var(--cyan);
+      transition: all 0.5s ease;
+      clip-path: polygon(10% 0, 90% 0, 100% 20%, 100% 80%, 90% 100%, 10% 100%, 0 80%, 0 20%);
     }
 
     .btn:hover {
-      background: white;
-      color: var(--hotpink);
+      background: var(--cyan);
+      color: var(--black);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+      box-shadow: 0 0 60px rgba(0,229,255,0.7);
       transform: scale(1.08);
     }
 
     footer {
       text-align: center;
-      padding: 4rem 1rem 2rem;
-      color: #ff69b4;
+      padding: 4rem 0;
+      color: #888;
       font-size: 1.1rem;
+      border-top: 1px solid rgba(211,47,47,0.2);
     }
 
     @media (max-width: 768px) {
-      header { padding: 4rem 1rem 3rem; }
-      h1 { font-size: 5rem; }
-      .section-title { font-size: 2.4rem; }
+      .title { font-size: 5.5rem; }
+      .subtitle { font-size: 2.4rem; }
+      .section-title { font-size: 3.8rem; }
     }
   </style>
 </head>
 <body>
 
-  <div id="canvas-container"></div>
+  <div id="hero">
+    <div class="hero-bg"></div>
+    <div class="spider-web"></div>
 
-  <main>
-    <header>
-      <h1>Madhan <span>♡</span></h1>
-      <div class="tagline">Creative Coder • Pucca Energy • Tambaram</div>
-    </header>
-
-    <section id="about">
-      <h2 class="section-title">About Me</h2>
-      <p style="font-size:1.3rem; max-width:800px; margin:0 auto; text-align:center;">
-        Hi! I'm Madhan — a passionate developer who loves building interactive, beautiful things on the web.<br><br>
-        I mix code with creativity, fast websites with cute aesthetics, and always bring full Pucca-level enthusiasm ♡<br>
-        Currently exploring 3D web, animations, frontend magic and everything that sparks joy.
+    <div class="container hero-content">
+      <h1 class="title clip-reveal">MILES<br>MORALES</h1>
+      <p class="subtitle clip-reveal" style="transition-delay:0.4s;">Brooklyn's Spider-Man</p>
+      <p class="clip-reveal" style="font-size:1.4rem; max-width:620px; margin:2rem 0; transition-delay:0.7s;">
+        Fear is a teacher. Pain is a motivator. Responsibility is forever.<br>
+        Swing into your story.
       </p>
-    </section>
+    </div>
+  </div>
 
-    <section id="skills">
-      <h2 class="section-title">Skills</h2>
-      <div class="skills-grid">
-        <div class="card">
-          <div class="emoji">💻</div>
-          <h3>Frontend</h3>
-          <p>HTML • CSS • JavaScript • React • Tailwind • Three.js</p>
-        </div>
-        <div class="card">
-          <div class="emoji">🎨</div>
-          <h3>Design</h3>
-          <p>Figma • Kawaii / Cute UI • Motion Design • Color Vibes</p>
-        </div>
-        <div class="card">
-          <div class="emoji">⚡</div>
-          <h3>Other</h3>
-          <p>GSAP • Framer Motion • Next.js • Git • Fast Prototyping</p>
-        </div>
-        <div class="card">
-          <div class="emoji">🍜</div>
-          <h3>Superpower</h3>
-          <p>Ramen Level 99 • Good Energy Generator</p>
-        </div>
+  <section class="container">
+    <h2 class="section-title clip-reveal">Powers & Skills</h2>
+    <div class="card-grid">
+      <div class="card mask-clip">
+        <h3>Venom Blast</h3>
+        <p>Bio-electric energy discharge — shock enemies and chain attacks.</p>
       </div>
-    </section>
+      <div class="card mask-clip">
+        <h3>Invisible</h3>
+        <p>Camouflage — disappear in plain sight when it matters most.</p>
+      </div>
+      <div class="card mask-clip">
+        <h3>Spider-Sense</h3>
+        <p>Precognitive danger detection — react faster than thought.</p>
+      </div>
+      <div class="card mask-clip">
+        <h3>Swing & Style</h3>
+        <p>Web-slinging mastery with Brooklyn flair and fresh beats.</p>
+      </div>
+    </div>
+  </section>
 
-    <section id="projects">
-      <h2 class="section-title">Projects</h2>
-      <div class="projects-grid">
-        <div class="card">
-          <h3>3D Interactive Portfolio</h3>
-          <p>This very page! Built with Three.js — floating crystals, text & playful vibes.</p>
-        </div>
-        <div class="card">
-          <h3>Cute Landing Pages</h3>
-          <p>Pastel + pink heavy designs with smooth animations and hearts everywhere ♡</p>
-        </div>
-        <div class="card">
-          <h3>Mini Games & Toys</h3>
-          <p>Fun browser experiments — chases, catchers, silly interactions</p>
-        </div>
-        <div class="card">
-          <h3>Personal Brand Sites</h3>
-          <p>Helping creators shine online with unique & memorable visuals</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact" style="text-align:center;">
-      <h2 class="section-title">Let's Connect ♡</h2>
-      <p style="font-size:1.4rem; margin:2rem 0;">
-        Got a project? Want to talk ramen? Or just send virtual hugs?<br>
-        I'm always open to chat!
-      </p>
-      <div>
-        <a href="mailto:your.email@example.com" class="btn">Email Me</a>
-        <a href="https://twitter.com/yourhandle" target="_blank" class="btn">Twitter / X</a>
-        <a href="https://instagram.com/yourhandle" target="_blank" class="btn">Instagram</a>
-      </div>
-    </section>
-  </main>
+  <section class="cta">
+    <div class="container">
+      <h2 class="section-title" style="font-size:4.5rem;">Ready to Swing?</h2>
+      <a href="#" class="btn">Enter the Spider-Verse</a>
+    </div>
+  </section>
 
   <footer>
-    Made with ♡ & Three.js • Madhan • 2026
+    Made with ♡ in Brooklyn style • Miles Morales Tribute • 2026
   </footer>
 
-  <!-- Three.js from CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.168.0/examples/js/controls/OrbitControls.min.js"></script>
-
   <script>
-    // ─── Three.js Setup ───────────────────────────────────────────────
-    const container = document.getElementById('canvas-container');
+    // Intersection Observer for clip-path reveals
+    const revealElements = document.querySelectorAll('.clip-reveal, .card');
 
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x0d0012);
-
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 2, 12);
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    container.appendChild(renderer.domElement);
-
-    // Controls
-    const controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
-    controls.enableZoom = true;
-    controls.minDistance = 6;
-    controls.maxDistance = 20;
-    controls.autoRotate = true;
-    controls.autoRotateSpeed = 0.8;
-
-    // Lights
-    const ambient = new THREE.AmbientLight(0xffffff, 0.5);
-    scene.add(ambient);
-
-    const pointLight = new THREE.PointLight(0xff69b4, 2, 50);
-    pointLight.position.set(5, 5, 5);
-    scene.add(pointLight);
-
-    const pointLight2 = new THREE.PointLight(0xc41e3a, 1.5, 50);
-    pointLight2.position.set(-5, 3, -5);
-    scene.add(pointLight2);
-
-    // ─── Floating Objects ─────────────────────────────────────────────
-    const group = new THREE.Group();
-    scene.add(group);
-
-    // Central crystal
-    const crystalGeo = new THREE.OctahedronGeometry(1.8, 0);
-    const crystalMat = new THREE.MeshStandardMaterial({
-      color: 0xff1493,
-      emissive: 0xff69b4,
-      emissiveIntensity: 0.7,
-      roughness: 0.1,
-      metalness: 0.6
-    });
-    const crystal = new THREE.Mesh(crystalGeo, crystalMat);
-    group.add(crystal);
-
-    // Smaller floating orbs
-    for (let i = 0; i < 8; i++) {
-      const orbGeo = new THREE.SphereGeometry(0.5 + Math.random() * 0.4, 16, 16);
-      const orbMat = new THREE.MeshStandardMaterial({
-        color: Math.random() > 0.5 ? 0xff69b4 : 0xffffff,
-        emissive: 0xff1493,
-        emissiveIntensity: 0.4,
-        transparent: true,
-        opacity: 0.7 + Math.random() * 0.3
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active', 'visible');
+          observer.unobserve(entry.target);
+        }
       });
-      const orb = new THREE.Mesh(orbGeo, orbMat);
-      
-      const angle = (i / 8) * Math.PI * 2;
-      const radius = 4 + Math.random() * 2;
-      orb.position.set(
-        Math.cos(angle) * radius,
-        (Math.random() - 0.5) * 6,
-        Math.sin(angle) * radius
-      );
-      
-      group.add(orb);
-    }
+    }, { threshold: 0.15 });
 
-    // Text (using sprite for simplicity in single file)
-    function makeTextSprite(message, parameters) {
-      if (parameters === undefined) parameters = {};
-      const fontface = parameters.fontface || 'Arial';
-      const fontsize = parameters.fontsize || 120;
-      const borderThickness = parameters.borderThickness || 4;
-      const borderColor = parameters.borderColor || { r:0, g:0, b:0, a:1.0 };
-      const backgroundColor = parameters.backgroundColor || { r:255, g:105, b:180, a:0.6 };
-      const textColor = parameters.textColor || { r:255, g:255, b:255, a:1.0 };
+    revealElements.forEach(el => observer.observe(el));
 
-      const canvas = document.createElement('canvas');
-      const context = canvas.getContext('2d');
-      context.font = fontsize + "px " + fontface;
-      const metrics = context.measureText(message);
-      const textWidth = metrics.width;
-
-      canvas.width = textWidth + (borderThickness*2) + 40;
-      canvas.height = fontsize * 1.4 + (borderThickness*2);
-
-      context.fillStyle   = "rgba(" + backgroundColor.r + "," + backgroundColor.g + "," + backgroundColor.b + "," + backgroundColor.a + ")";
-      context.strokeStyle = "rgba(" + borderColor.r + "," + borderColor.g + "," + borderColor.b + "," + borderColor.a + ")";
-
-      context.lineWidth = borderThickness;
-      roundRect(context, borderThickness/2, borderThickness/2, (textWidth + borderThickness*2 + 30), fontsize*1.4 + borderThickness, 20);
-
-      context.fillStyle = "rgba(" + textColor.r + "," + textColor.g + "," + textColor.b + "," + textColor.a + ")";
-      context.font = fontsize + "px " + fontface;
-      context.fillText(message, borderThickness + 15, fontsize + borderThickness);
-
-      const texture = new THREE.CanvasTexture(canvas);
-      texture.needsUpdate = true;
-
-      const spriteMaterial = new THREE.SpriteMaterial({ map: texture, transparent: true });
-      const sprite = new THREE.Sprite(spriteMaterial);
-      sprite.scale.set(12, 6, 1);
-      return sprite;
-    }
-
-    function roundRect(ctx, x, y, w, h, r) {
-      ctx.beginPath();
-      ctx.moveTo(x+r, y);
-      ctx.lineTo(x+w-r, y);
-      ctx.quadraticCurveTo(x+w, y, x+w, y+r);
-      ctx.lineTo(x+w, y+h-r);
-      ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
-      ctx.lineTo(x+r, y+h);
-      ctx.quadraticCurveTo(x, y+h, x, y+h-r);
-      ctx.lineTo(x, y+r);
-      ctx.quadraticCurveTo(x, y, x+r, y);
-      ctx.closePath();
-      ctx.fill();
-      ctx.stroke();
-    }
-
-    const nameSprite = makeTextSprite("MADHAN ♡", {
-      fontsize: 140,
-      borderThickness: 12,
-      backgroundColor: {r:15, g:8, b:18, a:0.7},
-      textColor: {r:255, g:255, b:255, a:1.0}
-    });
-    nameSprite.position.set(0, 5, 0);
-    group.add(nameSprite);
-
-    // Animation loop
-    function animate() {
-      requestAnimationFrame(animate);
-      controls.update();
-
-      group.rotation.y += 0.002;
-
-      // Gentle float
-      crystal.position.y = Math.sin(Date.now() * 0.0006) * 0.6;
-
-      renderer.render(scene, camera);
-    }
-    animate();
-
-    // Resize handler
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
+    // Delayed spider-web fade
+    setTimeout(() => {
+      document.querySelector('.spider-web').classList.add('active');
+    }, 1200);
   </script>
 </body>
 </html>
