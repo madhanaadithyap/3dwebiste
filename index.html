@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>3D Wordle – Three.js Complete</title>
+<style>
+  body { margin:0; overflow:hidden; background:#0a0a0a; font-family:Arial,Helvetica,sans-serif; touch-action:manipulation; }
+  #ui {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    color: white;
+    user-select: none;
+  }
+  #title {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: bold;
+    letter-spacing: 4px;
+    text-shadow: 0 0 20px #0ff;
+  }
+  #message {
+    position: absolute;
+    top: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 0 0 12px black;
+    pointer-events: all;
+  }
+  #restart {
+    display: none;
+    position: absolute;
+    top: 140px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #538d4e;
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    pointer-events: all;
+  }
+  #keyboard {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    pointer-events: all;
+    max-width: 98vw;
+  }
+  .row { display: flex; gap: 5px; justify-content: center; }
+  button {
+    width: clamp(38px, 9vw, 52px);
+    height: clamp(52px, 12vw, 68px);
+    font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+    font-weight: bold;
+    background: #3a3c3e;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.1s;
+    touch-action: manipulation;
+  }
+  button:hover, button:active { background: #565758; transform: scale(1.05); }
+  button.wide { width: clamp(70px, 16vw, 90px); }
+  .correct   { background: #538d4e !important; }
+  .present   { background: #b59f3b !important; }
+  .absent    { background: #787c7e !important; opacity: 0.8; }
+</style>
+</head>
+<body>
+
+<div id="ui">
+  <div id="title">WORDLE 3D</div>
+  <div id="message"></div>
+  <button id="restart">Play Again</button>
+</div>
+
+<div id="keyboard"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.168.0/examples/js/controls/OrbitControls.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.168.0/examples/js/loaders/FontLoader.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.168.0/examples/js/geometries/TextGeometry.min.js"></script>
+
+<script>
+// ────────────────────────────────────────────────
+//  WORD LIST (~500 real 5-letter words)
+// ────────────────────────────────────────────────
+const VALID_WORDS = [
+  "about","above","abuse","actor","acute","admit","adopt","adult","after","again","agent","agree","ahead","alarm","album",
+  "alert","alike","alive","allow","alone","along","alter","among","anger","angle","angry","apart","apple","apply","arena",
+  "argue","arise","array","aside","asset","audio","audit","avoid","award","aware","badly","baker","bases","basic","basis",
+  "beach","began","begin","begun","being","below","bench","billy","birth","black","blame","blind","block","blood","board",
+  "boost","booth","bound","brain","brand","bread","break","breed","brief","bring","broad","brown","build","built","buyer",
+  "cable","calm","came","canal","candy","carry","catch","cause","chain","chair","chart","chase","cheap","check","chest",
+  "chief","child","china","chose","civil","claim","class","clean","clear","click","clock","close","coach","coast","could",
+  "count","court","cover","craft","crash","cream","crime","cross","crowd","crown","curve","cycle","daily","dance","dated",
+  "dealt","death","debut","delay","depth","doing","doubt","dozen","draft","drama","drawn","dream","dress","drill","drink",
+  "drive","drove","dying","eager","eagle","early","earth","eight","elite","empty","enemy","enjoy","enter","entry","equal",
+  "error","essay","event","every","exact","exist","extra","faith","false","fault","fiber","field","fifth","fifty","fight",
+  "final","first","fixed","flash","fleet","floor","fluid","focus","force","forth","forty","forum","found","frame","frank",
+  "fraud","fresh","front","fruit","fully","funny","giant","given","glass","globe","going","grace","grade","grand","grant",
+  "grass","great","green","gross","group","grown","guard","guess","guest","guide","habit","happy","harry","heart","heavy",
+  "hence","henry","horse","hotel","house","human","ideal","image","index","inner","input","issue","joint","jones","judge",
+  "known","label","labor","large","later","laugh","layer","learn","lease","least","leave","legal","level","lewis","light",
+  "limit","liver","local","logic","loose","louis","lucky","lunch","lying","magic","major","maker","march","maria","match",
+  "maybe","mayor","meant","media","metal","might","minor","minus","mixed","model","money","month","moral","motor","mount",
+  "mouse","mouth","movie","music","needs","never","night","noise","north","noted","novel","nurse","occur","ocean","offer",
+  "often","order","other","ought","paint","panel","paper","party","peace","phase","phone","photo","piece","pilot","pitch",
+  "place","plain","plane","plant","plate","point","pound","power","press","price","pride","prime","print","prior","prize",
+  "proof","proud","prove","queen","quick","quiet","quite","radio","raise","range","rapid","reach","ready","refer","right",
+  "rival","river","robin","roger","roman","rough","round","route","royal","rural","scale","scene","scope","score","sense",
+  "serve","seven","shall","shape","share","sharp","sheet","shelf","shell","shift","shirt","shock","shoot","short","shown",
+  "sight","since","sixth","skill","sleep","slide","small","smart","smile","smith","smoke","solid","solve","sorry","sound",
+  "south","space","spare","speak","speed","spend","spent","split","spoke","sport","staff","stage","stake","stand","start",
+  "state","steam","steel","stick","still","stock","stone","stood","store","storm","story","strip","stuck","study","stuff",
+  "style","sugar","suite","super","sweet","table","taken","taste","taxes","teach","teeth","terry","thank","theft","their",
+  "theme","there","these","thick","thing","think","third","those","three","threw","throw","tight","times","tired","title",
+  "today","topic","total","touch","tough","tower","track","trade","train","treat","trend","trial","tried","tries","truck",
+  "truly","trust","truth","twice","under","union","unity","until","upper","upset","urban","usage","usual","valid","value",
+  "video","virus","visit","vital","voice","waste","watch","water","whole","whose","woman","women","world","worry","worse",
+  "worst","worth","would","wound","write","wrong","wrote","yield","young","youth"
+];
+
+let TARGET_WORD = VALID_WORDS[Math.floor(Math.random() * VALID_WORDS.length)].toUpperCase();
+
+// ────────────────────────────────────────────────
+//  GAME STATE
+// ────────────────────────────────────────────────
+const WORD_LENGTH = 5;
+const MAX_ATTEMPTS = 6;
+let currentRow = 0;
+let currentCol = 0;
+let gameOver = false;
+let won = false;
+
+const tiles = Array(MAX_ATTEMPTS).fill().map(() => Array(WORD_LENGTH).fill(null));
+
+// ────────────────────────────────────────────────
+//  THREE.JS SETUP
+// ────────────────────────────────────────────────
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0a0a0a);
+
+const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 100);
+camera.position.set(0, 3, 14);
+
+const renderer = new THREE.WebGLRenderer({antialias: true});
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(devicePixelRatio);
+document.body.appendChild(renderer.domElement);
+
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enablePan = false;
+controls.enableZoom = false;
+controls.minPolarAngle = 0.4;
+controls.maxPolarAngle = 2.0;
+controls.rotateSpeed = 0.8;
+
+scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+const dirLight = new THREE.DirectionalLight(0xffffff, 1.4);
+dirLight.position.set(8, 12, 10);
+scene.add(dirLight);
+
+// ────────────────────────────────────────────────
+//  FONT LOADING
+// ────────────────────────────────────────────────
+let font = null;
+const loader = new THREE.FontLoader();
+loader.load(
+  'https://cdn.jsdelivr.net/npm/three@0.168.0/examples/fonts/helvetiker_regular.typeface.json',
+  loadedFont => {
+    font = loadedFont;
+    initGrid();
+    animate();
+  },
+  undefined,
+  err => console.error('Font load error:', err)
+);
+
+// ────────────────────────────────────────────────
+//  CREATE TILE
+// ────────────────────────────────────────────────
+function createTile(x, y) {
+  const group = new THREE.Group();
+
+  const geo = new THREE.BoxGeometry(1.9, 1.9, 0.25);
+  const mat = new THREE.MeshStandardMaterial({
+    color: 0x3a3c3e,
+    metalness: 0.15,
+    roughness: 0.65
+  });
+  const cube = new THREE.Mesh(geo, mat);
+  group.add(cube);
+
+  group.position.set(x * 2.2, y * 2.2, 0);
+  scene.add(group);
+
+  return { group, cube, letter: "", state: "", textMesh: null };
+}
+
+// ────────────────────────────────────────────────
+//  INIT GRID
+// ────────────────────────────────────────────────
+function initGrid() {
+  for (let r = 0; r < MAX_ATTEMPTS; r++) {
+    for (let c = 0; c < WORD_LENGTH; c++) {
+      const tile = createTile(
+        c - (WORD_LENGTH - 1) * 0.5,
+        2.8 - r * 1.1
+      );
+      tiles[r][c] = tile;
+    }
+  }
+}
+
+// ────────────────────────────────────────────────
+//  UPDATE TILE VISUAL + FLIP ANIMATION
+// ────────────────────────────────────────────────
+function updateTile(tile, letter, state, delay = 0) {
+  tile.letter = letter;
+  tile.state = state;
+
+  // Remove old text
+  if (tile.textMesh) {
+    tile.group.remove(tile.textMesh);
+    tile.textMesh.geometry.dispose();
+  }
+
+  // New text
+  if (letter) {
+    const textGeo = new THREE.TextGeometry(letter, {
+      font: font,
+      size: 1.2,
+      height: 0.08,
+      curveSegments: 4
+    });
+    textGeo.computeBoundingBox();
+    const textMesh = new THREE.Mesh(
+      textGeo,
+      new THREE.MeshStandardMaterial({ color: 0xffffff })
+    );
+    textMesh.position.x = -textGeo.boundingBox.max.x / 2;
+    textMesh.position.y = -0.45;
+    textMesh.position.z = 0.13;
+    tile.group.add(textMesh);
+    tile.textMesh = textMesh;
+  }
+
+  let color;
+  if (state === "correct")   color = 0x538d4e;
+  else if (state === "present") color = 0xb59f3b;
+  else if (state === "absent")  color = 0x787c7e;
+  else color = 0x3a3c3e;
+
+  // Flip animation
+  let t = 0;
+  const startRotation = tile.group.rotation.x;
+  const interval = setInterval(() => {
+    t += 0.08;
+    tile.group.rotation.x = startRotation + Math.sin(t * 8) * 0.35 * Math.exp(-t * 3);
+    tile.cube.material.color.setHex(color);
+    if (t > 2) {
+      tile.group.rotation.x = startRotation;
+      clearInterval(interval);
+    }
+  }, 16);
+
+  setTimeout(() => {}, delay * 80);
+}
+
+// ────────────────────────────────────────────────
+//  KEYBOARD
+// ────────────────────────────────────────────────
+const layout = [
+  "QWERTYUIOP".split(""),
+  " ASDFGHJKL".split(""),
+  ["Enter", "Z", "X", "C", "V", "B", "N", "M", "←"]
+];
+
+const keyButtons = {};
+
+layout.forEach(rowKeys => {
+  const rowDiv = document.createElement("div");
+  rowDiv.className = "row";
+  document.getElementById("keyboard").appendChild(rowDiv);
+
+  rowKeys.forEach(k => {
+    const btn = document.createElement("button");
+    btn.textContent = k;
+    if (k === "Enter" || k === "←") btn.classList.add("wide");
+    btn.onclick = () => handleKey(k);
+    rowDiv.appendChild(btn);
+    if (k.length === 1) keyButtons[k] = btn;
+  });
+});
+
+// ────────────────────────────────────────────────
+//  INPUT
+// ────────────────────────────────────────────────
+window.addEventListener("keydown", e => {
+  if (gameOver) return;
+  e.preventDefault();
+  const k = e.key.toUpperCase();
+  if (/^[A-Z]$/.test(k)) handleLetter(k);
+  if (e.key === "Backspace") handleBackspace();
+  if (e.key === "Enter")     handleEnter();
+});
+
+function handleKey(k) {
+  if (gameOver) return;
+  if (/^[A-Z]$/.test(k)) handleLetter(k);
+  if (k === "←") handleBackspace();
+  if (k === "Enter") handleEnter();
+}
+
+function handleLetter(letter) {
+  if (currentCol >= WORD_LENGTH) return;
+  updateTile(tiles[currentRow][currentCol], letter, "");
+  currentCol++;
+}
+
+function handleBackspace() {
+  if (currentCol <= 0) return;
+  currentCol--;
+  updateTile(tiles[currentRow][currentCol], "", "");
+}
+
+function handleEnter() {
+  if (currentCol < WORD_LENGTH) {
+    showMessage("Not enough letters", 1400);
+    return;
+  }
+
+  const guess = tiles[currentRow].map(t => t.letter).join("");
+
+  if (!VALID_WORDS.includes(guess.toLowerCase())) {
+    showMessage("Not in word list", 1400);
+    return;
+  }
+
+  // Evaluate
+  let correct = 0;
+  const letterCount = {};
+
+  for (let char of TARGET_WORD) {
+    letterCount[char] = (letterCount[char] || 0) + 1;
+  }
+
+  // Correct positions first
+  for (let i = 0; i < WORD_LENGTH; i++) {
+    if (guess[i] === TARGET_WORD[i]) {
+      updateTile(tiles[currentRow][i], guess[i], "correct", i);
+      keyButtons[guess[i]]?.classList.add("correct");
+      letterCount[guess[i]]--;
+      correct++;
+    }
+  }
+
+  // Present letters
+  for (let i = 0; i < WORD_LENGTH; i++) {
+    if (guess[i] === TARGET_WORD[i]) continue;
+    if (letterCount[guess[i]] > 0) {
+      updateTile(tiles[currentRow][i], guess[i], "present", i);
+      keyButtons[guess[i]]?.classList.add("present");
+      letterCount[guess[i]]--;
+    } else {
+      updateTile(tiles[currentRow][i], guess[i], "absent", i);
+      keyButtons[guess[i]]?.classList.add("absent");
+    }
+  }
+
+  if (correct === WORD_LENGTH) {
+    showMessage("Excellent!", 5000, "#538d4e");
+    won = true;
+    gameOver = true;
+    confetti();
+    document.getElementById("restart").style.display = "block";
+    return;
+  }
+
+  currentRow++;
+  currentCol = 0;
+
+  if (currentRow >= MAX_ATTEMPTS) {
+    showMessage(`Game Over — word was ${TARGET_WORD}`, 6000, "#c62828");
+    gameOver = true;
+    document.getElementById("restart").style.display = "block";
+  }
+}
+
+// ────────────────────────────────────────────────
+//  UI MESSAGES
+// ────────────────────────────────────────────────
+function showMessage(text, duration = 2000, color = "#ffffff") {
+  const msg = document.getElementById("message");
+  msg.textContent = text;
+  msg.style.color = color;
+  msg.style.opacity = 1;
+  setTimeout(() => { msg.style.opacity = 0; }, duration - 400);
+}
+
+// ────────────────────────────────────────────────
+//  SIMPLE CONFETTI ON WIN
+// ────────────────────────────────────────────────
+function confetti() {
+  const colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff, 0x00ffff];
+  const particles = [];
+
+  for (let i = 0; i < 120; i++) {
+    const geo = new THREE.SphereGeometry(0.12 + Math.random()*0.1, 6, 6);
+    const mat = new THREE.MeshBasicMaterial({
+      color: colors[Math.floor(Math.random()*colors.length)]
+    });
+    const p = new THREE.Mesh(geo, mat);
+    p.position.set(
+      (Math.random()-0.5)*18,
+      8 + Math.random()*6,
+      (Math.random()-0.5)*10
+    );
+    p.velocity = new THREE.Vector3(
+      (Math.random()-0.5)*0.6,
+      -0.3 - Math.random()*0.5,
+      (Math.random()-0.5)*0.6
+    );
+    scene.add(p);
+    particles.push(p);
+  }
+
+  let t = 0;
+  const anim = setInterval(() => {
+    t += 0.016;
+    particles.forEach(p => {
+      p.position.add(p.velocity);
+      p.velocity.y -= 0.025;
+      p.rotation.x += 0.08;
+      p.rotation.y += 0.06;
+      if (p.position.y < -8) {
+        scene.remove(p);
+        p.geometry.dispose();
+        p.material.dispose();
+      }
+    });
+    if (t > 5) {
+      clearInterval(anim);
+      particles.forEach(p => scene.remove(p));
+    }
+  }, 16);
+}
+
+// ────────────────────────────────────────────────
+//  RESTART
+// ────────────────────────────────────────────────
+document.getElementById("restart").onclick = () => {
+  location.reload();
+};
+
+// ────────────────────────────────────────────────
+//  ANIMATION LOOP
+// ────────────────────────────────────────────────
+function animate() {
+  requestAnimationFrame(animate);
+  controls.update();
+  renderer.render(scene, camera);
+}
+
+// Resize handling
+window.addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+</script>
+</body>
+</html>
