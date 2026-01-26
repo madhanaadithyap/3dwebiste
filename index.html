@@ -10,7 +10,7 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Inter',sans-serif;background:#000;color:#fff;overflow-x:hidden;}
 html{scroll-behavior:smooth;scroll-snap-type:y mandatory;}
-section,footer{scroll-snap-align:start;}
+section{scroll-snap-align:start;}
 body::after{
   content:'';
   position:fixed;
@@ -116,7 +116,6 @@ p{max-width:760px;opacity:.9;line-height:1.8;margin-top:24px;}
 .music{height:auto;min-height:100vh;background:#000;display:flex;align-items:center;justify-content:center;}
 .music-inner{text-align:center;padding:80px 20px;}
 audio{width:100%;margin-top:40px;}
-footer{height:70vh;display:flex;align-items:center;justify-content:center;text-align:center;opacity:.9;}
 
 /* ===== CONTACT BUTTON ===== */
 .contact-btn{
@@ -138,7 +137,6 @@ footer{height:70vh;display:flex;align-items:center;justify-content:center;text-a
 @keyframes slideUp{from{transform:translateY(40px);opacity:0;}to{transform:translateY(0);opacity:0.9;}}
 @keyframes blurIn{from{filter:blur(20px);opacity:0;transform:scale(1.05);}to{filter:none;opacity:1;transform:scale(1);}}
 @keyframes fadePulse{from{opacity:0;}to{opacity:0.8;}}
-@keyframes breath{0%{letter-spacing:6px;}50%{letter-spacing:7.5px;}100%{letter-spacing:6px;}}
 </style>
 </head>
 <body>
@@ -203,7 +201,7 @@ footer{height:70vh;display:flex;align-items:center;justify-content:center;text-a
 </section>
 
 <!-- CONTACT SECTION -->
-<footer id="contact" style="background:#111;">
+<section id="contact" style="background:#111; height:100vh;">
   <div class="overlay" style="display:flex;align-items:center;justify-content:center;">
     <div>
       <button class="contact-btn" onclick="window.location.href='mailto:madhanaadithya@email.com'">
@@ -211,7 +209,7 @@ footer{height:70vh;display:flex;align-items:center;justify-content:center;text-a
       </button>
     </div>
   </div>
-</footer>
+</section>
 
 <script>
 // Ambient intro sound
