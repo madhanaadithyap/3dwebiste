@@ -329,13 +329,16 @@ window.addEventListener('scroll',()=>{
   poster.style.opacity = Math.max(0,1-y/400);
 });
 
-// ===== LETTER-SPACING MICRO ANIMATION =====
+// ===== LETTER-SPACING MICRO ANIMATION (SMOOTH LOOP) =====
 const title = document.querySelector('.poster-title');
+let direction = 1;
 let spacing = 6;
+
 setInterval(()=>{
-  spacing = spacing === 6 ? 8 : 6;
-  title.style.letterSpacing = spacing + 'px';
-},4000);
+  spacing += direction * 0.4;
+  if(spacing >= 8 || spacing <= 6){ direction *= -1; }
+  title.style.letterSpacing = spacing.toFixed(2) + 'px';
+},80);
 </script>
 
 </body>
