@@ -27,6 +27,7 @@
         radial-gradient(circle at 15% 50%, rgba(0,170,255,0.08) 0%, transparent 25%),
         radial-gradient(circle at 85% 30%, rgba(255,107,203,0.06) 0%, transparent 35%);
       overflow: hidden;
+      touch-action: manipulation; /* better touch response */
     }
 
     .header { background: rgba(15,20,45,0.6); backdrop-filter: blur(16px); padding:14px; border-bottom:1px solid var(--border); text-align:center; font-weight:600; font-size:1.15rem; box-shadow:0 4px 20px rgba(0,0,0,0.4); }
@@ -37,9 +38,8 @@
     #usernameInput { padding:16px 24px; width:320px; max-width:90%; border:none; border-radius:999px; background:var(--card); backdrop-filter:blur(12px); color:white; font-size:1.1rem; text-align:center; box-shadow:var(--shadow), inset 0 2px 8px rgba(0,0,0,0.4); transition:all 0.3s ease; }
     #usernameInput:focus { outline:none; box-shadow:0 0 0 3px var(--primary-glow), var(--shadow); transform:translateY(-2px); }
 
-    #joinBtn { padding:14px 40px; border:none; border-radius:999px; background:linear-gradient(90deg, var(--primary), #0088dd); color:white; font-weight:600; font-size:1.05rem; cursor:pointer; box-shadow:0 6px 24px rgba(0,170,255,0.4); transition:all 0.3s ease; }
-    #joinBtn:hover { transform:translateY(-3px) scale(1.04); box-shadow:0 12px 32px rgba(0,170,255,0.5); }
-    #joinBtn:active { transform:scale(0.96); box-shadow:0 2px 12px rgba(0,170,255,0.3); }
+    #joinBtn { padding:14px 40px; border:none; border-radius:999px; background:linear-gradient(90deg, var(--primary), #0088dd); color:white; font-weight:600; font-size:1.05rem; cursor:pointer; box-shadow:0 6px 24px rgba(0,170,255,0.4); transition:all 0.3s ease; touch-action:manipulation; }
+    #joinBtn:hover, #joinBtn:active { transform:scale(0.96); box-shadow:0 2px 12px rgba(0,170,255,0.3); }
 
     #errorMsg { color:#ff6b6b; font-size:0.95rem; background:rgba(255,107,107,0.15); padding:10px 20px; border-radius:12px; backdrop-filter:blur(8px); display:none; }
 
@@ -57,8 +57,8 @@
     #messageInput { flex:1; padding:14px 20px; border:none; border-radius:999px; background:rgba(40,50,80,0.6); backdrop-filter:blur(10px); color:white; font-size:1.05rem; outline:none; box-shadow:inset 0 2px 8px rgba(0,0,0,0.5); transition:all 0.3s ease; }
     #messageInput:focus { background:rgba(50,65,100,0.8); box-shadow:0 0 0 3px var(--primary-glow), inset 0 2px 8px rgba(0,0,0,0.4); }
 
-    #sendBtn { background:linear-gradient(90deg, var(--primary), #0088dd); color:white; border:none; border-radius:999px; padding:0 28px; font-weight:600; cursor:pointer; transition:all 0.3s ease; box-shadow:0 4px 16px rgba(0,170,255,0.35); }
-    #sendBtn:hover { transform:scale(1.08); box-shadow:0 8px 24px rgba(0,170,255,0.5); }
+    #sendBtn { background:linear-gradient(90deg, var(--primary), #0088dd); color:white; border:none; border-radius:999px; padding:0 28px; font-weight:600; cursor:pointer; transition:all 0.3s ease; box-shadow:0 4px 16px rgba(0,170,255,0.35); touch-action:manipulation; }
+    #sendBtn:hover, #sendBtn:active { transform:scale(1.08); box-shadow:0 8px 24px rgba(0,170,255,0.5); }
 
     #status { text-align:center; padding:10px; font-size:0.9rem; color:var(--text-muted); background:rgba(15,20,45,0.4); backdrop-filter:blur(8px); }
 
@@ -99,83 +99,76 @@
 
     let pubnub;
     let username;
-    const channelName = 'saga-orb-chat-glossy';
+    const channelName = 'saga-orb-mobile-' + Date.now(); // unique to avoid demo limits
 
-    async function checkUsername(proposedName) {
-      return new Promise((resolve) => {
-        pubnub.hereNow(
-          { channels: [channelName], includeUUIDs: true },
-          (s, response) => {
-            const online = response?.uuids || [];
-            resolve(!online.includes(proposedName));
-          }
-        );
-      });
-    }
-
-    pubnub = new PubNub({ publishKey: 'demo', subscribeKey: 'demo' });
-    pubnub.subscribe({ channels: [channelName] });
-
-    async function attemptJoin() {
+    function attemptJoin() {
       const name = usernameInput.value.trim();
       if (!name || name.length < 2) {
-        showError('Please choose a name (min 2 characters)');
+        showError('Enter a name (at least 2 letters)');
         return;
       }
 
-      status.textContent = 'Checking availability...';
-      const available = await checkUsername(name);
-
-      if (!available) {
-        showError('That name is already taken');
-        status.textContent = 'Ready';
-        return;
-      }
+      status.textContent = 'Joining...';
+      status.style.color = '#ffcc00';
 
       username = name;
 
-      pubnub = new PubNub({
-        publishKey: 'demo',
-        subscribeKey: 'demo',
-        userId: username
-      });
+      try {
+        pubnub = new PubNub({
+          publishKey: 'demo',
+          subscribeKey: 'demo',
+          userId: username,
+          ssl: true
+        });
 
-      pubnub.subscribe({ channels: [channelName] });
+        pubnub.subscribe({ channels: [channelName] });
 
-      pubnub.addListener({
-        status: (s) => {
-          if (s.category === 'PNConnectedCategory') {
-            status.textContent = 'Connected to orbit';
-            status.style.color = '#66ff99';
-            setup.classList.add('hidden');
-            mainChat.classList.add('show');
-            addSystemMessage(`Welcome aboard, ${username} ✧`);
-            pubnub.publish({ channel: channelName, message: { type: 'join', user: username } });
-            messageInput.focus();
-          } else if (s.error) {
-            showError('Connection issue – try again');
-            console.error(s);
+        pubnub.addListener({
+          status: function(s) {
+            console.log('PubNub status:', s.category, s);
+            if (s.category === 'PNConnectedCategory') {
+              status.textContent = 'Connected!';
+              status.style.color = '#66ff99';
+              setup.classList.add('hidden');
+              mainChat.classList.add('show');
+              addSystemMessage(`Welcome, ${username} ✧`);
+              pubnub.publish({ channel: channelName, message: { type: 'join', user: username } });
+              messageInput.focus();
+            } else if (s.error || s.category.includes('Error')) {
+              showError('Connection failed – check internet or try later');
+              console.error('PubNub error:', s);
+            }
+          },
+          message: function(m) {
+            const msg = m.message;
+            if (msg.type === 'join') {
+              addSystemMessage(`${msg.user} joined`);
+            } else if (msg.type === 'message') {
+              const isSent = msg.user === username;
+              addMessage(msg.text, isSent ? 'sent' : 'received', msg.user);
+            }
           }
-        },
-        message: (m) => {
-          const msg = m.message;
-          if (msg.type === 'join') {
-            addSystemMessage(`${msg.user} has entered the orbit`);
-          } else if (msg.type === 'message') {
-            const isSent = msg.user === username;
-            addMessage(msg.text, isSent ? 'sent' : 'received', msg.user);
-          }
-        }
-      });
+        });
+
+        console.log('Join started for name:', username);
+      } catch (err) {
+        showError('Failed to connect – see if PubNub loaded');
+        console.error('Init error:', err);
+        alert('Error starting chat: ' + err.message);
+      }
 
       usernameInput.value = '';
     }
 
-    // Click button
+    // Touch + click for mobile reliability
     joinBtn.onclick = attemptJoin;
+    joinBtn.ontouchstart = function(e) {
+      e.preventDefault();
+      attemptJoin();
+    };
 
-    // Press Enter in username field
-    usernameInput.addEventListener('keydown', (e) => {
+    // Also support keyboard Enter on phones
+    usernameInput.addEventListener('keydown', function(e) {
       if (e.key === 'Enter') {
         e.preventDefault();
         attemptJoin();
@@ -185,7 +178,7 @@
     function showError(text) {
       errorMsg.textContent = text;
       errorMsg.style.display = 'block';
-      setTimeout(() => errorMsg.style.display = 'none', 4000);
+      setTimeout(() => errorMsg.style.display = 'none', 5000);
     }
 
     function addMessage(text, type, sender) {
@@ -224,7 +217,12 @@
     }
 
     sendBtn.onclick = sendMessage;
-    messageInput.addEventListener('keydown', (e) => {
+    sendBtn.ontouchstart = function(e) {
+      e.preventDefault();
+      sendMessage();
+    };
+
+    messageInput.addEventListener('keydown', function(e) {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
         sendMessage();
@@ -233,8 +231,9 @@
 
     chat.addEventListener('click', () => messageInput.focus());
 
-    // Auto focus name field on load
+    // Start focused
     usernameInput.focus();
+    usernameInput.select();
   </script>
 </body>
 </html>
