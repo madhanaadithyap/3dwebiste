@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -7,16 +7,29 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg: #0f0f0f;
-      --text: #ffffff;
+      --bg: #0a0a0a;
+      --text: #f5f5f5;
+      --text-light: #bbbbbb;
       --accent: #e63946;
       --accent-dark: #b32d38;
-      --gray: #aaaaaa;
-      --light-gray: #444444;
+      --card: #1e1e1e;
+      --gray: #555555;
+      --border: #333333;
+    }
+
+    [data-theme="light"] {
+      --bg: #f8f9fa;
+      --text: #1a1a1a;
+      --text-light: #555555;
+      --accent: #d62839;
+      --accent-dark: #9b1d2c;
+      --card: #ffffff;
+      --gray: #777777;
+      --border: #e0e0e0;
     }
 
     * {
@@ -26,11 +39,11 @@
     }
 
     body {
-      font-family: 'Inter', system-ui, sans-serif;
+      font-family: 'Comfortaa', cursive, system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.6;
-      overflow-x: hidden;
+      line-height: 1.7;
+      transition: background 0.5s ease, color 0.5s ease;
     }
 
     header {
@@ -38,32 +51,41 @@
       top: 0;
       width: 100%;
       z-index: 1000;
-      padding: 1.8rem 6%;
+      padding: 1.4rem 6%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(15,15,15,0.85);
+      background: rgba(10,10,10,0.88);
       backdrop-filter: blur(12px);
       transition: all 0.4s ease;
     }
 
+    [data-theme="light"] header {
+      background: rgba(248,249,250,0.92);
+    }
+
     header.scrolled {
-      padding: 1.2rem 6%;
-      background: rgba(15,15,15,0.98);
+      padding: 1rem 6%;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
     }
 
     .logo {
       font-family: 'Playfair Display', serif;
-      font-size: 2.4rem;
+      font-size: 2.3rem;
       font-weight: 900;
       letter-spacing: -1px;
       color: var(--accent);
     }
 
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 2.4rem;
+    }
+
     nav a {
       color: var(--text);
       text-decoration: none;
-      margin-left: 2.8rem;
       font-weight: 500;
       font-size: 1.05rem;
       transition: color 0.3s ease;
@@ -73,30 +95,45 @@
       color: var(--accent);
     }
 
-    .hero {
-      height: 100vh;
-      min-height: 800px;
-      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.75)),
-                  url('https://images.unsplash.com/photo-1511671782779-c97d3d27c1d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      position: relative;
+    .theme-toggle {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text);
+      transition: transform 0.4s ease;
     }
 
-    .hero-content {
-      max-width: 900px;
-      padding: 0 5%;
+    .theme-toggle:hover {
+      transform: rotate(30deg);
+    }
+
+    section {
+      min-height: 100vh;
+      padding: 140px 6% 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero {
+      background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.8)),
+                  url('https://images.unsplash.com/photo-1511671782779-c97d3d27c1d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2400&q=80') center/cover no-repeat fixed;
+      color: white;
+      text-align: center;
+    }
+
+    [data-theme="light"] .hero {
+      background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)),
+                  url('https://images.unsplash.com/photo-1511671782779-c97d3d27c1d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2400&q=80') center/cover no-repeat fixed;
     }
 
     .hero h1 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(5.5rem, 12vw, 11rem);
-      line-height: 0.9;
-      margin-bottom: 1.5rem;
-      font-weight: 900;
-      text-shadow: 0 8px 40px rgba(0,0,0,0.7);
+      font-size: clamp(5.5rem, 14vw, 12rem);
+      line-height: 0.88;
+      margin-bottom: 1.2rem;
+      text-shadow: 0 10px 50px rgba(0,0,0,0.8);
     }
 
     .hero h1 span {
@@ -104,48 +141,40 @@
     }
 
     .hero p {
-      font-size: clamp(1.6rem, 4vw, 2.4rem);
-      margin-bottom: 2.5rem;
+      font-size: clamp(1.6rem, 4.5vw, 2.6rem);
+      max-width: 780px;
+      margin: 0 auto 2.5rem;
       color: #ddd;
-      max-width: 720px;
-      margin-left: auto;
-      margin-right: auto;
     }
 
     .btn {
-      display: inline-block;
       background: var(--accent);
       color: white;
-      padding: 1rem 3rem;
+      padding: 1.1rem 3.2rem;
       border-radius: 50px;
       text-decoration: none;
       font-weight: 600;
       font-size: 1.3rem;
-      transition: all 0.35s ease;
+      display: inline-block;
+      transition: all 0.4s ease;
       border: 2px solid var(--accent);
     }
 
     .btn:hover {
       background: transparent;
       color: var(--accent);
-      transform: translateY(-4px);
-    }
-
-    section {
-      padding: 120px 6% 100px;
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(230,57,70,0.3);
     }
 
     .section-title {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(4rem, 10vw, 7rem);
+      font-size: clamp(4rem, 10vw, 8rem);
       text-align: center;
       margin-bottom: 4rem;
       font-weight: 900;
-      color: #eee;
-    }
-
-    .latest {
-      background: var(--light-gray);
+      color: var(--accent);
+      opacity: 0.9;
     }
 
     .grid {
@@ -157,20 +186,21 @@
     }
 
     .card {
-      background: #222;
+      background: var(--card);
       border-radius: 16px;
       overflow: hidden;
       transition: all 0.4s ease;
+      border: 1px solid var(--border);
     }
 
     .card:hover {
-      transform: translateY(-12px);
-      box-shadow: 0 20px 60px rgba(230,57,70,0.25);
+      transform: translateY(-14px);
+      box-shadow: 0 25px 60px rgba(230,57,70,0.2);
     }
 
     .card img {
       width: 100%;
-      height: 320px;
+      height: 340px;
       object-fit: cover;
     }
 
@@ -180,18 +210,21 @@
     }
 
     .card h3 {
-      font-size: 1.6rem;
-      margin-bottom: 0.8rem;
+      font-size: 1.7rem;
+      margin-bottom: 0.6rem;
     }
 
     .card p {
-      color: var(--gray);
-      font-size: 1.05rem;
+      color: var(--text-light);
     }
 
-    .tour {
-      background: linear-gradient(to bottom, #111, #000);
-      text-align: center;
+    .gallery-grid {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .gallery-grid .card img {
+      height: 280px;
     }
 
     .tour-dates {
@@ -200,11 +233,52 @@
     }
 
     .date-item {
-      background: rgba(255,255,255,0.05);
-      padding: 2rem;
+      background: var(--card);
+      padding: 2.2rem;
       margin: 2rem 0;
       border-radius: 12px;
-      border: 1px solid rgba(230,57,70,0.3);
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .date-item h3 {
+      font-size: 1.8rem;
+      color: var(--accent);
+    }
+
+    .newsletter {
+      text-align: center;
+      background: linear-gradient(135deg, #111, #1a1a1a);
+    }
+
+    [data-theme="light"] .newsletter {
+      background: linear-gradient(135deg, #f0f0f0, #e8e8e8);
+    }
+
+    .newsletter input {
+      padding: 1rem 1.5rem;
+      font-size: 1.1rem;
+      border: 2px solid var(--accent);
+      border-radius: 50px 0 0 50px;
+      background: var(--card);
+      color: var(--text);
+      width: 280px;
+      max-width: 70%;
+    }
+
+    .newsletter button {
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 0 50px 50px 0;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .newsletter button:hover {
+      background: var(--accent-dark);
     }
 
     footer {
@@ -216,9 +290,10 @@
     }
 
     @media (max-width: 768px) {
-      nav a { margin-left: 1.5rem; font-size: 0.95rem; }
-      .hero h1 { font-size: 5rem; }
-      .section-title { font-size: 4rem; }
+      .hero h1 { font-size: 5.5rem; }
+      .section-title { font-size: 4.2rem; }
+      nav { gap: 1.4rem; }
+      nav a { font-size: 0.95rem; }
     }
   </style>
 </head>
@@ -228,39 +303,41 @@
     <div class="logo">Madhan Aadithya</div>
     <nav>
       <a href="#music">Music</a>
+      <a href="#about">About</a>
       <a href="#tour">Tour</a>
+      <a href="#gallery">Gallery</a>
       <a href="#store">Store</a>
-      <a href="#contact">Contact</a>
+      <button class="theme-toggle" aria-label="Toggle theme">☀︎</button>
     </nav>
   </header>
 
   <section class="hero">
-    <div class="hero-content">
+    <div>
       <h1>Madhan <span>Aadithya</span></h1>
-      <p>Singer • Songwriter • Storyteller</p>
+      <p>Songs that feel like late-night drives and rainy days</p>
       <a href="#music" class="btn">Listen Now</a>
     </div>
   </section>
 
-  <section id="music" class="latest">
+  <section id="music">
     <h2 class="section-title">Latest Releases</h2>
     <div class="grid">
       <div class="card">
-        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27c1d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Album 1">
+        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27c1d4?w=800" alt="">
         <div class="card-info">
           <h3>Autumn Thoughts</h3>
           <p>2025 • Single</p>
         </div>
       </div>
       <div class="card">
-        <img src="https://images.unsplash.com/photo-1493225457124-754a1d83b3e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Album 2">
+        <img src="https://images.unsplash.com/photo-1493225457124-754a1d83b3e0?w=800" alt="">
         <div class="card-info">
           <h3>City Lights EP</h3>
           <p>2024 • EP</p>
         </div>
       </div>
       <div class="card">
-        <img src="https://images.unsplash.com/photo-1501612780327-45045538702b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Album 3">
+        <img src="https://images.unsplash.com/photo-1501612780327-45045538702b?w=800" alt="">
         <div class="card-info">
           <h3>Road to Home</h3>
           <p>2025 • Album</p>
@@ -269,7 +346,18 @@
     </div>
   </section>
 
-  <section id="tour" class="tour">
+  <section id="about" style="background:var(--card);">
+    <h2 class="section-title">About Me</h2>
+    <div style="max-width:860px; margin:0 auto; font-size:1.25rem; text-align:center;">
+      <p>
+        Hi, I'm Madhan Aadithya — a singer, songwriter, and storyteller from Tambaram.<br><br>
+        I write songs about love, heartbreak, late-night drives, small-town dreams, and everything that makes us feel alive.<br><br>
+        My music is a mix of acoustic warmth, pop melodies, and honest lyrics — the kind of songs you play when the world feels too loud or too quiet.
+      </p>
+    </div>
+  </section>
+
+  <section id="tour">
     <h2 class="section-title">Tour Dates</h2>
     <div class="tour-dates">
       <div class="date-item">
@@ -284,25 +372,61 @@
         <h3>Mumbai • May 10, 2026</h3>
         <p>Jio World Garden • Coming Soon</p>
       </div>
+      <div class="date-item">
+        <h3>Coimbatore • June 18, 2026</h3>
+        <p>CODISSIA Ground • Pre-sale soon</p>
+      </div>
     </div>
   </section>
 
-  <section id="contact" style="text-align:center; padding:140px 6% 100px;">
-    <h2 class="section-title">Get in Touch</h2>
-    <p style="font-size:1.5rem; max-width:700px; margin:0 auto 3rem; color:#ccc;">
-      For bookings, collabs, or just to say hi — drop a message.
+  <section id="gallery">
+    <h2 class="section-title">Moments</h2>
+    <div class="grid gallery-grid">
+      <div class="card"><img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800" alt=""></div>
+      <div class="card"><img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800" alt=""></div>
+      <div class="card"><img src="https://images.unsplash.com/photo-1540039156098-7d3d7b618d8e?w=800" alt=""></div>
+      <div class="card"><img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800" alt=""></div>
+      <div class="card"><img src="https://images.unsplash.com/photo-1429962714451-bb934ec80000?w=800" alt=""></div>
+      <div class="card"><img src="https://images.unsplash.com/photo-1542744173-8e7f37783b3b?w=800" alt=""></div>
+    </div>
+  </section>
+
+  <section id="store" style="background:var(--card); text-align:center;">
+    <h2 class="section-title">Store</h2>
+    <p style="font-size:1.4rem; max-width:700px; margin:0 auto 3rem; color:var(--text-light);">
+      Hoodies, vinyls, lyric books, signed posters — coming soon.<br>
+      Be the first to know when the shop opens!
     </p>
-    <a href="mailto:madhan@example.com" class="btn">Email Me</a>
+    <a href="#" class="btn">Join Waitlist</a>
+  </section>
+
+  <section id="contact" class="newsletter">
+    <h2 class="section-title">Stay Connected</h2>
+    <p style="font-size:1.4rem; max-width:720px; margin:0 auto 2.5rem; color:var(--text-light);">
+      Get new music, tour updates, and exclusive content straight to your inbox.
+    </p>
+    <form style="display:flex; justify-content:center; max-width:500px; margin:0 auto;">
+      <input type="email" placeholder="Your email address" required>
+      <button type="submit">Subscribe</button>
+    </form>
   </section>
 
   <footer>
-    © 2026 Madhan Aadithya • All vibes reserved • From Tambaram with love
+    © 2026 Madhan Aadithya • Made with love in Tambaram • All rights reserved
   </footer>
 
   <script>
-    // Simple header scroll effect
+    // Theme toggle
+    const toggle = document.querySelector('.theme-toggle');
+    toggle.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      document.documentElement.setAttribute('data-theme', current === 'light' ? 'dark' : 'light');
+      toggle.textContent = current === 'light' ? '☀︎' : '☾';
+    });
+
+    // Header scroll effect
     window.addEventListener('scroll', () => {
-      document.getElementById('header').classList.toggle('scrolled', window.scrollY > 100);
+      document.getElementById('header').classList.toggle('scrolled', window.scrollY > 80);
     });
   </script>
 </body>
