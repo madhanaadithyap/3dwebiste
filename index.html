@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Miles Morales • Into Your World</title>
+  <title>Madhan Aadithya • Official</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@500;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --black: #0a0a0a;
-      --red: #d32f2f;
-      --dark-red: #b71c1c;
-      --purple: #4a148c;
-      --cyan: #00e5ff;
-      --white: #f5f5f5;
-      --gray: #424242;
+      --bg: #0f0f0f;
+      --text: #ffffff;
+      --accent: #e63946;
+      --accent-dark: #b32d38;
+      --gray: #aaaaaa;
+      --light-gray: #444444;
     }
 
     * {
@@ -26,261 +26,284 @@
     }
 
     body {
-      background: var(--black);
-      color: var(--white);
-      font-family: 'Roboto', sans-serif;
-      overflow-x: hidden;
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
       line-height: 1.6;
+      overflow-x: hidden;
     }
 
-    h1, h2, h3 {
-      font-family: 'Bebas Neue', sans-serif;
-      letter-spacing: 2px;
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 1.8rem 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(15,15,15,0.85);
+      backdrop-filter: blur(12px);
+      transition: all 0.4s ease;
     }
 
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 5%;
+    header.scrolled {
+      padding: 1.2rem 6%;
+      background: rgba(15,15,15,0.98);
     }
 
-    /* Hero */
-    #hero {
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      font-weight: 900;
+      letter-spacing: -1px;
+      color: var(--accent);
+    }
+
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      margin-left: 2.8rem;
+      font-weight: 500;
+      font-size: 1.05rem;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    .hero {
       height: 100vh;
       min-height: 800px;
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.75)),
+                  url('https://images.unsplash.com/photo-1511671782779-c97d3d27c1d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
       display: flex;
       align-items: center;
+      justify-content: center;
+      text-align: center;
       position: relative;
-      background: linear-gradient(135deg, #0a0a0a 0%, #1a0033 100%);
-      overflow: hidden;
-    }
-
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=2000') center/cover no-repeat;
-      opacity: 0.15;
-      filter: brightness(0.6) contrast(1.3);
     }
 
     .hero-content {
-      position: relative;
-      z-index: 2;
       max-width: 900px;
+      padding: 0 5%;
     }
 
-    .clip-reveal {
-      clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-      transition: clip-path 1.4s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: clip-path;
-    }
-
-    .clip-reveal.active {
-      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-    }
-
-    /* Miles mask inspired clip on hover/scroll */
-    .mask-clip {
-      clip-path: polygon(25% 0%, 75% 0%, 100% 30%, 100% 70%, 75% 100%, 25% 100%, 0% 70%, 0% 30%);
-      transition: clip-path 0.9s ease, transform 0.6s ease;
-    }
-
-    .mask-clip:hover {
-      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-      transform: scale(1.04);
-    }
-
-    .title {
-      font-size: clamp(6rem, 14vw, 12rem);
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(5.5rem, 12vw, 11rem);
       line-height: 0.9;
-      margin-bottom: 1rem;
-      color: var(--red);
-      text-shadow: 0 0 60px rgba(211,47,47,0.7);
-      background: linear-gradient(90deg, var(--red), var(--cyan), var(--red));
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: glow 4s ease-in-out infinite alternate;
+      margin-bottom: 1.5rem;
+      font-weight: 900;
+      text-shadow: 0 8px 40px rgba(0,0,0,0.7);
     }
 
-    @keyframes glow {
-      from { text-shadow: 0 0 30px rgba(0,229,255,0.5); }
-      to   { text-shadow: 0 0 80px rgba(211,47,47,0.8); }
+    .hero h1 span {
+      color: var(--accent);
     }
 
-    .subtitle {
-      font-family: 'Orbitron', sans-serif;
-      font-size: clamp(2rem, 5vw, 3.8rem);
-      color: var(--cyan);
+    .hero p {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
       margin-bottom: 2.5rem;
-      text-shadow: 0 0 25px rgba(0,229,255,0.6);
-    }
-
-    .spider-web {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background: radial-gradient(circle at 30% 40%, transparent 20%, rgba(211,47,47,0.08) 60%);
-      opacity: 0;
-      transition: opacity 1.8s ease 0.8s;
-    }
-
-    .spider-web.active {
-      opacity: 1;
-    }
-
-    /* Sections */
-    section {
-      padding: 140px 0;
-    }
-
-    .section-title {
-      font-size: 5rem;
-      text-align: center;
-      margin-bottom: 4rem;
-      color: var(--red);
-      text-shadow: 0 0 40px rgba(211,47,47,0.5);
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 2.5rem;
-    }
-
-    .card {
-      background: rgba(20, 20, 40, 0.6);
-      border: 1px solid rgba(211,47,47,0.3);
-      border-radius: 16px;
-      padding: 2.5rem;
-      backdrop-filter: blur(10px);
-      transition: all 0.6s ease;
-      clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
-    }
-
-    .card.visible {
-      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    .card:hover {
-      border-color: var(--cyan);
-      box-shadow: 0 0 40px rgba(0,229,255,0.3);
-      transform: translateY(-12px);
-    }
-
-    .cta {
-      text-align: center;
-      padding: 160px 0;
-      background: linear-gradient(180deg, #0a0a0a, #1a0033);
+      color: #ddd;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .btn {
       display: inline-block;
-      background: var(--red);
+      background: var(--accent);
       color: white;
-      padding: 1.2rem 3.5rem;
-      font-size: 1.5rem;
+      padding: 1rem 3rem;
       border-radius: 50px;
       text-decoration: none;
-      font-weight: bold;
-      border: 3px solid var(--cyan);
-      transition: all 0.5s ease;
-      clip-path: polygon(10% 0, 90% 0, 100% 20%, 100% 80%, 90% 100%, 10% 100%, 0 80%, 0 20%);
+      font-weight: 600;
+      font-size: 1.3rem;
+      transition: all 0.35s ease;
+      border: 2px solid var(--accent);
     }
 
     .btn:hover {
-      background: var(--cyan);
-      color: var(--black);
-      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-      box-shadow: 0 0 60px rgba(0,229,255,0.7);
-      transform: scale(1.08);
+      background: transparent;
+      color: var(--accent);
+      transform: translateY(-4px);
+    }
+
+    section {
+      padding: 120px 6% 100px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(4rem, 10vw, 7rem);
+      text-align: center;
+      margin-bottom: 4rem;
+      font-weight: 900;
+      color: #eee;
+    }
+
+    .latest {
+      background: var(--light-gray);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 3rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: #222;
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 20px 60px rgba(230,57,70,0.25);
+    }
+
+    .card img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+    }
+
+    .card-info {
+      padding: 1.8rem;
+      text-align: center;
+    }
+
+    .card h3 {
+      font-size: 1.6rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .card p {
+      color: var(--gray);
+      font-size: 1.05rem;
+    }
+
+    .tour {
+      background: linear-gradient(to bottom, #111, #000);
+      text-align: center;
+    }
+
+    .tour-dates {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .date-item {
+      background: rgba(255,255,255,0.05);
+      padding: 2rem;
+      margin: 2rem 0;
+      border-radius: 12px;
+      border: 1px solid rgba(230,57,70,0.3);
     }
 
     footer {
+      background: #000;
       text-align: center;
-      padding: 4rem 0;
-      color: #888;
-      font-size: 1.1rem;
-      border-top: 1px solid rgba(211,47,47,0.2);
+      padding: 5rem 6% 3rem;
+      color: var(--gray);
+      font-size: 1rem;
     }
 
     @media (max-width: 768px) {
-      .title { font-size: 5.5rem; }
-      .subtitle { font-size: 2.4rem; }
-      .section-title { font-size: 3.8rem; }
+      nav a { margin-left: 1.5rem; font-size: 0.95rem; }
+      .hero h1 { font-size: 5rem; }
+      .section-title { font-size: 4rem; }
     }
   </style>
 </head>
 <body>
 
-  <div id="hero">
-    <div class="hero-bg"></div>
-    <div class="spider-web"></div>
+  <header id="header">
+    <div class="logo">Madhan Aadithya</div>
+    <nav>
+      <a href="#music">Music</a>
+      <a href="#tour">Tour</a>
+      <a href="#store">Store</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
 
-    <div class="container hero-content">
-      <h1 class="title clip-reveal">MILES<br>MORALES</h1>
-      <p class="subtitle clip-reveal" style="transition-delay:0.4s;">Brooklyn's Spider-Man</p>
-      <p class="clip-reveal" style="font-size:1.4rem; max-width:620px; margin:2rem 0; transition-delay:0.7s;">
-        Fear is a teacher. Pain is a motivator. Responsibility is forever.<br>
-        Swing into your story.
-      </p>
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Madhan <span>Aadithya</span></h1>
+      <p>Singer • Songwriter • Storyteller</p>
+      <a href="#music" class="btn">Listen Now</a>
     </div>
-  </div>
+  </section>
 
-  <section class="container">
-    <h2 class="section-title clip-reveal">Powers & Skills</h2>
-    <div class="card-grid">
-      <div class="card mask-clip">
-        <h3>Venom Blast</h3>
-        <p>Bio-electric energy discharge — shock enemies and chain attacks.</p>
+  <section id="music" class="latest">
+    <h2 class="section-title">Latest Releases</h2>
+    <div class="grid">
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27c1d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Album 1">
+        <div class="card-info">
+          <h3>Autumn Thoughts</h3>
+          <p>2025 • Single</p>
+        </div>
       </div>
-      <div class="card mask-clip">
-        <h3>Invisible</h3>
-        <p>Camouflage — disappear in plain sight when it matters most.</p>
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1493225457124-754a1d83b3e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Album 2">
+        <div class="card-info">
+          <h3>City Lights EP</h3>
+          <p>2024 • EP</p>
+        </div>
       </div>
-      <div class="card mask-clip">
-        <h3>Spider-Sense</h3>
-        <p>Precognitive danger detection — react faster than thought.</p>
-      </div>
-      <div class="card mask-clip">
-        <h3>Swing & Style</h3>
-        <p>Web-slinging mastery with Brooklyn flair and fresh beats.</p>
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1501612780327-45045538702b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Album 3">
+        <div class="card-info">
+          <h3>Road to Home</h3>
+          <p>2025 • Album</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="cta">
-    <div class="container">
-      <h2 class="section-title" style="font-size:4.5rem;">Ready to Swing?</h2>
-      <a href="#" class="btn">Enter the Spider-Verse</a>
+  <section id="tour" class="tour">
+    <h2 class="section-title">Tour Dates</h2>
+    <div class="tour-dates">
+      <div class="date-item">
+        <h3>Chennai • March 15, 2026</h3>
+        <p>Madras Music Arena • Sold Out</p>
+      </div>
+      <div class="date-item">
+        <h3>Bengaluru • April 2, 2026</h3>
+        <p>Palace Grounds • Tickets Available</p>
+      </div>
+      <div class="date-item">
+        <h3>Mumbai • May 10, 2026</h3>
+        <p>Jio World Garden • Coming Soon</p>
+      </div>
     </div>
+  </section>
+
+  <section id="contact" style="text-align:center; padding:140px 6% 100px;">
+    <h2 class="section-title">Get in Touch</h2>
+    <p style="font-size:1.5rem; max-width:700px; margin:0 auto 3rem; color:#ccc;">
+      For bookings, collabs, or just to say hi — drop a message.
+    </p>
+    <a href="mailto:madhan@example.com" class="btn">Email Me</a>
   </section>
 
   <footer>
-    Made with ♡ in Brooklyn style • Miles Morales Tribute • 2026
+    © 2026 Madhan Aadithya • All vibes reserved • From Tambaram with love
   </footer>
 
   <script>
-    // Intersection Observer for clip-path reveals
-    const revealElements = document.querySelectorAll('.clip-reveal, .card');
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active', 'visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15 });
-
-    revealElements.forEach(el => observer.observe(el));
-
-    // Delayed spider-web fade
-    setTimeout(() => {
-      document.querySelector('.spider-web').classList.add('active');
-    }, 1200);
+    // Simple header scroll effect
+    window.addEventListener('scroll', () => {
+      document.getElementById('header').classList.toggle('scrolled', window.scrollY > 100);
+    });
   </script>
 </body>
 </html>
