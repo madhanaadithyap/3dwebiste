@@ -3,22 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Your Product • Beautiful Landing Page</title>
-  <meta name="description" content="Your awesome product tagline goes here – short & powerful"/>
+  <title>Madhan • Pucca Vibes Portfolio</title>
+  <meta name="description" content="Madhan - Creative soul with Pucca energy ♡"/>
 
-  <!-- Google Fonts -->
+  <!-- Google Fonts - Cute & playful -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Pacifico&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --primary: #6366f1;        /* Indigo */
-      --primary-dark: #4f46e5;
-      --dark: #0f172a;
-      --gray: #64748b;
-      --light: #f8fafc;
-      --white: #ffffff;
+      --pucca-pink: #ff69b4;
+      --pucca-hotpink: #ff1493;
+      --pucca-red: #c41e3a;
+      --pucca-black: #1a1a1a;
+      --light-bg: #fff0f5;
+      --dark-text: #2d0b14;
     }
 
     * {
@@ -27,322 +27,335 @@
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      font-family: 'Inter', system-ui, sans-serif;
-      background-color: var(--light);
-      color: var(--dark);
+      font-family: 'Poppins', sans-serif;
+      background: var(--light-bg);
+      color: var(--dark-text);
       line-height: 1.6;
+      overflow-x: hidden;
     }
 
     h1, h2, h3 {
-      font-family: 'Playfair Display', serif;
-      line-height: 1.1;
+      font-family: 'Comic Neue', cursive;
+      font-weight: 700;
     }
 
-    /* Header / Navbar */
-    header {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 1000;
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(226,232,240,0.8);
-      transition: all 0.3s ease;
+    .heart::before {
+      content: " ♡ ";
+      color: var(--pucca-hotpink);
+      font-size: 1.4em;
     }
 
-    header.scrolled {
-      background: rgba(255,255,255,0.98);
-      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-    }
-
-    nav {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 1.2rem 5%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: var(--primary);
-      letter-spacing: -1px;
-    }
-
-    .nav-links a {
-      margin-left: 2.2rem;
-      text-decoration: none;
-      color: var(--dark);
-      font-weight: 500;
-      transition: color 0.25s ease;
-    }
-
-    .nav-links a:hover {
-      color: var(--primary);
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-      padding: 0.7rem 1.6rem;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.25s ease;
-      border: none;
-      cursor: pointer;
-    }
-
-    .btn-primary:hover {
-      background: var(--primary-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(99,102,241,0.3);
-    }
-
-    /* Hero */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding: 0 5%;
-      background: linear-gradient(135deg, #f0f9ff 0%, #e0e7ff 100%);
+    /* Parallax wrapper */
+    .parallax-section {
       position: relative;
+      height: 100vh;
       overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
     }
 
-    .hero-content {
-      max-width: 620px;
+    .parallax-bg {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed; /* core parallax magic */
+      transform: translateZ(0);
+      will-change: transform;
+    }
+
+    .parallax-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 1;
+    }
+
+    .content {
       position: relative;
       z-index: 2;
+      max-width: 900px;
+      padding: 2rem;
     }
 
-    .hero h1 {
-      font-size: clamp(3.2rem, 8vw, 4.8rem);
-      margin-bottom: 1.4rem;
-      color: var(--dark);
+    /* Layers for deeper parallax */
+    .layer-1 { transform: translateY(0); }
+    .layer-2 { transform: translateY(30%); }
+    .layer-3 { transform: translateY(60%); }
+
+    /* Hero */
+    #hero {
+      height: 100vh;
     }
 
-    .hero p {
-      font-size: 1.35rem;
-      color: var(--gray);
-      margin-bottom: 2.5rem;
-      max-width: 480px;
+    #hero .parallax-bg {
+      background-image: url('https://images.unsplash.com/photo-1557683316-973673baf926?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80'); /* dreamy pink-ish bg - replace if you want */
     }
 
-    .hero-buttons {
-      display: flex;
-      gap: 1.2rem;
-      flex-wrap: wrap;
-    }
-
-    .hero-image {
-      position: absolute;
-      right: 5%;
-      bottom: 0;
-      width: 45%;
-      max-width: 720px;
-      opacity: 0.92;
-      pointer-events: none;
-    }
-
-    /* Features */
-    .features {
-      padding: 140px 5% 100px;
-      background: white;
+    /* About */
+    #about {
+      background: linear-gradient(135deg, #fff0f5 0%, #ffe4e9 100%);
+      padding: 120px 5% 80px;
+      color: var(--pucca-black);
     }
 
     .section-title {
+      font-size: 4rem;
       text-align: center;
-      font-size: 2.8rem;
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
+      color: var(--pucca-hotpink);
+      text-shadow: 3px 3px 0 #000;
     }
 
-    .section-subtitle {
-      text-align: center;
-      color: var(--gray);
-      font-size: 1.25rem;
-      margin-bottom: 4rem;
-      max-width: 620px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2.5rem;
-      max-width: 1400px;
+    .about-content {
+      max-width: 900px;
       margin: 0 auto;
+      font-size: 1.25rem;
+      background: rgba(255,255,255,0.7);
+      padding: 3rem;
+      border-radius: 30px;
+      border: 4px dashed var(--pucca-pink);
+      box-shadow: 0 15px 40px rgba(255,20,147,0.2);
     }
 
-    .feature-card {
-      background: white;
-      padding: 2.5rem;
-      border-radius: 16px;
-      border: 1px solid #e2e8f0;
-      transition: all 0.35s ease;
+    /* Skills */
+    #skills {
+      padding: 100px 5%;
+      background: var(--pucca-black);
+      color: white;
     }
 
-    .feature-card:hover {
-      transform: translateY(-12px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-      border-color: var(--primary);
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 4rem auto 0;
     }
 
-    .feature-icon {
-      font-size: 2.8rem;
-      margin-bottom: 1.4rem;
-      color: var(--primary);
+    .skill-card {
+      background: rgba(255,105,180,0.15);
+      border: 3px solid var(--pucca-pink);
+      border-radius: 24px;
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.4s ease;
     }
 
-    .feature-card h3 {
-      font-size: 1.6rem;
+    .skill-card:hover {
+      transform: translateY(-15px) scale(1.08);
+      background: rgba(255,20,147,0.3);
+      box-shadow: 0 20px 50px rgba(255,20,147,0.4);
+    }
+
+    .skill-icon {
+      font-size: 3.5rem;
       margin-bottom: 1rem;
     }
 
-    /* CTA */
-    .cta {
-      background: var(--dark);
+    /* Projects - with mini parallax feel */
+    #projects {
+      position: relative;
+      padding: 120px 5% 100px;
+      background: linear-gradient(to bottom, #1a1a1a, #2d0b14);
+      color: white;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 2.5rem;
+      max-width: 1200px;
+      margin: 4rem auto 0;
+    }
+
+    .project-card {
+      background: rgba(255,255,255,0.08);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 2px solid var(--pucca-pink);
+      transition: all 0.4s;
+    }
+
+    .project-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 25px 60px rgba(255,20,147,0.35);
+    }
+
+    .project-img {
+      height: 220px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .project-info {
+      padding: 1.8rem;
+    }
+
+    /* Contact */
+    #contact {
+      background: var(--pucca-hotpink);
       color: white;
       text-align: center;
-      padding: 120px 5%;
+      padding: 140px 5% 100px;
     }
 
-    .cta h2 {
-      font-size: 3.2rem;
-      margin-bottom: 1.2rem;
-    }
-
-    .cta p {
-      font-size: 1.35rem;
-      opacity: 0.9;
-      margin-bottom: 2.5rem;
-      max-width: 580px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* Footer */
-    footer {
-      background: #0f172a;
-      color: #94a3b8;
-      padding: 4rem 5% 2rem;
-      text-align: center;
-    }
-
-    footer a {
-      color: #cbd5e1;
+    .btn {
+      display: inline-block;
+      background: var(--pucca-black);
+      color: var(--pucca-pink);
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
       text-decoration: none;
-      margin: 0 1rem;
+      font-weight: bold;
+      font-size: 1.3rem;
+      margin: 1.5rem 0.8rem;
+      transition: all 0.3s;
+      border: 3px solid white;
     }
 
-    footer a:hover {
-      color: white;
+    .btn:hover {
+      background: white;
+      color: var(--pucca-hotpink);
+      transform: scale(1.1);
     }
 
-    @media (max-width: 1024px) {
-      .hero-image { display: none; }
-      .hero { text-align: center; justify-content: center; }
-      .hero-buttons { justify-content: center; }
+    footer {
+      background: var(--pucca-black);
+      color: #ff69b4;
+      text-align: center;
+      padding: 3rem 1rem;
+      font-size: 1.1rem;
     }
 
-    @media (max-width: 640px) {
-      .section-title { font-size: 2.4rem; }
-      .hero h1 { font-size: 2.8rem; }
+    @media (max-width: 768px) {
+      .section-title { font-size: 3rem; }
+      #hero h1 { font-size: 3.5rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Navigation -->
-  <header>
-    <nav>
-      <div class="logo">YourProduct</div>
-      <div class="nav-links">
-        <a href="#features">Features</a>
-        <a href="#testimonials">Testimonials</a>
-        <a href="#cta">Get Started</a>
-      </div>
-      <a href="#" class="btn-primary">Sign Up</a>
-    </nav>
-  </header>
-
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Create beautiful experiences in minutes</h1>
-      <p>The all-in-one platform that helps you ship faster, delight your users, and grow your business.</p>
-      <div class="hero-buttons">
-        <a href="#" class="btn-primary" style="font-size:1.15rem; padding: 1rem 2rem;">Start Free Trial</a>
-        <a href="#" style="color:var(--dark); font-weight:500; display:flex; align-items:center; gap:0.5rem;">
-          <span style="font-size:1.3rem;">▶</span> Watch 1-min demo
-        </a>
-      </div>
+  <!-- Hero Parallax -->
+  <section id="hero" class="parallax-section">
+    <div class="parallax-bg layer-1"></div>
+    <div class="parallax-bg" style="background-image: url('https://images.unsplash.com/photo-1557683311-973673bafdbd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80'); opacity:0.4;" class="layer-2"></div>
+    <div class="parallax-overlay"></div>
+    <div class="content">
+      <h1 style="font-size:6rem; font-family:'Pacifico',cursive; text-shadow:6px 6px 0 #000;">
+        Madhan<span style="color:var(--pucca-hotpink);"> ♡</span>
+      </h1>
+      <p style="font-size:2.2rem; margin:1.5rem 0; font-family:'Comic Neue';">
+        Hi! I'm Madhan<br>living with full <span style="color:var(--pucca-red);">Pucca</span> energy!
+      </p>
+      <a href="#about" class="btn">Scroll to know me →</a>
     </div>
-
-    <!-- Optional: you can replace with your own hero image -->
-    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Hero" class="hero-image">
   </section>
 
-  <!-- Features -->
-  <section class="features" id="features">
-    <h2 class="section-title">Everything you need to succeed</h2>
-    <p class="section-subtitle">Powerful features designed to help you work smarter, not harder.</p>
+  <!-- About -->
+  <section id="about">
+    <h2 class="section-title">About Madhan heart::before</h2>
+    <div class="about-content">
+      <p style="font-size:1.4rem;">
+        I'm a passionate <strong>creative / developer / dreamer</strong> from Tambaram ♡<br><br>
+        I love turning ideas into reality — whether it's code, design, stories, or just making people smile.<br>
+        Big fan of cute things, ramen, fast internet, and chasing ninjas like Pucca chases Garu!
+      </p>
+      <p style="margin-top:2rem; font-style:italic; color:var(--pucca-hotpink); font-size:1.5rem;">
+        "Love is the secret ingredient in everything I create~ ♡"
+      </p>
+    </div>
+  </section>
 
-    <div class="feature-grid">
-      <div class="feature-card">
-        <div class="feature-icon">⚡</div>
-        <h3>Lightning Fast</h3>
-        <p>Built for performance. Pages load in under a second so your customers stay engaged.</p>
+  <!-- Skills -->
+  <section id="skills">
+    <h2 class="section-title" style="color:#ff69b4;">My Super Powers</h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-icon">💻</div>
+        <h3>Web Development</h3>
+        <p>HTML • CSS • JS • React • Next.js</p>
       </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">🛠️</div>
-        <h3>Easy Customization</h3>
-        <p>Change colors, fonts, layouts — no coding required. Make it yours in minutes.</p>
+      <div class="skill-card">
+        <div class="skill-icon">🎨</div>
+        <h3>UI/UX Design</h3>
+        <p>Figma • Cute aesthetics • Kawaii vibes</p>
       </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">📈</div>
-        <h3>Growth Tools</h3>
-        <p>Built-in analytics, A/B testing, email capture, and conversion optimization features.</p>
+      <div class="skill-card">
+        <div class="skill-icon">⚡</div>
+        <h3>Fast Learner</h3>
+        <p>Pick up new tech like Pucca grabs Garu</p>
       </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">🔒</div>
-        <h3>Enterprise Security</h3>
-        <p>SOC 2 compliant, GDPR ready, 99.99% uptime, automatic backups & SSL.</p>
+      <div class="skill-card">
+        <div class="skill-icon">🍜</div>
+        <h3>Ramen Enthusiast</h3>
+        <p>Level 99 noodle lover</p>
       </div>
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="cta" id="cta">
-    <h2>Ready to build something amazing?</h2>
-    <p>Join thousands of creators, startups & teams who ship faster with our platform.</p>
-    <a href="#" class="btn-primary" style="font-size:1.3rem; padding:1.2rem 2.8rem;">Start Your Free Trial →</a>
-    <p style="margin-top:1.5rem; font-size:0.95rem; opacity:0.8;">No credit card required • 14-day trial</p>
+  <!-- Projects -->
+  <section id="projects">
+    <h2 class="section-title">My Adventures ♡</h2>
+    <div class="project-grid">
+      <div class="project-card">
+        <div class="project-img" style="background-image:url('https://images.unsplash.com/photo-1555066931-bf19c65c7a87?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+        <div class="project-info">
+          <h3>Pucca Fan Site</h3>
+          <p>Cute landing page full of hearts & energy</p>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-img" style="background-image:url('https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+        <div class="project-info">
+          <h3>Interactive Game</h3>
+          <p>Chase mini-game inspired by ninja love</p>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-img" style="background-image:url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+        <div class="project-info">
+          <h3>Portfolio v1</h3>
+          <p>Previous version — still cute tho!</p>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <!-- Footer -->
+  <!-- Contact -->
+  <section id="contact">
+    <h2 class="section-title" style="color:white; text-shadow:4px 4px 0 #000;">Say Hi~ ♡</h2>
+    <p style="font-size:1.6rem; max-width:700px; margin:0 auto 2.5rem;">
+      Want to collab, talk about ramen, or just send virtual hugs?<br>
+      I'm always ready!
+    </p>
+    <a href="mailto:your.email@example.com" class="btn">Email Me</a>
+    <a href="https://twitter.com/yourhandle" target="_blank" class="btn">Twitter / X</a>
+    <a href="https://instagram.com/yourhandle" target="_blank" class="btn">Instagram</a>
+  </section>
+
   <footer>
-    <p>© 2025 YourProduct. All rights reserved.</p>
-    <div style="margin-top:1.5rem;">
-      <a href="#">Privacy</a>
-      <a href="#">Terms</a>
-      <a href="#">Support</a>
-      <a href="#">Twitter</a>
-      <a href="#">Discord</a>
-    </div>
+    <p>Made with ♡ & lots of pink energy • Madhan © 2026</p>
   </footer>
 
   <script>
-    // Simple scroll effect for header
+    // Optional: smoother parallax on scroll (better on desktop)
     window.addEventListener('scroll', () => {
-      document.querySelector('header').classList.toggle('scrolled', window.scrollY > 50);
+      const scroll = window.scrollY;
+      document.querySelectorAll('.layer-1').forEach(el => {
+        el.style.transform = `translateY(${scroll * 0.2}px)`;
+      });
+      document.querySelectorAll('.layer-2').forEach(el => {
+        el.style.transform = `translateY(${scroll * 0.5}px)`;
+      });
     });
   </script>
 </body>
