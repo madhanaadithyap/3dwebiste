@@ -6,10 +6,10 @@
 <title>Madhan Aadithya - Melophile</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ================= GLOBAL ================= */
+/* ===== GLOBAL ===== */
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Inter',sans-serif;background:#000;color:#fff;overflow-x:hidden;}
-html{scroll-snap-type:y mandatory;scroll-behavior:smooth;}
+html{scroll-behavior:smooth;scroll-snap-type:y mandatory;}
 section,footer{scroll-snap-align:start;}
 body::after{
   content:'';
@@ -20,7 +20,7 @@ body::after{
   z-index:99;
 }
 
-/* ================= NAV ================= */
+/* ===== NAV ===== */
 nav{
   position:fixed;
   top:0;left:0;width:100%;
@@ -32,9 +32,10 @@ nav{
   background:linear-gradient(180deg,rgba(0,0,0,.75),transparent);
 }
 nav strong{letter-spacing:2px;}
-nav a{color:#fff;text-decoration:none;margin-left:34px;font-weight:500;opacity:.85;}
+nav a{color:#fff;text-decoration:none;margin-left:34px;font-weight:500;opacity:.85;transition:0.3s;}
+nav a:hover{opacity:1;}
 
-/* ================= POSTER INTRO ================= */
+/* ===== POSTER INTRO ===== */
 .poster{
   position:relative;
   height:100vh;
@@ -78,7 +79,7 @@ nav a{color:#fff;text-decoration:none;margin-left:34px;font-weight:500;opacity:.
 .poster-sub{font-size:1.1rem;letter-spacing:2px;opacity:0;animation:slideUp 2s ease forwards;animation-delay:1.8s;margin-bottom:60px;}
 .poster-cta{margin-top:60px;font-size:0.85rem;letter-spacing:3px;opacity:0;animation:fadePulse 2.5s ease forwards;animation-delay:2.5s;}
 
-/* ================= SECTIONS ================= */
+/* ===== SECTIONS ===== */
 section{position:relative;width:100%;height:100vh;overflow:hidden;}
 section::before{
   content:'';
@@ -98,7 +99,11 @@ section:hover::before{transform:scale(1.12);}
   justify-content:center;
   text-align:center;
   padding:40px;
+  opacity:0;
+  transform:translateY(40px);
+  transition:all 1.2s ease-out;
 }
+section.show .overlay{opacity:1;transform:translateY(0);}
 h1,h2{font-family:'Playfair Display',serif;letter-spacing:1px;}
 h1{font-size:clamp(3.8rem,8vw,6.5rem);}
 h2{font-size:clamp(2.5rem,5vw,3.8rem);}
@@ -108,7 +113,7 @@ p{max-width:760px;opacity:.9;line-height:1.8;margin-top:24px;}
 audio{width:100%;margin-top:40px;}
 footer{height:70vh;display:flex;align-items:center;justify-content:center;text-align:center;opacity:.8;}
 
-/* ================= ANIMATIONS ================= */
+/* ===== ANIMATIONS ===== */
 @keyframes posterFade{to{opacity:1;}}
 @keyframes slideUp{from{transform:translateY(40px);opacity:0;}to{transform:translateY(0);opacity:0.9;}}
 @keyframes blurIn{from{filter:blur(20px);opacity:0;transform:scale(1.05);}to{filter:none;opacity:1;transform:scale(1);}}
@@ -147,7 +152,7 @@ footer{height:70vh;display:flex;align-items:center;justify-content:center;text-a
 <!-- HERO SECTION -->
 <section class="hero">
   <div class="overlay">
-    <div class="fade show">
+    <div>
       <h1>Madhan Aadithya</h1>
       <p>Melophile • Composer • Producer<br>Crafting premium cinematic soundscapes for film, media, and modern storytelling.</p>
     </div>
@@ -157,7 +162,7 @@ footer{height:70vh;display:flex;align-items:center;justify-content:center;text-a
 <!-- VISION SECTION -->
 <section class="fs-1" id="vision">
   <div class="overlay">
-    <div class="fade show">
+    <div>
       <h2>Vision</h2>
       <p>Sharing a cinematic journey through music, blending emotion, storytelling, and cinematic sound design.</p>
     </div>
@@ -166,7 +171,7 @@ footer{height:70vh;display:flex;align-items:center;justify-content:center;text-a
 
 <!-- WORKS / MUSIC SECTION -->
 <section class="music" id="works">
-  <div class="music-inner fade show">
+  <div class="music-inner overlay">
     <h2>Featured Composition</h2>
     <p>Experience my signature style in this selected track.</p>
     <audio controls>
@@ -177,11 +182,13 @@ footer{height:70vh;display:flex;align-items:center;justify-content:center;text-a
 
 <!-- CONTACT / FOOTER -->
 <footer id="contact">
-  <div class="fade show">
-    <h2>Contact & Collaborations</h2>
-    <p>Available for film, short-form media, independent projects, and creative collaborations.</p>
-    <p>Email: madhanaadithya@email.com</p>
-    <p>© Madhan Aadithya • Premium Music Portfolio</p>
+  <div class="overlay">
+    <div>
+      <h2>Contact & Collaborations</h2>
+      <p>Available for film, short-form media, independent projects, and creative collaborations.</p>
+      <p>Email: madhanaadithya@email.com</p>
+      <p>© Madhan Aadithya • Premium Music Portfolio</p>
+    </div>
   </div>
 </footer>
 
@@ -205,6 +212,14 @@ window.addEventListener('scroll', ()=>{
     title.style.animationPlayState = 'paused'; // lock breathing
     title.style.letterSpacing = '6px';
   }
+
+  // CINEMATIC SECTION FADE-IN
+  document.querySelectorAll('section').forEach(section=>{
+    const rect = section.getBoundingClientRect();
+    if(rect.top < window.innerHeight*0.8){
+      section.classList.add('show');
+    }
+  });
 });
 </script>
 </body>
