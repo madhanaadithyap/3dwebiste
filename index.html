@@ -329,16 +329,13 @@ window.addEventListener('scroll',()=>{
   poster.style.opacity = Math.max(0,1-y/400);
 });
 
-// ===== LETTER-SPACING MICRO ANIMATION (SMOOTH LOOP) =====
+// ===== LETTER-SPACING MICRO ANIMATION (CINEMATIC, NO WOBBLE) =====
 const title = document.querySelector('.poster-title');
-let direction = 1;
-let spacing = 6;
 
-setInterval(()=>{
-  spacing += direction * 0.4;
-  if(spacing >= 8 || spacing <= 6){ direction *= -1; }
-  title.style.letterSpacing = spacing.toFixed(2) + 'px';
-},80);
+// Use CSS animation instead of JS to avoid jitter
+
+title.style.animation = 'breath 6s ease-in-out infinite';
+
 </script>
 
 </body>
