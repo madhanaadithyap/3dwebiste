@@ -3,359 +3,380 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Madhan • Pucca Vibes Portfolio</title>
-  <meta name="description" content="Madhan - Creative soul with Pucca energy ♡"/>
-
-  <!-- Google Fonts - Cute & playful -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Pacifico&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-
+  <title>Madhan • 3D Portfolio</title>
   <style>
     :root {
-      --pucca-pink: #ff69b4;
-      --pucca-hotpink: #ff1493;
-      --pucca-red: #c41e3a;
-      --pucca-black: #1a1a1a;
-      --light-bg: #fff0f5;
-      --dark-text: #2d0b14;
+      --pink: #ff69b4;
+      --hotpink: #ff1493;
+      --deepred: #c41e3a;
+      --black: #0d0012;
+      --bg: #0f0812;
+      --light: #fff5f8;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      font-family: 'Poppins', sans-serif;
-      background: var(--light-bg);
-      color: var(--dark-text);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    h1, h2, h3 {
-      font-family: 'Comic Neue', cursive;
-      font-weight: 700;
-    }
-
-    .heart::before {
-      content: " ♡ ";
-      color: var(--pucca-hotpink);
-      font-size: 1.4em;
-    }
-
-    /* Parallax wrapper */
-    .parallax-section {
-      position: relative;
-      height: 100vh;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
       color: white;
+      overflow-x: hidden;
+      line-height: 1.6;
     }
 
-    .parallax-bg {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed; /* core parallax magic */
-      transform: translateZ(0);
-      will-change: transform;
-    }
-
-    .parallax-overlay {
-      position: absolute;
+    #canvas-container {
+      position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.45);
-      z-index: 1;
+      z-index: -1;
     }
 
-    .content {
+    main {
       position: relative;
-      z-index: 2;
-      max-width: 900px;
+      z-index: 1;
+      min-height: 100vh;
       padding: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
     }
 
-    /* Layers for deeper parallax */
-    .layer-1 { transform: translateY(0); }
-    .layer-2 { transform: translateY(30%); }
-    .layer-3 { transform: translateY(60%); }
-
-    /* Hero */
-    #hero {
-      height: 100vh;
+    header {
+      text-align: center;
+      padding: 6rem 1rem 4rem;
     }
 
-    #hero .parallax-bg {
-      background-image: url('https://images.unsplash.com/photo-1557683316-973673baf926?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80'); /* dreamy pink-ish bg - replace if you want */
+    h1 {
+      font-size: clamp(4.5rem, 12vw, 9rem);
+      color: var(--pink);
+      text-shadow: 0 0 40px rgba(255,105,180,0.6);
+      margin-bottom: 0.8rem;
     }
 
-    /* About */
-    #about {
-      background: linear-gradient(135deg, #fff0f5 0%, #ffe4e9 100%);
-      padding: 120px 5% 80px;
-      color: var(--pucca-black);
+    h1 span { color: white; }
+
+    .tagline {
+      font-size: 1.8rem;
+      opacity: 0.9;
+      margin-bottom: 2rem;
+    }
+
+    section {
+      margin: 6rem 0;
+      padding: 3rem 2rem;
+      background: rgba(13,0,18,0.5);
+      border-radius: 20px;
+      border: 1px solid rgba(255,105,180,0.2);
+      backdrop-filter: blur(8px);
     }
 
     .section-title {
-      font-size: 4rem;
-      text-align: center;
+      font-size: 3.2rem;
+      color: var(--hotpink);
       margin-bottom: 2rem;
-      color: var(--pucca-hotpink);
-      text-shadow: 3px 3px 0 #000;
-    }
-
-    .about-content {
-      max-width: 900px;
-      margin: 0 auto;
-      font-size: 1.25rem;
-      background: rgba(255,255,255,0.7);
-      padding: 3rem;
-      border-radius: 30px;
-      border: 4px dashed var(--pucca-pink);
-      box-shadow: 0 15px 40px rgba(255,20,147,0.2);
-    }
-
-    /* Skills */
-    #skills {
-      padding: 100px 5%;
-      background: var(--pucca-black);
-      color: white;
-    }
-
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 2rem;
-      max-width: 1100px;
-      margin: 4rem auto 0;
-    }
-
-    .skill-card {
-      background: rgba(255,105,180,0.15);
-      border: 3px solid var(--pucca-pink);
-      border-radius: 24px;
-      padding: 2rem;
       text-align: center;
+    }
+
+    .skills-grid, .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.8rem;
+      margin-top: 2rem;
+    }
+
+    .card {
+      background: rgba(255,105,180,0.08);
+      padding: 1.8rem;
+      border-radius: 16px;
+      border: 1px solid var(--pink);
       transition: all 0.4s ease;
     }
 
-    .skill-card:hover {
-      transform: translateY(-15px) scale(1.08);
-      background: rgba(255,20,147,0.3);
-      box-shadow: 0 20px 50px rgba(255,20,147,0.4);
-    }
-
-    .skill-icon {
-      font-size: 3.5rem;
-      margin-bottom: 1rem;
-    }
-
-    /* Projects - with mini parallax feel */
-    #projects {
-      position: relative;
-      padding: 120px 5% 100px;
-      background: linear-gradient(to bottom, #1a1a1a, #2d0b14);
-      color: white;
-    }
-
-    .project-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 2.5rem;
-      max-width: 1200px;
-      margin: 4rem auto 0;
-    }
-
-    .project-card {
-      background: rgba(255,255,255,0.08);
-      border-radius: 20px;
-      overflow: hidden;
-      border: 2px solid var(--pucca-pink);
-      transition: all 0.4s;
-    }
-
-    .project-card:hover {
+    .card:hover {
       transform: translateY(-12px);
-      box-shadow: 0 25px 60px rgba(255,20,147,0.35);
+      box-shadow: 0 20px 50px rgba(255,20,147,0.3);
+      border-color: white;
     }
 
-    .project-img {
-      height: 220px;
-      background-size: cover;
-      background-position: center;
-    }
-
-    .project-info {
-      padding: 1.8rem;
-    }
-
-    /* Contact */
-    #contact {
-      background: var(--pucca-hotpink);
-      color: white;
-      text-align: center;
-      padding: 140px 5% 100px;
-    }
+    .emoji { font-size: 3.5rem; margin-bottom: 1rem; }
 
     .btn {
       display: inline-block;
-      background: var(--pucca-black);
-      color: var(--pucca-pink);
-      padding: 1rem 2.5rem;
+      background: var(--hotpink);
+      color: white;
+      padding: 1rem 2.2rem;
       border-radius: 50px;
       text-decoration: none;
       font-weight: bold;
-      font-size: 1.3rem;
-      margin: 1.5rem 0.8rem;
+      margin: 1rem;
       transition: all 0.3s;
-      border: 3px solid white;
+      border: 2px solid white;
     }
 
     .btn:hover {
       background: white;
-      color: var(--pucca-hotpink);
-      transform: scale(1.1);
+      color: var(--hotpink);
+      transform: scale(1.08);
     }
 
     footer {
-      background: var(--pucca-black);
-      color: #ff69b4;
       text-align: center;
-      padding: 3rem 1rem;
+      padding: 4rem 1rem 2rem;
+      color: #ff69b4;
       font-size: 1.1rem;
     }
 
     @media (max-width: 768px) {
-      .section-title { font-size: 3rem; }
-      #hero h1 { font-size: 3.5rem; }
+      header { padding: 4rem 1rem 3rem; }
+      h1 { font-size: 5rem; }
+      .section-title { font-size: 2.4rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Hero Parallax -->
-  <section id="hero" class="parallax-section">
-    <div class="parallax-bg layer-1"></div>
-    <div class="parallax-bg" style="background-image: url('https://images.unsplash.com/photo-1557683311-973673bafdbd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80'); opacity:0.4;" class="layer-2"></div>
-    <div class="parallax-overlay"></div>
-    <div class="content">
-      <h1 style="font-size:6rem; font-family:'Pacifico',cursive; text-shadow:6px 6px 0 #000;">
-        Madhan<span style="color:var(--pucca-hotpink);"> ♡</span>
-      </h1>
-      <p style="font-size:2.2rem; margin:1.5rem 0; font-family:'Comic Neue';">
-        Hi! I'm Madhan<br>living with full <span style="color:var(--pucca-red);">Pucca</span> energy!
-      </p>
-      <a href="#about" class="btn">Scroll to know me →</a>
-    </div>
-  </section>
+  <div id="canvas-container"></div>
 
-  <!-- About -->
-  <section id="about">
-    <h2 class="section-title">About Madhan heart::before</h2>
-    <div class="about-content">
-      <p style="font-size:1.4rem;">
-        I'm a passionate <strong>creative / developer / dreamer</strong> from Tambaram ♡<br><br>
-        I love turning ideas into reality — whether it's code, design, stories, or just making people smile.<br>
-        Big fan of cute things, ramen, fast internet, and chasing ninjas like Pucca chases Garu!
-      </p>
-      <p style="margin-top:2rem; font-style:italic; color:var(--pucca-hotpink); font-size:1.5rem;">
-        "Love is the secret ingredient in everything I create~ ♡"
-      </p>
-    </div>
-  </section>
+  <main>
+    <header>
+      <h1>Madhan <span>♡</span></h1>
+      <div class="tagline">Creative Coder • Pucca Energy • Tambaram</div>
+    </header>
 
-  <!-- Skills -->
-  <section id="skills">
-    <h2 class="section-title" style="color:#ff69b4;">My Super Powers</h2>
-    <div class="skills-grid">
-      <div class="skill-card">
-        <div class="skill-icon">💻</div>
-        <h3>Web Development</h3>
-        <p>HTML • CSS • JS • React • Next.js</p>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">🎨</div>
-        <h3>UI/UX Design</h3>
-        <p>Figma • Cute aesthetics • Kawaii vibes</p>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">⚡</div>
-        <h3>Fast Learner</h3>
-        <p>Pick up new tech like Pucca grabs Garu</p>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">🍜</div>
-        <h3>Ramen Enthusiast</h3>
-        <p>Level 99 noodle lover</p>
-      </div>
-    </div>
-  </section>
+    <section id="about">
+      <h2 class="section-title">About Me</h2>
+      <p style="font-size:1.3rem; max-width:800px; margin:0 auto; text-align:center;">
+        Hi! I'm Madhan — a passionate developer who loves building interactive, beautiful things on the web.<br><br>
+        I mix code with creativity, fast websites with cute aesthetics, and always bring full Pucca-level enthusiasm ♡<br>
+        Currently exploring 3D web, animations, frontend magic and everything that sparks joy.
+      </p>
+    </section>
 
-  <!-- Projects -->
-  <section id="projects">
-    <h2 class="section-title">My Adventures ♡</h2>
-    <div class="project-grid">
-      <div class="project-card">
-        <div class="project-img" style="background-image:url('https://images.unsplash.com/photo-1555066931-bf19c65c7a87?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
-        <div class="project-info">
-          <h3>Pucca Fan Site</h3>
-          <p>Cute landing page full of hearts & energy</p>
+    <section id="skills">
+      <h2 class="section-title">Skills</h2>
+      <div class="skills-grid">
+        <div class="card">
+          <div class="emoji">💻</div>
+          <h3>Frontend</h3>
+          <p>HTML • CSS • JavaScript • React • Tailwind • Three.js</p>
+        </div>
+        <div class="card">
+          <div class="emoji">🎨</div>
+          <h3>Design</h3>
+          <p>Figma • Kawaii / Cute UI • Motion Design • Color Vibes</p>
+        </div>
+        <div class="card">
+          <div class="emoji">⚡</div>
+          <h3>Other</h3>
+          <p>GSAP • Framer Motion • Next.js • Git • Fast Prototyping</p>
+        </div>
+        <div class="card">
+          <div class="emoji">🍜</div>
+          <h3>Superpower</h3>
+          <p>Ramen Level 99 • Good Energy Generator</p>
         </div>
       </div>
-      <div class="project-card">
-        <div class="project-img" style="background-image:url('https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
-        <div class="project-info">
-          <h3>Interactive Game</h3>
-          <p>Chase mini-game inspired by ninja love</p>
-        </div>
-      </div>
-      <div class="project-card">
-        <div class="project-img" style="background-image:url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
-        <div class="project-info">
-          <h3>Portfolio v1</h3>
-          <p>Previous version — still cute tho!</p>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Contact -->
-  <section id="contact">
-    <h2 class="section-title" style="color:white; text-shadow:4px 4px 0 #000;">Say Hi~ ♡</h2>
-    <p style="font-size:1.6rem; max-width:700px; margin:0 auto 2.5rem;">
-      Want to collab, talk about ramen, or just send virtual hugs?<br>
-      I'm always ready!
-    </p>
-    <a href="mailto:your.email@example.com" class="btn">Email Me</a>
-    <a href="https://twitter.com/yourhandle" target="_blank" class="btn">Twitter / X</a>
-    <a href="https://instagram.com/yourhandle" target="_blank" class="btn">Instagram</a>
-  </section>
+    <section id="projects">
+      <h2 class="section-title">Projects</h2>
+      <div class="projects-grid">
+        <div class="card">
+          <h3>3D Interactive Portfolio</h3>
+          <p>This very page! Built with Three.js — floating crystals, text & playful vibes.</p>
+        </div>
+        <div class="card">
+          <h3>Cute Landing Pages</h3>
+          <p>Pastel + pink heavy designs with smooth animations and hearts everywhere ♡</p>
+        </div>
+        <div class="card">
+          <h3>Mini Games & Toys</h3>
+          <p>Fun browser experiments — chases, catchers, silly interactions</p>
+        </div>
+        <div class="card">
+          <h3>Personal Brand Sites</h3>
+          <p>Helping creators shine online with unique & memorable visuals</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" style="text-align:center;">
+      <h2 class="section-title">Let's Connect ♡</h2>
+      <p style="font-size:1.4rem; margin:2rem 0;">
+        Got a project? Want to talk ramen? Or just send virtual hugs?<br>
+        I'm always open to chat!
+      </p>
+      <div>
+        <a href="mailto:your.email@example.com" class="btn">Email Me</a>
+        <a href="https://twitter.com/yourhandle" target="_blank" class="btn">Twitter / X</a>
+        <a href="https://instagram.com/yourhandle" target="_blank" class="btn">Instagram</a>
+      </div>
+    </section>
+  </main>
 
   <footer>
-    <p>Made with ♡ & lots of pink energy • Madhan © 2026</p>
+    Made with ♡ & Three.js • Madhan • 2026
   </footer>
 
+  <!-- Three.js from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.168.0/examples/js/controls/OrbitControls.min.js"></script>
+
   <script>
-    // Optional: smoother parallax on scroll (better on desktop)
-    window.addEventListener('scroll', () => {
-      const scroll = window.scrollY;
-      document.querySelectorAll('.layer-1').forEach(el => {
-        el.style.transform = `translateY(${scroll * 0.2}px)`;
+    // ─── Three.js Setup ───────────────────────────────────────────────
+    const container = document.getElementById('canvas-container');
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0d0012);
+
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 2, 12);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    container.appendChild(renderer.domElement);
+
+    // Controls
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.enableZoom = true;
+    controls.minDistance = 6;
+    controls.maxDistance = 20;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 0.8;
+
+    // Lights
+    const ambient = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambient);
+
+    const pointLight = new THREE.PointLight(0xff69b4, 2, 50);
+    pointLight.position.set(5, 5, 5);
+    scene.add(pointLight);
+
+    const pointLight2 = new THREE.PointLight(0xc41e3a, 1.5, 50);
+    pointLight2.position.set(-5, 3, -5);
+    scene.add(pointLight2);
+
+    // ─── Floating Objects ─────────────────────────────────────────────
+    const group = new THREE.Group();
+    scene.add(group);
+
+    // Central crystal
+    const crystalGeo = new THREE.OctahedronGeometry(1.8, 0);
+    const crystalMat = new THREE.MeshStandardMaterial({
+      color: 0xff1493,
+      emissive: 0xff69b4,
+      emissiveIntensity: 0.7,
+      roughness: 0.1,
+      metalness: 0.6
+    });
+    const crystal = new THREE.Mesh(crystalGeo, crystalMat);
+    group.add(crystal);
+
+    // Smaller floating orbs
+    for (let i = 0; i < 8; i++) {
+      const orbGeo = new THREE.SphereGeometry(0.5 + Math.random() * 0.4, 16, 16);
+      const orbMat = new THREE.MeshStandardMaterial({
+        color: Math.random() > 0.5 ? 0xff69b4 : 0xffffff,
+        emissive: 0xff1493,
+        emissiveIntensity: 0.4,
+        transparent: true,
+        opacity: 0.7 + Math.random() * 0.3
       });
-      document.querySelectorAll('.layer-2').forEach(el => {
-        el.style.transform = `translateY(${scroll * 0.5}px)`;
-      });
+      const orb = new THREE.Mesh(orbGeo, orbMat);
+      
+      const angle = (i / 8) * Math.PI * 2;
+      const radius = 4 + Math.random() * 2;
+      orb.position.set(
+        Math.cos(angle) * radius,
+        (Math.random() - 0.5) * 6,
+        Math.sin(angle) * radius
+      );
+      
+      group.add(orb);
+    }
+
+    // Text (using sprite for simplicity in single file)
+    function makeTextSprite(message, parameters) {
+      if (parameters === undefined) parameters = {};
+      const fontface = parameters.fontface || 'Arial';
+      const fontsize = parameters.fontsize || 120;
+      const borderThickness = parameters.borderThickness || 4;
+      const borderColor = parameters.borderColor || { r:0, g:0, b:0, a:1.0 };
+      const backgroundColor = parameters.backgroundColor || { r:255, g:105, b:180, a:0.6 };
+      const textColor = parameters.textColor || { r:255, g:255, b:255, a:1.0 };
+
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      context.font = fontsize + "px " + fontface;
+      const metrics = context.measureText(message);
+      const textWidth = metrics.width;
+
+      canvas.width = textWidth + (borderThickness*2) + 40;
+      canvas.height = fontsize * 1.4 + (borderThickness*2);
+
+      context.fillStyle   = "rgba(" + backgroundColor.r + "," + backgroundColor.g + "," + backgroundColor.b + "," + backgroundColor.a + ")";
+      context.strokeStyle = "rgba(" + borderColor.r + "," + borderColor.g + "," + borderColor.b + "," + borderColor.a + ")";
+
+      context.lineWidth = borderThickness;
+      roundRect(context, borderThickness/2, borderThickness/2, (textWidth + borderThickness*2 + 30), fontsize*1.4 + borderThickness, 20);
+
+      context.fillStyle = "rgba(" + textColor.r + "," + textColor.g + "," + textColor.b + "," + textColor.a + ")";
+      context.font = fontsize + "px " + fontface;
+      context.fillText(message, borderThickness + 15, fontsize + borderThickness);
+
+      const texture = new THREE.CanvasTexture(canvas);
+      texture.needsUpdate = true;
+
+      const spriteMaterial = new THREE.SpriteMaterial({ map: texture, transparent: true });
+      const sprite = new THREE.Sprite(spriteMaterial);
+      sprite.scale.set(12, 6, 1);
+      return sprite;
+    }
+
+    function roundRect(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x+r, y);
+      ctx.lineTo(x+w-r, y);
+      ctx.quadraticCurveTo(x+w, y, x+w, y+r);
+      ctx.lineTo(x+w, y+h-r);
+      ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+      ctx.lineTo(x+r, y+h);
+      ctx.quadraticCurveTo(x, y+h, x, y+h-r);
+      ctx.lineTo(x, y+r);
+      ctx.quadraticCurveTo(x, y, x+r, y);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+    }
+
+    const nameSprite = makeTextSprite("MADHAN ♡", {
+      fontsize: 140,
+      borderThickness: 12,
+      backgroundColor: {r:15, g:8, b:18, a:0.7},
+      textColor: {r:255, g:255, b:255, a:1.0}
+    });
+    nameSprite.position.set(0, 5, 0);
+    group.add(nameSprite);
+
+    // Animation loop
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+
+      group.rotation.y += 0.002;
+
+      // Gentle float
+      crystal.position.y = Math.sin(Date.now() * 0.0006) * 0.6;
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // Resize handler
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
     });
   </script>
 </body>
