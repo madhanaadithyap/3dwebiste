@@ -39,7 +39,7 @@ nav a:hover{opacity:1;}
 .poster{
   position:relative;
   height:100vh;
-  background:#000 url('https://images.unsplash.com/photo-1511376777868-611b54f68947?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMTc3M3wwfDF8c2VjdGlvfHxtdXNpY3xlbnwwfHx8fDE2ODQ1OTAyNTc&ixlib=rb-4.0.3&q=80&w=1080') center/cover no-repeat;
+  background:#000 url('https://images.unsplash.com/photo-1511376777868-611b54f68947?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080') center/cover no-repeat;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -116,19 +116,22 @@ p{max-width:760px;opacity:.9;line-height:1.8;margin-top:24px;}
 .music{height:auto;min-height:100vh;background:#000;display:flex;align-items:center;justify-content:center;}
 .music-inner{text-align:center;padding:80px 20px;}
 audio{width:100%;margin-top:40px;}
-footer{height:70vh;display:flex;align-items:center;justify-content:center;text-align:center;opacity:.8;}
+footer{height:70vh;display:flex;align-items:center;justify-content:center;text-align:center;opacity:.9;}
+
+/* ===== CONTACT BUTTON ===== */
 .contact-btn{
   padding:18px 42px;
   background:#1db954;
   color:#fff;
   font-weight:700;
-  font-size:1.1rem;
+  font-size:1.3rem;
   border:none;
-  border-radius:40px;
+  border-radius:50px;
   cursor:pointer;
   transition:0.3s;
+  box-shadow:0 0 20px rgba(29,185,84,0.7);
 }
-.contact-btn:hover{background:#1ed760;}
+.contact-btn:hover{background:#1ed760;box-shadow:0 0 30px rgba(29,215,96,0.8);}
 
 /* ===== ANIMATIONS ===== */
 @keyframes posterFade{to{opacity:1;}}
@@ -177,7 +180,7 @@ footer{height:70vh;display:flex;align-items:center;justify-content:center;text-a
 </section>
 
 <!-- VISION SECTION -->
-<section class="fs-1" id="vision" style="background:url('https://images.unsplash.com/photo-1511376777868-611b54f68947?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080') center/cover no-repeat;">
+<section class="fs-1" id="vision" style="background:url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080') center/cover no-repeat;">
   <div class="overlay">
     <div>
       <h2>Vision</h2>
@@ -201,9 +204,11 @@ footer{height:70vh;display:flex;align-items:center;justify-content:center;text-a
 
 <!-- CONTACT SECTION -->
 <footer id="contact" style="background:#111;">
-  <div class="overlay">
+  <div class="overlay" style="display:flex;align-items:center;justify-content:center;">
     <div>
-      <button class="contact-btn" onclick="window.location.href='mailto:madhanaadithya@email.com'">Email Me</button>
+      <button class="contact-btn" onclick="window.location.href='mailto:madhanaadithya@email.com'">
+        Email Me
+      </button>
     </div>
   </div>
 </footer>
