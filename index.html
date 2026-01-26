@@ -1,351 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cinematic Composer Website</title>
-
-  <!-- NOTE:
-    This is an INSPIRED CLONE (layout + interaction style), not an asset copy.
-    Replace images, videos, text, and links with your own content.
-  -->
-
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
-
-  <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Madhan Aadithya - Melophile</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{
-  font-family:'Inter',sans-serif;
-  background:#000;
-  color:#fff;
-  overflow-x:hidden;
-}
-
+body{font-family:'Inter',sans-serif;background:#000;color:#fff;overflow-x:hidden}
 html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
 section,footer{scroll-snap-align:start}
 
-/* ================= POSTER INTRO ================= */
-.poster{
-  position:relative;
-  height:100vh;
-  background:#000;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
+/* POSTER INTRO */
+.poster{position:relative;height:100vh;background:#000;display:flex;align-items:center;justify-content:center}
+.poster-overlay{position:absolute;inset:0;background:radial-gradient(circle at center,rgba(255,255,255,0.06),rgba(0,0,0,0.95))}
+.poster-content{position:relative;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;opacity:0;animation:posterFade 2.8s ease forwards}
+.tagline{display:block;letter-spacing:4px;font-size:0.85rem;opacity:0;animation:slideUp 1.8s ease forwards;animation-delay:0.4s}
+.poster-title{font-family:'Playfair Display',serif;font-size:clamp(4rem,8vw,6.8rem);letter-spacing:6px;margin:22px 0 14px;opacity:1;animation:breath 6s ease-in-out infinite}
+.poster-sub{font-size:1.1rem;letter-spacing:2px;opacity:0;animation:slideUp 2s ease forwards;animation-delay:1.6s}
+.poster-cta{margin-top:60px;font-size:0.85rem;letter-spacing:3px;opacity:0;animation:fadePulse 2.5s ease forwards;animation-delay:2.4s}
+@keyframes posterFade{to{opacity:1}}
+@keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:0.9}}
+@keyframes blurIn{from{filter:blur(20px);opacity:0;transform:scale(1.05)}to{filter:none;opacity:1;transform:none}}
+@keyframes fadePulse{from{opacity:0}to{opacity:0.8}}
+@keyframes breath{0%{letter-spacing:6px;opacity:1}50%{letter-spacing:7.5px;opacity:1}100%{letter-spacing:6px;opacity:1}}
 
-.poster-overlay{
-  position:absolute;inset:0;
-  background:radial-gradient(circle at center,rgba(255,255,255,0.06),rgba(0,0,0,0.95));
-}
-
-.poster-content{
-  position:relative;
-  text-align:center;
-  opacity:0;
-  animation:posterFade 2.8s ease forwards;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  min-height:100vh;
-}
-
-.tagline{
-  display:block;
-  letter-spacing:4px;
-  font-size:0.85rem;
-  opacity:0;
-  animation:slideUp 1.8s ease forwards;
-  animation-delay:0.4s;
-}
-
-.poster-title{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(4rem,8vw,6.8rem);
-  letter-spacing:6px;
-  margin:22px 0 14px;
-  opacity:0;
-  animation:blurIn 2.4s ease forwards;
-  animation-delay:0.8s;
-}
-
-.poster-sub{
-  font-size:1.1rem;
-  letter-spacing:2px;
-  opacity:0;
-  animation:slideUp 2s ease forwards;
-  animation-delay:1.6s;
-}
-
-.poster-cta{
-  margin-top:60px;
-  font-size:0.85rem;
-  letter-spacing:3px;
-  opacity:0;
-  animation:fadePulse 2.5s ease forwards;
-  animation-delay:2.4s;
-}
-
-@keyframes posterFade{
-  to{opacity:1}
-}
-
-@keyframes slideUp{
-  from{transform:translateY(40px);opacity:0}
-  to{transform:none;opacity:0.9}
-}
-
-@keyframes blurIn{
-  from{filter:blur(20px);opacity:0;transform:scale(1.05)}
-  to{filter:none;opacity:1;transform:none}
-}
-
-@keyframes fadePulse{
-  from{opacity:0}
-  to{opacity:0.8}
-}
-
-/* ================= FILMIC GRAIN ================= */
-body::after{
-  content:'';position:fixed;inset:0;
-  background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="4"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.15"/></svg>');
-  pointer-events:none;z-index:99
-}
+/* FILMIC GRAIN */
+body::after{content:'';position:fixed;inset:0;background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="4"/></filter><rect width="100%25" height="100%25" filter="url(%23n)" opacity="0.15"/></svg>');pointer-events:none;z-index:99}
 
 section{position:relative;width:100%;height:100vh}
-
-.overlay{
-  position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.9));
-  display:flex;align-items:center;justify-content:center;
-  text-align:center;padding:40px
-}
-
+.overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.9));display:flex;align-items:center;justify-content:center;text-align:center;padding:40px}
 h1,h2{font-family:'Playfair Display',serif;letter-spacing:1px}
 h1{font-size:clamp(3.8rem,8vw,6.5rem)}
 h2{font-size:clamp(2.5rem,5vw,3.8rem)}
-
 p{max-width:760px;opacity:.9;line-height:1.8;margin-top:24px}
-
-nav{
-  position:fixed;top:0;left:0;width:100%;
-  display:flex;justify-content:space-between;align-items:center;
-  padding:26px 50px;z-index:10;
-  background:linear-gradient(180deg,rgba(0,0,0,.75),transparent)
-}
+nav{position:fixed;top:0;left:0;width:100%;display:flex;justify-content:space-between;align-items:center;padding:26px 50px;z-index:10;background:linear-gradient(180deg,rgba(0,0,0,.75),transparent)}
 nav strong{letter-spacing:2px}
 nav a{color:#fff;text-decoration:none;margin-left:34px;font-weight:500;opacity:.85}
-
 .hero{background:url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4') center/cover no-repeat}
 .fs-1{background:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee') center/cover no-repeat}
 .fs-2{background:url('https://images.unsplash.com/photo-1492724441997-5dc865305da7') center/cover no-repeat}
 .fs-3{background:url('https://images.unsplash.com/photo-1519681393784-d120267933ba') center/cover no-repeat}
-
-/* CINEMATIC ZOOM */
-section{overflow:hidden}
-section::before{
-  content:'';position:absolute;inset:0;
-  background:inherit;z-index:-1;
-  transform:scale(1);
-  transition:transform 12s ease
-}
+section::before{content:'';position:absolute;inset:0;background:inherit;z-index:-1;transform:scale(1);transition:transform 12s ease}
 section:hover::before{transform:scale(1.12)}
-
-.fade{opacity:0;transform:translateY(40px);transition:1.4s ease}
-.fade.show{opacity:1;transform:none}
-
-.music{height:auto;min-height:100vh;background:#000;display:flex;align-items:center;justify-content:center}
-.music-inner{text-align:center;padding:80px 20px}
-audio{width:100%;margin-top:40px}
-
-footer{height:70vh;display:flex;align-items:center;justify-content:center;text-align:center;opacity:.8}
-@keyframes breath{
-  0%{letter-spacing:6px;opacity:1}
-  50%{letter-spacing:7.5px;opacity:1}
-  100%{letter-spacing:6px;opacity:1}
-}
-
+.fade{opacity:0;transform:translateY(40px);transition:1.4s ease}.fade.show{opacity:1}
+.music{height:auto;min-height:100vh;background:#000;display:flex;align-items:center;justify-content:center}.music-inner{text-align:center;padding:80px 20px}audio{width:100%;margin-top:40px}footer{height:70vh;display:flex;align-items:center;justify-content:center;text-align:center;opacity:.8}
 </style>
 </head>
 <body>
 
-<!-- POSTER STYLE INTRO -->
-<section class="poster">
-  <div class="poster-overlay">
-    <div class="poster-content">
-      <span class="tagline">A CINEMATIC MUSIC EXPERIENCE</span>
-      <h1 class="poster-title">MADHAN AADITHYA</h1>
-      <p class="poster-sub">Melophile • Composer • Producer</p>
-      <p class="poster-cta">Scroll to enter</p>
-    </div>
-  </div>
-</section>
-
-<nav>
-  <strong>MADHAN AADITHYA</strong>
-  <div>
-    <a href="#works">Works</a>
-    <a href="#vision">Vision</a>
-    <a href="#contact">Contact</a>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="overlay">
-    <div class="fade">
-      <h1>Madhan Aadithya</h1>
-      <p>Melophile • Composer • Producer<br>Crafting premium cinematic soundscapes for film, media, and modern storytelling.</p>
-    </div>
-  </div>
-</section>
-
-<!-- SECTION 1 -->
-<section class="fs-1" id="vision">
-  <div class="overlay">
-    <div class="fade">
-      <h2>Artistic Vision</h2>
-      <p>I design music with intention — blending emotion, silence, and scale to elevate visual stories.</p>
-    </div>
-  </div>
-</section>
-
-<!-- SECTION 2 -->
-<section class="fs-2">
-  <div class="overlay">
-    <div class="fade">
-      <h2>Signature Sound</h2>
-      <p>Cinematic • Ambient • Electronic • Experimental — engineered for impact and longevity.</p>
-    </div>
-  </div>
-</section>
-
-<!-- SECTION 3 -->
-<section class="fs-3" id="works">
-  <div class="overlay">
-    <div class="fade">
-      <h2>Selected Works</h2>
-      <p>Original compositions, experimental scores, and curated soundscapes for visual media.</p>
-    </div>
-  </div>
-</section>
-
-<!-- MUSIC -->
-<section class="music">
-  <div class="music-inner fade">
-    <h2>Featured Portfolio Piece</h2>
-    <p>A representative composition showcasing mood, restraint, and cinematic progression.</p>
-    <audio controls>
-      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
-    </audio>
-  </div>
-</section>
-
-<!-- AWARDS / FESTIVALS -->
-<section class="fs-1">
-  <div class="overlay">
-    <div class="fade">
-      <h2>Awards & Recognition</h2>
-      <p>Selected works showcased in independent films, digital media projects, and creative collaborations.</p>
-    </div>
-  </div>
-</section>
-
-<!-- FILMOGRAPHY -->
-<section class="fs-2">
-  <div class="overlay">
-    <div class="fade">
-      <h2>Filmography</h2>
-      <p>Short Films • Visual Projects • Experimental Scores • Original Compositions</p>
-    </div>
-  </div>
-</section>
-
-<!-- GALLERY -->
-<section class="fs-3">
-  <div class="overlay">
-    <div class="fade">
-      <h2>Visual Gallery</h2>
-      <p>A glimpse into the spaces, moments, and moods behind the music.</p>
-    </div>
-  </div>
-</section>
-
-<!-- DOWNLOAD PORTFOLIO -->
-<section class="fs-1">
-  <div class="overlay">
-    <div class="fade">
-      <h2>Portfolio PDF</h2>
-      <p>Download a concise overview of selected works and artistic profile.</p>
-      <p><em>(Link your PDF here)</em></p>
-    </div>
-  </div>
-</section>
-
-<!-- INTERNATIONAL -->
-<section class="fs-2">
-  <div class="overlay">
-    <div class="fade">
-      <h2>Global Outlook</h2>
-      <p>Open to international collaborations across film, games, digital media, and experimental art.</p>
-    </div>
-  </div>
-</section>
-
-<footer id="contact">
-  <div class="fade">
-    <h2>Contact & Collaborations</h2>
-    <p>Available for film, short-form media, independent projects, and creative collaborations.</p>
-    <p>Email: madhanaadithya@email.com</p>
-    <p>© Madhan Aadithya • Premium Music Portfolio</p>
-  </div>
-</footer>
-
-<script>
-  const observer=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting)e.target.classList.add('show')
-    })
-  },{threshold:.3})
-
-  document.querySelectorAll('.fade').forEach(el=>observer.observe(el))
-</script>
-
-
-<!-- AMBIENT INTRO SOUND -->
 <audio id="introSound" preload="auto">
   <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_4b2b7c8c5c.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-// ===== AMBIENT SOUND ON FIRST INTERACTION =====
+// Ambient intro sound
 const sound = document.getElementById('introSound');
 let played = false;
 ['click','wheel','touchstart'].forEach(evt=>{
   window.addEventListener(evt,()=>{
-    if(!played){ sound.volume = 0.35; sound.play().catch(()=>{}); played=true; }
+    if(!played){ sound.volume=0.35;sound.play().catch(()=>{});played=true; }
   },{once:true});
 });
 
-// ===== FADE POSTER ON SCROLL =====
+// Poster fade & lock breathing
 const poster = document.querySelector('.poster');
+const title = document.querySelector('.poster-title');
 window.addEventListener('scroll',()=>{
   const y = window.scrollY;
   poster.style.opacity = Math.max(0,1-y/400);
+  if(y>50){
+    title.style.animationPlayState='paused';
+    title.style.letterSpacing='6px';
+  }
 });
-
-// ===== LETTER-SPACING MICRO ANIMATION (CINEMATIC, NO WOBBLE) =====
-const title = document.querySelector('.poster-title');
-
-// Use CSS animation instead of JS to avoid jitter
-
-title.style.animation = 'breath 6s ease-in-out infinite';
-
-// SAFETY: ensure title is visible
-title.style.opacity = '1';
-
 </script>
+
+<!-- Add your other sections here (vision, works, music, awards, gallery, etc.) -->
 
 </body>
 </html>
