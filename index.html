@@ -3,231 +3,211 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Madhan Aadithya | Spotify Artist</title>
+  <title>Madhan Aadithya | Cinematic Spotify Artist</title>
+
+  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&display=swap" rel="stylesheet">
+
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Montserrat', sans-serif;
-      background: radial-gradient(circle at top, #1db95422, #000 70%);
-      color: #fff;
-      overflow-x: hidden;
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      font-family:'Montserrat',sans-serif;
+      background:#000;
+      color:#fff;
+      overflow-x:hidden;
     }
 
-    header {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 40px 20px;
-      position: relative;
+    /* ===== CINEMATIC BACKGROUND ===== */
+    .bg-video{
+      position:fixed;
+      top:0;left:0;
+      width:100%;height:100%;
+      object-fit:cover;
+      opacity:0.18;
+      z-index:-2;
     }
 
-    .glow {
-      position: absolute;
-      width: 500px;
-      height: 500px;
-      background: #1db954;
-      filter: blur(180px);
-      opacity: 0.35;
-      top: -100px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 0;
+    .noise{
+      position:fixed;
+      inset:0;
+      background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.15"/></svg>');
+      pointer-events:none;
+      z-index:-1;
     }
 
-    .hero {
-      position: relative;
-      z-index: 2;
-      max-width: 900px;
+    /* ===== HERO ===== */
+    header{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:40px 20px;
     }
 
-    .hero h1 {
-      font-size: clamp(3rem, 7vw, 5rem);
-      font-weight: 900;
-      letter-spacing: 2px;
-      margin-bottom: 20px;
-      background: linear-gradient(90deg, #1db954, #9cffc7);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    .hero h1{
+      font-size:clamp(3.5rem,8vw,6rem);
+      font-weight:900;
+      letter-spacing:3px;
+      background:linear-gradient(90deg,#1db954,#9cffc7);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      animation:glow 3s ease-in-out infinite alternate;
     }
 
-    .hero p {
-      font-size: 1.2rem;
-      opacity: 0.85;
-      margin-bottom: 35px;
-      line-height: 1.6;
+    @keyframes glow{
+      from{text-shadow:0 0 20px rgba(29,185,84,.3)}
+      to{text-shadow:0 0 50px rgba(29,185,84,.7)}
     }
 
-    .cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 15px;
-      padding: 16px 32px;
-      border-radius: 50px;
-      background: #1db954;
-      color: #000;
-      font-weight: 700;
-      text-decoration: none;
-      font-size: 1rem;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0 20px 40px rgba(29,185,84,0.4);
+    .hero p{
+      margin:25px auto 40px;
+      max-width:700px;
+      font-size:1.2rem;
+      opacity:.85;
+      line-height:1.7;
     }
 
-    .cta:hover {
-      transform: translateY(-5px) scale(1.03);
-      box-shadow: 0 30px 60px rgba(29,185,84,0.6);
+    .cta{
+      display:inline-block;
+      padding:18px 38px;
+      border-radius:50px;
+      background:#1db954;
+      color:#000;
+      font-weight:700;
+      text-decoration:none;
+      box-shadow:0 25px 60px rgba(29,185,84,.5);
+      transition:.4s ease;
     }
 
-    section {
-      padding: 100px 20px;
-      max-width: 1200px;
-      margin: auto;
+    .cta:hover{transform:translateY(-6px) scale(1.05)}
+
+    /* ===== SECTIONS ===== */
+    section{padding:120px 20px;max-width:1200px;margin:auto}
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:40px;
     }
 
-    .about {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: center;
+    .card{
+      background:linear-gradient(145deg,#0c0c0c,#151515);
+      padding:40px;
+      border-radius:28px;
+      box-shadow:0 40px 80px rgba(0,0,0,.8);
+      transition:.4s ease;
+      transform-style:preserve-3d;
     }
 
-    .about h2 {
-      font-size: 2.8rem;
-      margin-bottom: 20px;
+    .card:hover{transform:rotateX(6deg) rotateY(-6deg) scale(1.03)}
+
+    h2{font-size:2.6rem;margin-bottom:20px}
+    p{opacity:.85;line-height:1.7}
+
+    /* ===== MUSIC PLAYER ===== */
+    .player{
+      margin-top:60px;
+      text-align:center;
     }
 
-    .about p {
-      font-size: 1.1rem;
-      opacity: 0.85;
-      line-height: 1.7;
+    audio{width:100%;max-width:500px}
+
+    /* ===== STATS ===== */
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:30px;
+      margin-top:80px;
     }
 
-    .card {
-      background: linear-gradient(145deg, #111, #1a1a1a);
-      border-radius: 24px;
-      padding: 40px;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
-      position: relative;
-      overflow: hidden;
+    .stat{
+      text-align:center;
+      padding:35px;
+      background:#0e0e0e;
+      border-radius:22px;
     }
 
-    .card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(120deg, transparent, rgba(29,185,84,0.15), transparent);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
+    .stat h3{font-size:2.6rem;color:#1db954}
 
-    .card:hover::before {
-      opacity: 1;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 30px;
-      margin-top: 60px;
-    }
-
-    .stat {
-      text-align: center;
-      padding: 30px;
-      border-radius: 20px;
-      background: #0e0e0e;
-    }
-
-    .stat h3 {
-      font-size: 2.5rem;
-      color: #1db954;
-      margin-bottom: 10px;
-    }
-
-    footer {
-      padding: 60px 20px;
-      text-align: center;
-      background: #000;
-      opacity: 0.85;
-    }
-
-    footer p { font-size: 0.9rem; }
-
-    @media (max-width: 900px) {
-      .about { grid-template-columns: 1fr; }
+    footer{
+      padding:60px 20px;
+      text-align:center;
+      opacity:.7;
     }
   </style>
 </head>
 <body>
 
+<!-- CINEMATIC BACKGROUND VIDEO (placeholder) -->
+<video class="bg-video" autoplay muted loop>
+  <source src="https://cdn.coverr.co/videos/coverr-dark-clouds-9711/1080p.mp4" type="video/mp4">
+</video>
+<div class="noise"></div>
+
 <header>
-  <div class="glow"></div>
   <div class="hero">
     <h1>Madhan Aadithya</h1>
-    <p>Independent Spotify artist blending emotion, rhythm, and cinematic soundscapes. Plug in. Feel everything.</p>
+    <p>Dark. Emotional. Cinematic. An independent Spotify artist creating soundtracks for your inner world.</p>
     <a class="cta" href="https://open.spotify.com" target="_blank">▶ Listen on Spotify</a>
   </div>
 </header>
 
 <section>
-  <div class="about">
+  <div class="grid">
     <div class="card">
       <h2>The Sound</h2>
-      <p>
-        Madhan Aadithya crafts immersive tracks that fuse modern beats with deep emotion.
-        Every release is designed to feel personal, powerful, and unforgettable.
-      </p>
+      <p>Moody textures, modern rhythms and emotional weight — every track is designed like a movie scene.</p>
     </div>
     <div class="card">
       <h2>The Vision</h2>
-      <p>
-        Music that connects instantly — from late-night headphones to full-volume speakers.
-        Built for listeners who crave mood, meaning, and movement.
-      </p>
+      <p>Music that feels visual. Headphones on, world off. Welcome to the atmosphere.</p>
     </div>
   </div>
 
+  <!-- MUSIC PREVIEW -->
+  <div class="player">
+    <h2>Latest Preview</h2>
+    <audio controls>
+      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <!-- STATS -->
   <div class="stats">
-    <div class="stat">
-      <h3 id="tracks">0</h3>
-      <p>Tracks Released</p>
-    </div>
-    <div class="stat">
-      <h3 id="listeners">0</h3>
-      <p>Monthly Listeners</p>
-    </div>
-    <div class="stat">
-      <h3 id="plays">0</h3>
-      <p>Total Streams</p>
-    </div>
+    <div class="stat"><h3 id="tracks">0</h3><p>Tracks</p></div>
+    <div class="stat"><h3 id="listeners">0</h3><p>Monthly Listeners</p></div>
+    <div class="stat"><h3 id="streams">0</h3><p>Total Streams</p></div>
   </div>
 </section>
 
 <footer>
-  <p>© 2026 Madhan Aadithya • Spotify Artist Landing Page</p>
+  <p>© 2026 Madhan Aadithya • Cinematic Artist Experience</p>
+  <p>Deploy on Netlify / GitHub Pages in 1 click</p>
 </footer>
 
 <script>
-  const counters = [
-    { id: 'tracks', target: 12 },
-    { id: 'listeners', target: 4800 },
-    { id: 'plays', target: 125000 }
+  // Animated Counters
+  const stats=[
+    {id:'tracks',val:14},
+    {id:'listeners',val:6200},
+    {id:'streams',val:210000}
   ];
 
-  counters.forEach(counter => {
-    let count = 0;
-    const el = document.getElementById(counter.id);
-    const step = Math.ceil(counter.target / 120);
-    const interval = setInterval(() => {
-      count += step;
-      if (count >= counter.target) {
-        count = counter.target;
-        clearInterval(interval);
-      }
-      el.textContent = count.toLocaleString();
-    }, 20);
+  stats.forEach(s=>{
+    let c=0;
+    const el=document.getElementById(s.id);
+    const i=setInterval(()=>{
+      c+=Math.ceil(s.val/120);
+      if(c>=s.val){c=s.val;clearInterval(i)}
+      el.textContent=c.toLocaleString();
+    },20);
+  });
+
+  // Parallax scroll effect
+  window.addEventListener('scroll',()=>{
+    const sc=window.scrollY;
+    document.querySelector('.bg-video').style.transform=`translateY(${sc*0.15}px)`;
   });
 </script>
 
