@@ -13,89 +13,81 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
 
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{
-      font-family:'Inter',sans-serif;
-      background:#000;
-      color:#fff;
-      overflow-x:hidden;
-    }
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Inter',sans-serif;
+  background:#000;
+  color:#fff;
+  overflow-x:hidden;
+}
 
-    /* ===== GLOBAL ===== */
-    section{position:relative;width:100%;height:100vh}
-    .overlay{
-      position:absolute;inset:0;
-      background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.8));
-      display:flex;align-items:center;justify-content:center;
-      text-align:center;padding:40px
-    }
+html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
+section,footer{scroll-snap-align:start}
 
-    h1,h2{
-      font-family:'Playfair Display',serif;
-      letter-spacing:1px
-    }
+/* FILMIC GRAIN */
+body::after{
+  content:'';position:fixed;inset:0;
+  background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="4"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.15"/></svg>');
+  pointer-events:none;z-index:99
+}
 
-    h1{font-size:clamp(3.5rem,7vw,6rem)}
-    h2{font-size:clamp(2.2rem,5vw,3.5rem)}
+section{position:relative;width:100%;height:100vh}
 
-    p{max-width:700px;opacity:.85;line-height:1.7;margin-top:20px}
+.overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.9));
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:40px
+}
 
-    /* ===== NAV ===== */
-    nav{
-      position:fixed;top:0;left:0;width:100%;
-      display:flex;justify-content:space-between;align-items:center;
-      padding:22px 40px;z-index:10;
-      background:linear-gradient(180deg,rgba(0,0,0,.7),transparent)
-    }
+h1,h2{font-family:'Playfair Display',serif;letter-spacing:1px}
+h1{font-size:clamp(3.8rem,8vw,6.5rem)}
+h2{font-size:clamp(2.5rem,5vw,3.8rem)}
 
-    nav a{color:#fff;text-decoration:none;margin-left:30px;font-weight:500;opacity:.9}
+p{max-width:760px;opacity:.9;line-height:1.8;margin-top:24px}
 
-    /* ===== HERO ===== */
-    .hero{background:url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4') center/cover no-repeat}
+nav{
+  position:fixed;top:0;left:0;width:100%;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:26px 50px;z-index:10;
+  background:linear-gradient(180deg,rgba(0,0,0,.75),transparent)
+}
+nav strong{letter-spacing:2px}
+nav a{color:#fff;text-decoration:none;margin-left:34px;font-weight:500;opacity:.85}
 
-    .hero h1{text-shadow:0 20px 60px rgba(0,0,0,.8)}
+.hero{background:url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4') center/cover no-repeat}
+.fs-1{background:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee') center/cover no-repeat}
+.fs-2{background:url('https://images.unsplash.com/photo-1492724441997-5dc865305da7') center/cover no-repeat}
+.fs-3{background:url('https://images.unsplash.com/photo-1519681393784-d120267933ba') center/cover no-repeat}
 
-    /* ===== FULLSCREEN SECTIONS ===== */
-    .fs-1{background:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee') center/cover no-repeat}
-    .fs-2{background:url('https://images.unsplash.com/photo-1492724441997-5dc865305da7') center/cover no-repeat}
-    .fs-3{background:url('https://images.unsplash.com/photo-1519681393784-d120267933ba') center/cover no-repeat}
+/* CINEMATIC ZOOM */
+section{overflow:hidden}
+section::before{
+  content:'';position:absolute;inset:0;
+  background:inherit;z-index:-1;
+  transform:scale(1);
+  transition:transform 12s ease
+}
+section:hover::before{transform:scale(1.12)}
 
-    /* ===== MUSIC STRIP ===== */
-    .music{
-      height:auto;min-height:100vh;
-      background:#000;display:flex;align-items:center;justify-content:center
-    }
+.fade{opacity:0;transform:translateY(40px);transition:1.4s ease}
+.fade.show{opacity:1;transform:none}
 
-    .music-inner{
-      max-width:900px;text-align:center;padding:80px 20px
-    }
+.music{height:auto;min-height:100vh;background:#000;display:flex;align-items:center;justify-content:center}
+.music-inner{text-align:center;padding:80px 20px}
+audio{width:100%;margin-top:40px}
 
-    audio{width:100%;margin-top:40px}
-
-    /* ===== FOOTER ===== */
-    footer{
-      height:60vh;background:#000;
-      display:flex;align-items:center;justify-content:center;
-      text-align:center;opacity:.7
-    }
-
-    /* ===== SCROLL SNAP (AR Rahman style) ===== */
-    html{scroll-snap-type:y mandatory}
-    section,footer{scroll-snap-align:start}
-
-    /* ===== FADE IN ===== */
-    .fade{opacity:0;transform:translateY(30px);transition:1s ease}
-    .fade.show{opacity:1;transform:none}
-  </style>
+footer{height:70vh;display:flex;align-items:center;justify-content:center;text-align:center;opacity:.8}
+</style>
 </head>
 <body>
 
 <nav>
-  <strong>COMPOSER</strong>
+  <strong>MADHAN AADITHYA</strong>
   <div>
-    <a href="#">Music</a>
-    <a href="#">Films</a>
-    <a href="#">About</a>
+    <a href="#works">Works</a>
+    <a href="#vision">Vision</a>
+    <a href="#contact">Contact</a>
   </div>
 </nav>
 
@@ -103,18 +95,18 @@
 <section class="hero">
   <div class="overlay">
     <div class="fade">
-      <h1>The Sound of Cinema</h1>
-      <p>Music that transcends language, culture, and time.</p>
+      <h1>Madhan Aadithya</h1>
+      <p>Melophile • Composer • Producer<br>Crafting premium cinematic soundscapes for film, media, and modern storytelling.</p>
     </div>
   </div>
 </section>
 
 <!-- SECTION 1 -->
-<section class="fs-1">
+<section class="fs-1" id="vision">
   <div class="overlay">
     <div class="fade">
-      <h2>Global Composer</h2>
-      <p>A journey across film, emotion, and orchestral storytelling.</p>
+      <h2>Artistic Vision</h2>
+      <p>I design music with intention — blending emotion, silence, and scale to elevate visual stories.</p>
     </div>
   </div>
 </section>
@@ -123,18 +115,18 @@
 <section class="fs-2">
   <div class="overlay">
     <div class="fade">
-      <h2>Emotion in Motion</h2>
-      <p>Where visuals breathe through sound.</p>
+      <h2>Signature Sound</h2>
+      <p>Cinematic • Ambient • Electronic • Experimental — engineered for impact and longevity.</p>
     </div>
   </div>
 </section>
 
 <!-- SECTION 3 -->
-<section class="fs-3">
+<section class="fs-3" id="works">
   <div class="overlay">
     <div class="fade">
-      <h2>Legacy & Future</h2>
-      <p>Timeless compositions for generations.</p>
+      <h2>Selected Works</h2>
+      <p>Original compositions, experimental scores, and curated soundscapes for visual media.</p>
     </div>
   </div>
 </section>
@@ -142,15 +134,72 @@
 <!-- MUSIC -->
 <section class="music">
   <div class="music-inner fade">
-    <h2>Featured Composition</h2>
+    <h2>Featured Portfolio Piece</h2>
+    <p>A representative composition showcasing mood, restraint, and cinematic progression.</p>
     <audio controls>
       <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
     </audio>
   </div>
 </section>
 
-<footer>
-  <p>© Cinematic Composer Experience</p>
+<!-- AWARDS / FESTIVALS -->
+<section class="fs-1">
+  <div class="overlay">
+    <div class="fade">
+      <h2>Awards & Recognition</h2>
+      <p>Selected works showcased in independent films, digital media projects, and creative collaborations.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FILMOGRAPHY -->
+<section class="fs-2">
+  <div class="overlay">
+    <div class="fade">
+      <h2>Filmography</h2>
+      <p>Short Films • Visual Projects • Experimental Scores • Original Compositions</p>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="fs-3">
+  <div class="overlay">
+    <div class="fade">
+      <h2>Visual Gallery</h2>
+      <p>A glimpse into the spaces, moments, and moods behind the music.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOAD PORTFOLIO -->
+<section class="fs-1">
+  <div class="overlay">
+    <div class="fade">
+      <h2>Portfolio PDF</h2>
+      <p>Download a concise overview of selected works and artistic profile.</p>
+      <p><em>(Link your PDF here)</em></p>
+    </div>
+  </div>
+</section>
+
+<!-- INTERNATIONAL -->
+<section class="fs-2">
+  <div class="overlay">
+    <div class="fade">
+      <h2>Global Outlook</h2>
+      <p>Open to international collaborations across film, games, digital media, and experimental art.</p>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="fade">
+    <h2>Contact & Collaborations</h2>
+    <p>Available for film, short-form media, independent projects, and creative collaborations.</p>
+    <p>Email: madhanaadithya@email.com</p>
+    <p>© Madhan Aadithya • Premium Music Portfolio</p>
+  </div>
 </footer>
 
 <script>
