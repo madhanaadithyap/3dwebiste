@@ -1,265 +1,349 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Pokémon Red - Tiny Version</title>
-<style>
-  body {
-    margin:0;
-    height:100vh;
-    background:#000;
-    font-family: Arial, Helvetica, sans-serif;
-    image-rendering: pixelated;
-    overflow:hidden;
-  }
-  #screen {
-    width: 240px;
-    height: 160px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    image-rendering: pixelated;
-    border: 8px solid #444;
-    box-shadow: 0 0 30px #000;
-    background: #000;
-    overflow: hidden;
-  }
-  #game {
-    width: 100%;
-    height: 100%;
-    position: relative;
-  }
-  .tile {
-    width: 16px;
-    height: 16px;
-    position: absolute;
-    image-rendering: pixelated;
-  }
-  #player {
-    width: 16px;
-    height: 16px;
-    background: red;
-    border-radius: 3px;
-    position: absolute;
-    z-index: 10;
-    transition: all 0.12s;
-  }
-  #battle {
-    display: none;
-    position: absolute;
-    inset: 0;
-    background: #112;
-    color: white;
-    font-size: 13px;
-    padding: 8px;
-    box-sizing: border-box;
-  }
-  #text-box {
-    position: absolute;
-    bottom: 8px;
-    left: 8px;
-    right: 8px;
-    background: white;
-    color: black;
-    border: 3px solid #000;
-    padding: 8px;
-    font-size: 14px;
-    min-height: 48px;
-  }
-  button {
-    margin: 6px 12px 6px 0;
-    padding: 6px 16px;
-    font-size: 14px;
-    cursor: pointer;
-  }
-  .hidden { display:none !important; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Product • Beautiful Landing Page</title>
+  <meta name="description" content="Your awesome product tagline goes here – short & powerful"/>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #6366f1;        /* Indigo */
+      --primary-dark: #4f46e5;
+      --dark: #0f172a;
+      --gray: #64748b;
+      --light: #f8fafc;
+      --white: #ffffff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: var(--light);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Playfair Display', serif;
+      line-height: 1.1;
+    }
+
+    /* Header / Navbar */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(226,232,240,0.8);
+      transition: all 0.3s ease;
+    }
+
+    header.scrolled {
+      background: rgba(255,255,255,0.98);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    }
+
+    nav {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1.2rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: -1px;
+    }
+
+    .nav-links a {
+      margin-left: 2.2rem;
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 500;
+      transition: color 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      padding: 0.7rem 1.6rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.25s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(99,102,241,0.3);
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 0 5%;
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0e7ff 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      max-width: 620px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero h1 {
+      font-size: clamp(3.2rem, 8vw, 4.8rem);
+      margin-bottom: 1.4rem;
+      color: var(--dark);
+    }
+
+    .hero p {
+      font-size: 1.35rem;
+      color: var(--gray);
+      margin-bottom: 2.5rem;
+      max-width: 480px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-image {
+      position: absolute;
+      right: 5%;
+      bottom: 0;
+      width: 45%;
+      max-width: 720px;
+      opacity: 0.92;
+      pointer-events: none;
+    }
+
+    /* Features */
+    .features {
+      padding: 140px 5% 100px;
+      background: white;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: var(--gray);
+      font-size: 1.25rem;
+      margin-bottom: 4rem;
+      max-width: 620px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2.5rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      transition: all 0.35s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+      border-color: var(--primary);
+    }
+
+    .feature-icon {
+      font-size: 2.8rem;
+      margin-bottom: 1.4rem;
+      color: var(--primary);
+    }
+
+    .feature-card h3 {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+
+    /* CTA */
+    .cta {
+      background: var(--dark);
+      color: white;
+      text-align: center;
+      padding: 120px 5%;
+    }
+
+    .cta h2 {
+      font-size: 3.2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .cta p {
+      font-size: 1.35rem;
+      opacity: 0.9;
+      margin-bottom: 2.5rem;
+      max-width: 580px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Footer */
+    footer {
+      background: #0f172a;
+      color: #94a3b8;
+      padding: 4rem 5% 2rem;
+      text-align: center;
+    }
+
+    footer a {
+      color: #cbd5e1;
+      text-decoration: none;
+      margin: 0 1rem;
+    }
+
+    footer a:hover {
+      color: white;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-image { display: none; }
+      .hero { text-align: center; justify-content: center; }
+      .hero-buttons { justify-content: center; }
+    }
+
+    @media (max-width: 640px) {
+      .section-title { font-size: 2.4rem; }
+      .hero h1 { font-size: 2.8rem; }
+    }
+  </style>
 </head>
 <body>
 
-<div id="screen">
-  <div id="game"></div>
-  <div id="player"></div>
-  <div id="battle" class="hidden">
-    <div style="position:absolute; top:8px; left:8px; right:8px;">
-      <div>A wild <strong>POKéMON</strong> appeared!</div>
-      <div id="enemy-info">Lv5 WILD RATTATA HP:◻◻◻◻◻</div>
-    </div>
-    <div id="text-box">
-      What will <strong>PIKACHU</strong> do?
-      <div style="margin-top:12px;">
-        <button onclick="attack()">FIGHT</button>
-        <button onclick="run()">RUN</button>
-        <button onclick="bag()">BAG</button>
-        <button onclick="pokemon()">POKéMON</button>
+  <!-- Navigation -->
+  <header>
+    <nav>
+      <div class="logo">YourProduct</div>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#cta">Get Started</a>
+      </div>
+      <a href="#" class="btn-primary">Sign Up</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Create beautiful experiences in minutes</h1>
+      <p>The all-in-one platform that helps you ship faster, delight your users, and grow your business.</p>
+      <div class="hero-buttons">
+        <a href="#" class="btn-primary" style="font-size:1.15rem; padding: 1rem 2rem;">Start Free Trial</a>
+        <a href="#" style="color:var(--dark); font-weight:500; display:flex; align-items:center; gap:0.5rem;">
+          <span style="font-size:1.3rem;">▶</span> Watch 1-min demo
+        </a>
       </div>
     </div>
-  </div>
-</div>
 
-<script>
-// ────────────────────────────────────────────────
-const TILE = 16;
-const MAP_W = 30;
-const MAP_H = 28;
+    <!-- Optional: you can replace with your own hero image -->
+    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Hero" class="hero-image">
+  </section>
 
-const mapData = [
-  "..............................",
-  "..............................",
-  "....####################......",
-  "....#..................#......",
-  "....#..t.t.t...........#......",
-  "....#..t...t.t.........#......",
-  "....#....t.....t.......#......",
-  "....#..t.t.t.t.........#......",
-  "....#..................#......",
-  "....#..t.........t.....#......",
-  "....#......t.t.........#......",
-  "....#..t.t.......t.....#......",
-  "....#..................#......",
-  "....####################......",
-  "..............................",
-  "....####################......",
-  "....#..................#......",
-  "....#..t.t.....t.......#......",
-  "....#....t.t.t.........#......",
-  "....#..t.......t.t.....#......",
-  "....#..................#......",
-  "....#..t.t.t...........#......",
-  "....#......t.....t.....#......",
-  "....####################......",
-  "..............................",
-  "..............................",
-  "..............................",
-  ".............................."
-].map(row => row.split(''));
+  <!-- Features -->
+  <section class="features" id="features">
+    <h2 class="section-title">Everything you need to succeed</h2>
+    <p class="section-subtitle">Powerful features designed to help you work smarter, not harder.</p>
 
-let player = { x: 15, y: 12, dir: 'down' };
-let inBattle = false;
-let stepsSinceLastCheck = 0;
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Lightning Fast</h3>
+        <p>Built for performance. Pages load in under a second so your customers stay engaged.</p>
+      </div>
 
-// ────────────────────────────────────────────────
-function initMap() {
-  const game = document.getElementById('game');
-  game.innerHTML = '';
+      <div class="feature-card">
+        <div class="feature-icon">🛠️</div>
+        <h3>Easy Customization</h3>
+        <p>Change colors, fonts, layouts — no coding required. Make it yours in minutes.</p>
+      </div>
 
-  for (let y = 0; y < MAP_H; y++) {
-    for (let x = 0; x < MAP_W; x++) {
-      const tile = document.createElement('div');
-      tile.className = 'tile';
-      tile.style.left = (x * TILE) + 'px';
-      tile.style.top  = (y * TILE) + 'px';
+      <div class="feature-card">
+        <div class="feature-icon">📈</div>
+        <h3>Growth Tools</h3>
+        <p>Built-in analytics, A/B testing, email capture, and conversion optimization features.</p>
+      </div>
 
-      const c = mapData[y][x];
-      if (c === '#') {
-        tile.style.background = '#6b8c42'; // grass border dark
-      } else if (c === 't') {
-        tile.style.background = '#8bac54'; // tall grass
-      } else {
-        tile.style.background = '#c0e4a8'; // normal grass
-      }
-
-      game.appendChild(tile);
-    }
-  }
-}
-
-function updatePlayer() {
-  const p = document.getElementById('player');
-  p.style.left = (player.x * TILE) + 'px';
-  p.style.top  = (player.y * TILE) + 'px';
-}
-
-function tryMove(dx, dy) {
-  const nx = player.x + dx;
-  const ny = player.y + dy;
-
-  if (nx < 0 || nx >= MAP_W || ny < 0 || ny >= MAP_H) return;
-  if (mapData[ny][nx] === '#') return;
-
-  player.x = nx;
-  player.y = ny;
-  updatePlayer();
-
-  stepsSinceLastCheck++;
-  if (mapData[ny][nx] === 't' && stepsSinceLastCheck > 4) {
-    if (Math.random() < 0.25) {
-      startBattle();
-    }
-    stepsSinceLastCheck = 0;
-  }
-}
-
-function startBattle() {
-  inBattle = true;
-  document.getElementById('battle').classList.remove('hidden');
-  document.getElementById('text-box').innerHTML = `
-    A wild <strong>RATTATA</strong> appeared!<br><br>
-    <strong>PIKACHU</strong> Lv5<br>
-    <strong>HP</strong> 18/18<br><br>
-    What will <strong>PIKACHU</strong> do?
-    <div style="margin-top:12px;">
-      <button onclick="attack()">FIGHT</button>
-      <button onclick="run()">RUN</button>
-      <button onclick="bag()">BAG</button>
-      <button onclick="pokemon()">POKéMON</button>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Enterprise Security</h3>
+        <p>SOC 2 compliant, GDPR ready, 99.99% uptime, automatic backups & SSL.</p>
+      </div>
     </div>
-  `;
-}
+  </section>
 
-function attack() {
-  document.getElementById('text-box').innerHTML = `
-    PIKACHU used <strong>THUNDERSHOCK</strong>!<br><br>
-    It's super effective!<br>
-    Wild RATTATA fainted!
-    <div style="margin-top:20px;">
-      <button onclick="endBattle()">OK</button>
+  <!-- CTA -->
+  <section class="cta" id="cta">
+    <h2>Ready to build something amazing?</h2>
+    <p>Join thousands of creators, startups & teams who ship faster with our platform.</p>
+    <a href="#" class="btn-primary" style="font-size:1.3rem; padding:1.2rem 2.8rem;">Start Your Free Trial →</a>
+    <p style="margin-top:1.5rem; font-size:0.95rem; opacity:0.8;">No credit card required • 14-day trial</p>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 YourProduct. All rights reserved.</p>
+    <div style="margin-top:1.5rem;">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Support</a>
+      <a href="#">Twitter</a>
+      <a href="#">Discord</a>
     </div>
-  `;
-}
+  </footer>
 
-function run() {
-  if (Math.random() < 0.7) {
-    document.getElementById('text-box').innerHTML = `
-      Got away safely!<br><br>
-      <button onclick="endBattle()">OK</button>
-    `;
-  } else {
-    document.getElementById('text-box').innerHTML = `
-      Can't escape!<br><br>
-      Wild RATTATA used <strong>BITE</strong>!<br>
-      <button onclick="endBattle(true)">OK</button>
-    `;
-  }
-}
-
-function bag() { document.getElementById('text-box').innerHTML = "No items..."; }
-function pokemon() { document.getElementById('text-box').innerHTML = "Only PIKACHU in party."; }
-
-function endBattle(lose = false) {
-  inBattle = false;
-  document.getElementById('battle').classList.add('hidden');
-  if (lose) {
-    alert("PIKACHU fainted!\n\n... but this is a demo so nothing happens.");
-  }
-}
-
-// ────────────────────────────────────────────────
-window.addEventListener('keydown', e => {
-  if (inBattle) return;
-
-  switch(e.key.toLowerCase()) {
-    case 'arrowup': case 'w':    tryMove(0, -1); break;
-    case 'arrowdown': case 's':  tryMove(0, 1); break;
-    case 'arrowleft': case 'a':  tryMove(-1, 0); break;
-    case 'arrowright': case 'd': tryMove(1, 0); break;
-  }
-});
-
-initMap();
-updatePlayer();
-
-</script>
+  <script>
+    // Simple scroll effect for header
+    window.addEventListener('scroll', () => {
+      document.querySelector('header').classList.toggle('scrolled', window.scrollY > 50);
+    });
+  </script>
 </body>
 </html>
