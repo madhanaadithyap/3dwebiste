@@ -2,340 +2,234 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Madhan • Modern Portfolio</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Madhan Aadithya | Spotify Artist</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #f8fafc;
-      --text: #0f172a;
-      --accent: #6366f1;
-      --gray: #64748b;
-      --white: #ffffff;
-      --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Inter', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
+      font-family: 'Montserrat', sans-serif;
+      background: radial-gradient(circle at top, #1db95422, #000 70%);
+      color: #fff;
+      overflow-x: hidden;
     }
 
     header {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 1000;
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(10px);
-      padding: 1.5rem 5%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: padding 0.4s ease;
-    }
-
-    header.scrolled {
-      padding: 1rem 5%;
-    }
-
-    .logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      font-weight: 900;
-      color: var(--accent);
-    }
-
-    nav a {
-      margin-left: 2.5rem;
-      text-decoration: none;
-      color: var(--text);
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-
-    nav a:hover {
-      color: var(--accent);
-    }
-
-    section {
       min-height: 100vh;
-      padding: 140px 5% 100px;
-      opacity: 0;
-      transform: translateY(50px);
-      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+      position: relative;
     }
 
-    section.visible {
-      opacity: 1;
-      transform: translateY(0);
+    .glow {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: #1db954;
+      filter: blur(180px);
+      opacity: 0.35;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 0;
     }
 
     .hero {
-      text-align: center;
-      background: linear-gradient(135deg, #f0f9ff, #e0e7ff);
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
     }
 
     .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(4.5rem, 12vw, 8rem);
-      margin-bottom: 1rem;
+      font-size: clamp(3rem, 7vw, 5rem);
+      font-weight: 900;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, #1db954, #9cffc7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .hero p {
-      font-size: 1.8rem;
-      color: var(--gray);
-      max-width: 720px;
-      margin: 0 auto 3rem;
+      font-size: 1.2rem;
+      opacity: 0.85;
+      margin-bottom: 35px;
+      line-height: 1.6;
     }
 
-    .btn {
-      background: var(--accent);
-      color: white;
-      padding: 1rem 2.5rem;
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 15px;
+      padding: 16px 32px;
       border-radius: 50px;
+      background: #1db954;
+      color: #000;
+      font-weight: 700;
       text-decoration: none;
-      font-weight: 600;
-      transition: var(--transition);
+      font-size: 1rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 20px 40px rgba(29,185,84,0.4);
     }
 
-    .btn:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 40px rgba(99,102,241,0.3);
+    .cta:hover {
+      transform: translateY(-5px) scale(1.03);
+      box-shadow: 0 30px 60px rgba(29,185,84,0.6);
     }
 
-    .about-content {
-      max-width: 900px;
-      margin: 0 auto;
-      text-align: center;
+    section {
+      padding: 100px 20px;
+      max-width: 1200px;
+      margin: auto;
     }
 
-    .skills-grid {
+    .about {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      margin-top: 4rem;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
     }
 
-    .skill-card {
-      background: white;
-      padding: 2rem;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      transition: var(--transition);
+    .about h2 {
+      font-size: 2.8rem;
+      margin-bottom: 20px;
     }
 
-    .skill-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 20px 50px rgba(99,102,241,0.15);
+    .about p {
+      font-size: 1.1rem;
+      opacity: 0.85;
+      line-height: 1.7;
     }
 
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 3rem;
-      margin-top: 4rem;
-    }
-
-    .project-card {
+    .card {
+      background: linear-gradient(145deg, #111, #1a1a1a);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
       position: relative;
       overflow: hidden;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      transition: var(--transition);
     }
 
-    .project-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.6s ease;
-    }
-
-    .project-card:hover img {
-      transform: scale(1.1);
-    }
-
-    .project-overlay {
+    .card::before {
+      content: '';
       position: absolute;
       inset: 0;
-      background: rgba(99,102,241,0.85);
-      color: white;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      background: linear-gradient(120deg, transparent, rgba(29,185,84,0.15), transparent);
       opacity: 0;
       transition: opacity 0.4s ease;
-      padding: 2rem;
     }
 
-    .project-card:hover .project-overlay {
+    .card:hover::before {
       opacity: 1;
     }
 
-    .project-overlay h3 {
-      font-size: 1.8rem;
-      margin-bottom: 0.8rem;
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      margin-top: 60px;
     }
 
-    .contact-form {
-      max-width: 700px;
-      margin: 4rem auto 0;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
+    .stat {
+      text-align: center;
+      padding: 30px;
+      border-radius: 20px;
+      background: #0e0e0e;
     }
 
-    .contact-form input, .contact-form textarea {
-      padding: 1rem;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 1rem;
+    .stat h3 {
+      font-size: 2.5rem;
+      color: #1db954;
+      margin-bottom: 10px;
     }
 
     footer {
-      background: #0f172a;
-      color: #94a3b8;
+      padding: 60px 20px;
       text-align: center;
-      padding: 4rem 5%;
-      font-size: 0.95rem;
+      background: #000;
+      opacity: 0.85;
     }
 
-    @media (max-width: 768px) {
-      .hero h1 { font-size: 4rem; }
-      nav a { margin-left: 1.5rem; }
+    footer p { font-size: 0.9rem; }
+
+    @media (max-width: 900px) {
+      .about { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="logo">Madhan</div>
-    <nav>
-      <a href="#about">About</a>
-      <a href="#skills">Skills</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
+<header>
+  <div class="glow"></div>
+  <div class="hero">
+    <h1>Madhan Aadithya</h1>
+    <p>Independent Spotify artist blending emotion, rhythm, and cinematic soundscapes. Plug in. Feel everything.</p>
+    <a class="cta" href="https://open.spotify.com" target="_blank">▶ Listen on Spotify</a>
+  </div>
+</header>
 
-  <section id="hero" class="hero">
-    <h1>Hello, I'm Madhan</h1>
-    <p>A creative developer from Tambaram, crafting digital experiences with code and design.</p>
-    <a href="#projects" class="btn">View My Work</a>
-  </section>
-
-  <section id="about">
-    <div class="about-content">
-      <h2>About Me</h2>
-      <p>I'm a passionate developer specializing in modern web technologies. With a focus on user-centric design and smooth interactions, I bring ideas to life. Based in Tambaram, Tamil Nadu, I love exploring new tools and creating impactful projects.</p>
+<section>
+  <div class="about">
+    <div class="card">
+      <h2>The Sound</h2>
+      <p>
+        Madhan Aadithya crafts immersive tracks that fuse modern beats with deep emotion.
+        Every release is designed to feel personal, powerful, and unforgettable.
+      </p>
     </div>
-  </section>
-
-  <section id="skills">
-    <h2>Skills</h2>
-    <div class="skills-grid">
-      <div class="skill-card">
-        <h3>Frontend</h3>
-        <p>HTML, CSS, JavaScript, React, Tailwind</p>
-      </div>
-      <div class="skill-card">
-        <h3>Backend</h3>
-        <p>Node.js, Express, MongoDB, SQL</p>
-      </div>
-      <div class="skill-card">
-        <h3>Design</h3>
-        <p>Figma, Adobe XD, UI/UX Principles</p>
-      </div>
-      <div class="skill-card">
-        <h3>Tools</h3>
-        <p>Git, VS Code, Docker, AWS</p>
-      </div>
+    <div class="card">
+      <h2>The Vision</h2>
+      <p>
+        Music that connects instantly — from late-night headphones to full-volume speakers.
+        Built for listeners who crave mood, meaning, and movement.
+      </p>
     </div>
-  </section>
+  </div>
 
-  <section id="projects">
-    <h2>Projects</h2>
-    <div class="projects-grid">
-      <div class="project-card">
-        <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800" alt="Project 1">
-        <div class="project-overlay">
-          <h3>Web App Dashboard</h3>
-          <p>Interactive analytics platform built with React and Node.js.</p>
-        </div>
-      </div>
-      <div class="project-card">
-        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800" alt="Project 2">
-        <div class="project-overlay">
-          <h3>E-Commerce Site</h3>
-          <p>Full-stack online store with payment integration.</p>
-        </div>
-      </div>
-      <div class="project-card">
-        <img src="https://images.unsplash.com/photo-1555066931-bf19c65c7a87?w=800" alt="Project 3">
-        <div class="project-overlay">
-          <h3>Portfolio Builder</h3>
-          <p>Custom tool for generating personal websites.</p>
-        </div>
-      </div>
+  <div class="stats">
+    <div class="stat">
+      <h3 id="tracks">0</h3>
+      <p>Tracks Released</p>
     </div>
-  </section>
+    <div class="stat">
+      <h3 id="listeners">0</h3>
+      <p>Monthly Listeners</p>
+    </div>
+    <div class="stat">
+      <h3 id="plays">0</h3>
+      <p>Total Streams</p>
+    </div>
+  </div>
+</section>
 
-  <section id="contact">
-    <h2>Contact Me</h2>
-    <form class="contact-form">
-      <input type="text" placeholder="Your Name" required>
-      <input type="email" placeholder="Your Email" required>
-      <textarea placeholder="Your Message" rows="6" required></textarea>
-      <button type="submit" class="btn">Send Message</button>
-    </form>
-  </section>
+<footer>
+  <p>© 2026 Madhan Aadithya • Spotify Artist Landing Page</p>
+</footer>
 
-  <footer>
-    © 2026 Madhan • Built in Tambaram • All Rights Reserved
-  </footer>
+<script>
+  const counters = [
+    { id: 'tracks', target: 12 },
+    { id: 'listeners', target: 4800 },
+    { id: 'plays', target: 125000 }
+  ];
 
-  <script>
-    // Header scroll effect
-    window.addEventListener('scroll', () => {
-      document.querySelector('header').classList.toggle('scrolled', window.scrollY > 50);
-    });
+  counters.forEach(counter => {
+    let count = 0;
+    const el = document.getElementById(counter.id);
+    const step = Math.ceil(counter.target / 120);
+    const interval = setInterval(() => {
+      count += step;
+      if (count >= counter.target) {
+        count = counter.target;
+        clearInterval(interval);
+      }
+      el.textContent = count.toLocaleString();
+    }, 20);
+  });
+</script>
 
-    // Section reveal on scroll
-    const sections = document.querySelectorAll('section');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15 });
-
-    sections.forEach(sec => observer.observe(sec));
-
-    // Prevent form submit (demo)
-    document.querySelector('.contact-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert('Message sent! (Demo)');
-    });
-  </script>
 </body>
 </html>
