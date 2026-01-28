@@ -1,241 +1,252 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Madhan Aadithya | Official website</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<title>Madhan Aadithya | Official Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ===== GLOBAL ===== */
+/* ===== GLOBAL PREMIUM DARK + 3D SETUP ===== */
 *{margin:0;padding:0;box-sizing:border-box;}
-body {
-  font-family:'Inter',sans-serif;
-  background:#000;
-  color:#fff;
-  overflow-x:hidden;
-  cursor: none;
-}
-html {
+html, body {
+  height:100%;
   scroll-behavior: smooth;
   scroll-snap-type: y proximity;
+  overflow-x: hidden;
 }
-section{scroll-snap-align:start;}
-body::after{
-  content:'';
-  position:fixed;
-  inset:0;
-  background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="4"/></filter><rect width="100%25" height="100%25" filter="url(%23n)" opacity="0.15"/></svg>');
-  pointer-events:none;
-  z-index:99;
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #0a0a0a;
+  color: #e0e0e0;
+  cursor: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+body::-webkit-scrollbar { display: none; }
+html.dark { color-scheme: dark; }
+
+/* Grain/Noise */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="5"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.07"/></svg>') repeat;
+  pointer-events: none;
+  z-index: 9998;
+  mix-blend-mode: overlay;
+  opacity: 0.6;
 }
 
 /* Custom Cursor */
 .cursor {
   position: fixed;
-  width: 24px;
-  height: 24px;
-  border: 1px solid rgba(46,204,113,0.5);
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(46,204,113,0.4);
   border-radius: 50%;
   pointer-events: none;
   transform: translate(-50%, -50%);
-  transition: all 0.18s ease-out;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 9999;
   mix-blend-mode: difference;
+  backdrop-filter: blur(2px);
 }
 .cursor::after {
   content: '';
   position: absolute;
-  top: 50%; left: 50%;
-  width: 8px; height: 8px;
-  background: #2ecc71;
+  inset: 8px;
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
   border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: all 0.25s ease;
+  box-shadow: 0 0 20px rgba(46,204,113,0.6);
 }
 
 /* Sound Toggle */
 #soundToggle {
   position: fixed;
-  top: 20px;
-  right: 30px;
-  z-index: 100;
-  width: 44px;
-  height: 44px;
+  top: 24px;
+  right: 32px;
+  z-index: 1000;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.25);
-  color: #fff;
-  font-size: 1.4rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #e0e0e0;
+  font-size: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: none;
-  backdrop-filter: blur(8px);
-  transition: all 0.3s ease;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
   opacity: 0;
-  animation: fadeIn 2s ease forwards 2.8s;
+  animation: fadeIn 2.2s ease forwards 3s;
 }
-#soundToggle:hover { background: rgba(255,255,255,0.18); transform: scale(1.1); }
-#soundToggle.active { background: rgba(46,204,113,0.3); border-color: #2ecc71; box-shadow: 0 0 20px rgba(46,204,113,0.5); }
+#soundToggle:hover { transform: scale(1.15) rotate(10deg); background: rgba(46,204,113,0.15); }
+#soundToggle.active { background: linear-gradient(135deg, rgba(46,204,113,0.25), rgba(39,174,96,0.15)); box-shadow: 0 0 30px rgba(46,204,113,0.5); }
 
 /* Nav */
 nav {
-  position:fixed;
-  top:0; left:0; width:100%;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:26px 50px;
-  z-index:10;
-  background:linear-gradient(180deg,rgba(0,0,0,.85),transparent);
+  position: fixed;
+  top: 0; left: 0; width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32px 60px;
+  z-index: 100;
+  background: rgba(10,10,10,0.65);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
   opacity: 0;
-  transform: translateY(-60px);
-  transition: all 0.6s ease;
+  transform: translateY(-80px);
+  transition: all 0.8s cubic-bezier(0.23,1,0.32,1);
 }
-nav.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-nav strong{letter-spacing:2px;}
-nav a{color:#fff;text-decoration:none;margin-left:34px;font-weight:500;opacity:.9;transition:0.3s;}
-nav a:hover{opacity:1; color:#2ecc71;}
+nav.visible { opacity: 1; transform: translateY(0); }
+nav strong { font-size: 1.4rem; letter-spacing: 4px; font-weight: 700; color: #2ecc71; }
+nav a { color: #e0e0e0; text-decoration: none; margin-left: 40px; font-weight: 500; transition: all 0.4s; }
+nav a:hover { color: #2ecc71; transform: translateY(-2px); }
 
-/* Poster */
-.poster{
-  position:relative;
-  height:100vh;
-  background:#000 center/cover no-repeat;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  z-index:1;
-  transition: opacity 1s ease;
-  overflow:hidden;
-}
-.poster-overlay{
-  position:absolute;
-  inset:0;
-  background:radial-gradient(circle at center, rgba(255,255,255,0.05), rgba(0,0,0,0.97));
-  z-index:2;
-}
-.poster-content{
-  position:relative;
-  z-index:3;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  min-height:100vh;
-  text-align:center;
-  opacity:0;
-  animation: posterFade 2.8s ease forwards;
-}
-.tagline{
-  font-size: clamp(0.95rem, 2vw, 1.15rem);
-  letter-spacing:7px;
-  opacity:0;
-  margin-bottom:12px;
-  animation:slideUp 1.8s ease forwards;
-  animation-delay:0.6s;
-  text-transform:uppercase;
-  color: #2ecc71;
-}
-.poster-title{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(4.2rem,9vw,7.2rem);
-  letter-spacing: clamp(6px,1vw,14px);
-  margin:10px 0 18px;
-  opacity:0;
-  animation:blurIn 2.5s ease forwards;
-  animation-delay:1.2s;
-  text-shadow: 0 6px 40px rgba(0,0,0,0.9), 0 0 25px rgba(46,204,113,0.2);
-}
-.poster-title:hover {
-  animation: glitch 0.4s infinite alternate;
-}
-.poster-sub{
-  font-size: clamp(1.1rem, 2.3vw, 1.4rem);
-  letter-spacing:3px;
-  opacity:0;
-  animation:slideUp 2s ease forwards;
-  animation-delay:2s;
-  font-weight:500;
-  color: rgba(255,255,255,0.92);
-}
-.poster-cta{
-  margin-top:70px;
-  font-size:0.9rem;
-  letter-spacing:4px;
-  opacity:0;
-  animation:fadePulse 3s ease forwards;
-  animation-delay:2.8s;
-  color: rgba(255,255,255,0.7);
+/* 3D PARALLAX WRAPPER – this enables the effect site-wide */
+#parallax-wrapper {
+  perspective: 4px;                  /* Lower = more dramatic depth */
+  perspective-origin: 50% 50%;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transform-style: preserve-3d;
 }
 
-/* Sections */
-section{position:relative;width:100%;height:100vh;overflow:hidden;}
-section::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  background:inherit;
+/* Each section becomes a parallax group */
+.parallax-group {
+  position: relative;
+  height: 100vh;
+  transform-style: preserve-3d;
+  scroll-snap-align: start;
+}
+
+/* Background layer – moves slowest (farthest in Z) */
+.parallax-bg {
+  position: absolute;
+  inset: 0;
+  background: inherit;
   background-size: cover;
   background-position: center;
-  z-index:-1;
-  transform:scale(1);
-  transition:transform 0.6s ease-out;
+  transform: translateZ(-8px) scale(3);   /* Far back → slow movement + scale to fill */
+  z-index: -2;
+  filter: brightness(0.6) contrast(1.15);
 }
-.overlay{
-  position:absolute;
-  inset:0;
-  background:linear-gradient(180deg,rgba(0,0,0,.4),rgba(0,0,0,.92));
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:40px;
+
+/* Content layer – normal speed (closest) */
+.parallax-content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateZ(0);               /* Foreground – no shift */
+  padding: 60px;
+  text-align: center;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.92));
+  backdrop-filter: blur(4px);
 }
-section .overlay > div {
-  opacity:0;
-  transform:translateY(50px);
+
+/* Poster (hero intro) – keep dramatic but no heavy parallax to avoid distraction */
+.poster {
+  position: relative;
+  height: 100vh;
+  background: #000 center/cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  overflow: hidden;
 }
-section.show .overlay > div {
-  animation: blurIn 1.8s ease forwards;
+.poster-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 30%, rgba(46,204,113,0.08), transparent 60%), rgba(0,0,0,0.85);
+  z-index: 2;
+}
+.poster-content {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  opacity: 0;
+  animation: posterFade 3.5s ease forwards;
+}
+
+/* Typography & elements – same premium styles */
+.tagline {
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  letter-spacing: 10px;
+  color: #2ecc71;
+  opacity: 0;
+  margin-bottom: 16px;
+  animation: slideUp 2s ease forwards 0.8s;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.poster-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(5rem, 12vw, 9rem);
+  letter-spacing: clamp(8px, 1.5vw, 20px);
+  margin: 0 0 24px;
+  opacity: 0;
+  animation: blurIn 3s ease forwards 1.4s;
+  text-shadow: 0 10px 60px rgba(0,0,0,0.9), 0 0 40px rgba(46,204,113,0.25);
+  font-weight: 900;
+}
+.poster-title:hover { animation: glitch 0.6s infinite alternate; }
+.poster-sub {
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  letter-spacing: 4px;
+  opacity: 0;
+  animation: slideUp 2.5s ease forwards 2s;
+  font-weight: 400;
+  color: rgba(220,220,220,0.9);
+}
+.poster-cta {
+  margin-top: 80px;
+  font-size: 1rem;
+  letter-spacing: 5px;
+  opacity: 0;
+  animation: fadePulse 4s ease forwards 3s;
+  color: rgba(255,255,255,0.6);
 }
 
 /* Contact Button */
-.contact-btn{
-  padding:18px 48px;
-  background:#164634;
-  color:#fff;
-  font-weight:600;
-  font-size:1.35rem;
-  border:none;
-  border-radius:50px;
+.contact-btn {
+  padding: 20px 60px;
+  background: linear-gradient(135deg, #164634, #1e5c44);
+  color: white;
+  font-weight: 700;
+  font-size: 1.4rem;
+  border: none;
+  border-radius: 60px;
   cursor: none;
-  transition:0.4s;
-  box-shadow:0 0 25px rgba(29,185,84,0.6);
+  transition: all 0.5s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 10px 40px rgba(46,204,113,0.3);
 }
-.contact-btn:hover{
-  background:#2ecc71;
-  box-shadow:0 0 40px rgba(46,204,113,0.9);
-  transform: translateY(-3px);
+.contact-btn:hover {
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  transform: translateY(-6px) scale(1.05);
+  box-shadow: 0 20px 60px rgba(46,204,113,0.6);
 }
 
 /* Animations */
-@keyframes posterFade{to{opacity:1;}}
-@keyframes slideUp{from{transform:translateY(50px);opacity:0;}to{transform:translateY(0);opacity:1;}}
-@keyframes blurIn{from{filter:blur(25px);opacity:0;transform:scale(1.06);}to{filter:none;opacity:1;transform:scale(1);}}
-@keyframes fadePulse{from{opacity:0;}to{opacity:0.85;}}
-@keyframes fadeIn{from{opacity:0;}to{opacity:0.9;}}
+@keyframes posterFade { to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(80px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes blurIn { from { filter: blur(30px); opacity: 0; transform: scale(1.08); } to { filter: none; opacity: 1; transform: scale(1); } }
+@keyframes fadePulse { from { opacity: 0; } to { opacity: 0.7; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 0.9; } }
 @keyframes glitch {
   0% { transform: translate(0); }
-  20% { transform: translate(-3px, 3px); }
-  40% { transform: translate(3px, -3px); }
-  60% { transform: translate(-2px, 2px); }
-  80% { transform: translate(2px, -2px); }
+  20% { transform: translate(-4px, 4px); }
+  40% { transform: translate(4px, -4px); }
+  60% { transform: translate(-3px, 3px); }
+  80% { transform: translate(3px, -3px); }
   100% { transform: translate(0); }
 }
 </style>
@@ -243,9 +254,9 @@ section.show .overlay > div {
 <body>
 
 <!-- Sound Toggle -->
-<button id="soundToggle" title="Enable ambient sound">🔇</button>
+<button id="soundToggle" title="Toggle ambient sound">🔇</button>
 
-<!-- Cursor -->
+<!-- Premium Cursor -->
 <div class="cursor"></div>
 
 <!-- Ambient sound -->
@@ -253,70 +264,78 @@ section.show .overlay > div {
   <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_4b2b7c8c5c.mp3" type="audio/mpeg">
 </audio>
 
-<!-- POSTER -->
-<section class="poster">
-  <div class="poster-overlay"></div>
-  <div class="poster-content">
-    <span class="tagline">I AM SPEED</span>
-    <h1 class="poster-title">MADHAN AADITHYA</h1>
-    <p class="poster-sub">Melophile • Student • Developer</p>
-    <p class="poster-cta">Scroll to enter</p>
-  </div>
-</section>
+<!-- 3D PARALLAX CONTAINER -->
+<div id="parallax-wrapper">
 
-<!-- NAV -->
-<nav>
-  <strong>M•A</strong>
-  <div>
-    <a href="#vision">Vision</a>
-    <a href="#works">Works</a>
-    <a href="#contact">Contact</a>
-  </div>
-</nav>
+  <!-- POSTER / INTRO -->
+  <section class="poster parallax-group">
+    <div class="poster-overlay"></div>
+    <div class="poster-content">
+      <span class="tagline">I AM SPEED</span>
+      <h1 class="poster-title">MADHAN AADITHYA</h1>
+      <p class="poster-sub">Melophile • Developer • Creative Mind</p>
+      <p class="poster-cta">Scroll to Experience</p>
+    </div>
+  </section>
 
-<!-- HERO -->
-<section class="hero" style="background:url('Photo.jpg') center/cover no-repeat;">
-  <div class="overlay">
+  <!-- NAV – outside parallax for fixed positioning -->
+  <nav>
+    <strong>M•A</strong>
     <div>
-      <h1>Happy with</h1>
-      <p>Studyin, Upgradin, New things, Writin, Breathin, Composing.</p>
+      <a href="#vision">Vision</a>
+      <a href="#works">Works</a>
+      <a href="#contact">Contact</a>
     </div>
-  </div>
-</section>
+  </nav>
 
-<!-- VISION -->
-<section id="vision" style="background:url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080') center/cover no-repeat;">
-  <div class="overlay">
-    <div>
-      <h2>Vision</h2>
-      <p>Well, truly, honestly speaking, i will update this section later...cheers:)</p>
+  <!-- HERO SECTION with parallax bg -->
+  <section id="hero" class="parallax-group" style="--section-bg: url('Photo.jpg') center/cover;">
+    <div class="parallax-bg" style="background: var(--section-bg);"></div>
+    <div class="parallax-content">
+      <div>
+        <h1>Always Evolving</h1>
+        <p>Studying • Upgrading • Creating • Composing • Living at full speed.</p>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- WORKS -->
-<section id="works" class="music" style="background:url('https://images.unsplash.com/photo-1496181133206-80ce9b88a853?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080') center/cover no-repeat;">
-  <div class="overlay">
-    <div class="music-inner">
-      <h2>Featured Composition</h2>
-      <p>Just a test track</p>
-      <audio controls>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
-      </audio>
+  <!-- VISION -->
+  <section id="vision" class="parallax-group" style="--section-bg: url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=2000') center/cover;">
+    <div class="parallax-bg" style="background: var(--section-bg);"></div>
+    <div class="parallax-content">
+      <div>
+        <h2>Vision</h2>
+        <p>Building tomorrow's ideas today — with passion, precision, and relentless drive.</p>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- CONTACT -->
-<section id="contact" style="background:#111;">
-  <div class="overlay" style="display:flex;align-items:center;justify-content:center;">
-    <div>
-      <button class="contact-btn" onclick="window.location.href='mailto:pmaadithya09@gmail.com'">
-        contact me
-      </button>
+  <!-- WORKS -->
+  <section id="works" class="parallax-group" style="--section-bg: url('https://images.unsplash.com/photo-1496181133206-80ce9b88a853?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=2000') center/cover;">
+    <div class="parallax-bg" style="background: var(--section-bg);"></div>
+    <div class="parallax-content">
+      <div>
+        <h2>Featured Work</h2>
+        <p>Atmospheric composition — test track</p>
+        <audio controls style="margin-top: 40px; width: 60%; max-width: 500px;">
+          <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+        </audio>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="parallax-group" style="background: linear-gradient(to bottom, #111, #0a0a0a);">
+    <div class="parallax-content">
+      <div>
+        <button class="contact-btn" onclick="window.location.href='mailto:pmaadithya09@gmail.com'">
+          Let's Connect
+        </button>
+      </div>
+    </div>
+  </section>
+
+</div>
 
 <script>
 // Cursor
@@ -326,81 +345,51 @@ window.addEventListener('mousemove', e => {
   cursor.style.top = e.clientY + 'px';
 });
 
-// Sound Toggle (now with mute/unmute)
+// Sound Toggle
 const sound = document.getElementById('introSound');
 const toggleBtn = document.getElementById('soundToggle');
 let isPlaying = false;
 
 toggleBtn.addEventListener('click', () => {
   if (!isPlaying) {
-    sound.volume = 0.35;
+    sound.volume = 0.3;
     sound.play().then(() => {
       isPlaying = true;
       toggleBtn.innerHTML = '🔊';
-      toggleBtn.title = "Sound on (click to mute)";
+      toggleBtn.title = "Ambient on (click to mute)";
       toggleBtn.classList.add('active');
-    }).catch(err => console.error("Play failed:", err));
+    }).catch(err => console.log("Play blocked:", err));
   } else {
     sound.pause();
     isPlaying = false;
     toggleBtn.innerHTML = '🔇';
-    toggleBtn.title = "Sound off (click to play)";
+    toggleBtn.title = "Ambient off (click to play)";
     toggleBtn.classList.remove('active');
   }
 });
 
-// Nav show/hide
+// Nav show/hide + subtle scroll zoom (optional extra depth)
 let lastScroll = 0;
 const nav = document.querySelector('nav');
 window.addEventListener('scroll', () => {
   const current = window.scrollY;
-  if (current > 100) {
-    if (current > lastScroll) {
-      nav.classList.remove('visible');
-    } else {
-      nav.classList.add('visible');
-    }
+  if (current > 120) {
+    nav.classList.toggle('visible', current < lastScroll);
   } else {
     nav.classList.add('visible');
   }
-  lastScroll = current <= 0 ? 0 : current;
-
-  // Scroll-based background zoom
-  document.querySelectorAll('section:not(.poster)').forEach(sec => {
-    const rect = sec.getBoundingClientRect();
-    if (rect.top < window.innerHeight && rect.bottom > 0) {
-      const progress = Math.min(1, Math.max(0, (window.innerHeight - rect.top) / (window.innerHeight * 1.2)));
-      const scale = 1 + progress * 0.18;
-      sec.style.setProperty('--bg-scale', scale);
-    }
-  });
+  lastScroll = current;
 });
 
-// Poster fade + section reveal
+// Poster fade
 const poster = document.querySelector('.poster');
-const title = document.querySelector('.poster-title');
 window.addEventListener('scroll', () => {
   const y = window.scrollY;
-  poster.style.opacity = Math.max(0, 1 - y / 500);
-  if (y > 60) {
-    title.style.animationPlayState = 'paused';
-  }
-
-  document.querySelectorAll('section').forEach(sec => {
-    const rect = sec.getBoundingClientRect();
-    if (rect.top < window.innerHeight * 0.75) {
-      sec.classList.add('show');
-    }
-  });
+  poster.style.opacity = Math.max(0, 1 - y / 600);
 });
 
-// Initial nav show
+// Start nav visible
 nav.classList.add('visible');
-
-// Add CSS var for dynamic scale
-document.querySelectorAll('section::before').forEach(el => {
-  el.style.transform = 'scale(var(--bg-scale, 1))';
-});
 </script>
 </body>
 </html>
