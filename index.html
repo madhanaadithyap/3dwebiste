@@ -1,46 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Madhan Aadithya | Official Website</title>
-
-<!-- Favicon: white treble clef on black -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='black'/><text x='50%' y='65%' text-anchor='middle' font-size='70' fill='white' font-family='serif'>𝄞</text></svg>">
-
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Madhan Aadithya | Official website</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ===== RESET ===== */
+/* ===== GLOBAL ===== */
 *{margin:0;padding:0;box-sizing:border-box;}
-
-html{scroll-behavior:smooth;}
-
-body{
-  font-family:'Plus Jakarta Sans',sans-serif;
-  background:#050505;
-  color:#f5f5f5;
-  text-align:center;
-  overflow-x:hidden;
-}
-
-/* ===== GLOBAL SECTIONS ===== */
-section{
-  min-height:100vh;
-  width:100%;
-  position:relative;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-/* Subtle grain */
+body{font-family:'Inter',sans-serif;background:#000;color:#fff;overflow-x:hidden;}
+html{scroll-behavior:smooth;scroll-snap-type:y mandatory;}
+section{scroll-snap-align:start;}
 body::after{
   content:'';
   position:fixed;
   inset:0;
-  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/></svg>");
+  background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="4"/></filter><rect width="100%25" height="100%25" filter="url(%23n)" opacity="0.15"/></svg>');
   pointer-events:none;
   z-index:99;
 }
@@ -48,126 +23,145 @@ body::after{
 /* ===== NAV ===== */
 nav{
   position:fixed;
-  top:0;left:0;
-  width:100%;
-  padding:22px 60px;
+  top:0;left:0;width:100%;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  background:linear-gradient(180deg,rgba(0,0,0,.85),transparent);
+  padding:26px 50px;
   z-index:10;
+  background:linear-gradient(180deg,rgba(0,0,0,.75),transparent);
 }
-nav strong{letter-spacing:3px;font-weight:400;}
-nav a{
-  color:#fff;
-  text-decoration:none;
-  margin-left:32px;
-  font-weight:300;
-  letter-spacing:1px;
-  opacity:.75;
-}
+nav strong{letter-spacing:2px;}
+nav a{color:#fff;text-decoration:none;margin-left:34px;font-weight:500;opacity:.85;transition:0.3s;}
 nav a:hover{opacity:1;}
 
-/* ===== POSTER ===== */
+/* ===== POSTER INTRO ===== */
 .poster{
-  background:#000;
+  position:relative;
+  height:100vh;
+  background:#000 cover no-repeat;
+  display:flex;
+flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  z-index:1;
+  transition: opacity 1s ease;
+  overflow:hidden;
 }
 .poster-overlay{
   position:absolute;
   inset:0;
-  background:radial-gradient(circle at center, rgba(255,255,255,0.08), rgba(0,0,0,0.95));
+  background:radial-gradient(circle at center, rgba(255,255,255,0.06), rgba(0,0,0,0.95));
+  z-index:2;
 }
 .poster-content{
   position:relative;
-  z-index:2;
+  z-index:3;
+  display:flex;flex-direction:column;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+  text-align:center;
+  opacity:0;
+  animation: posterFade 2s ease forwards;
 }
-
-.tagline{
-  font-size:0.75rem;
-  letter-spacing:5px;
-  font-weight:300;
-  text-shadow:0 0 8px rgba(255,255,255,.35);
-}
-
+.tagline{font-size:0.85rem;letter-spacing:4px;opacity:1;animation:slideUp 1.8s ease forwards;animation-delay:0.5s;}
 .poster-title{
-  font-size:clamp(3.8rem,8vw,6.5rem);
-  font-weight:300;
-  letter-spacing:4px;
-  margin:24px 0 16px;
-  text-shadow:0 0 18px rgba(255,255,255,.45);
+  font-family:'Playfair Display',serif;
+  font-size:clamp(4rem,8vw,6.8rem);
+  letter-spacing:6px;
+  margin:22px 0 14px;
+  opacity:0;
+  animation:blurIn 2s ease forwards;
+  animation-delay:1s;
+  animation-fill-mode:forwards;
 }
+.poster-sub{font-size:1.1rem;letter-spacing:2px;opacity:0;animation:slideUp 2s ease forwards;animation-delay:1.8s;margin-bottom:60px;}
+.poster-cta{margin-top:60px;font-size:0.85rem;letter-spacing:3px;opacity:0;animation:fadePulse 2.5s ease forwards;animation-delay:2.5s;}
 
-.poster-sub{
-  font-size:1rem;
-  font-weight:300;
-  letter-spacing:2px;
-  text-shadow:0 0 12px rgba(255,255,255,.3);
+/* ===== SECTIONS ===== */
+section{position:relative;width:100%;height:100vh;overflow:hidden;}
+section::before{
+  content:'';
+  position:absolute;inset:0;
+  background:inherit;
+  z-index:-1;
+  transform:scale(1);
+  transition:transform 12s ease;
 }
-
-.poster-cta{
-  margin-top:70px;
-  font-size:0.75rem;
-  letter-spacing:3px;
-  opacity:.7;
-}
-
-/* ===== OVERLAY CONTENT ===== */
+section:hover::before{transform:scale(1.12);}
 .overlay{
   position:absolute;
   inset:0;
-  background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.92));
-  display:flex;
+  background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.9));
+  display:flex;flex-direction:column;
   align-items:center;
   justify-content:center;
-}
-
-.overlay > div{
-  max-width:900px;
+  text-align:center;
   padding:40px;
 }
-
-h1,h2,p{
-  font-weight:300;
-  text-shadow:0 0 14px rgba(255,255,255,.3);
+section .overlay > div {
+  opacity:0;
+  transform:translateY(40px);
+}
+section.show .overlay > div {
+  animation: blurIn 1.5s ease forwards;
 }
 
-h1{font-size:clamp(3rem,7vw,5.5rem);} 
-h2{font-size:clamp(2.2rem,5vw,3.5rem);} 
+/* ===== TYPOGRAPHY ===== */
+h1,h2{font-family:'Playfair Display',serif;letter-spacing:1px;}
+h1{font-size:clamp(3.8rem,8vw,6.5rem);}
+h2{font-size:clamp(2.5rem,5vw,3.8rem);}
+p{max-width:760px;opacity:.9;line-height:1.8;margin-top:24px;}
+.music{height:auto;min-height:100vh;background:#000;display:flex;align-items:center;justify-content:center;}
+.music-inner{text-align:center;padding:80px 20px;}
+audio{width:100%;margin-top:40px;}
 
-p{
-  margin-top:24px;
-  line-height:1.8;
-  opacity:.9;
-}
-
-/* ===== MUSIC ===== */
-audio{
-  width:100%;
-  max-width:520px;
-  margin-top:40px;
-}
-
-/* ===== CONTACT ===== */
+/* ===== CONTACT BUTTON ===== */
 .contact-btn{
-  padding:18px 46px;
-  background:#fff;
-  color:#111;
+  padding:18px 42px;
+  background:#164634;
+  color:#fff;
+  font-weight:700;
+  font-size:1.3rem;
   border:none;
   border-radius:50px;
-  font-size:1rem;
-  font-weight:400;
   cursor:pointer;
-  box-shadow:0 0 25px rgba(255,255,255,.6);
+  transition:0.3s;
+  box-shadow:0 0 20px rgba(29,185,84,0.7);
 }
+.contact-btn:hover{background:#1ed760;box-shadow:0 0 30px rgba(29,215,96,0.8);}
 
-.contact-btn:hover{box-shadow:0 0 40px rgba(255,255,255,.9);}
+/* ===== ANIMATIONS ===== */
+@keyframes posterFade{to{opacity:1;}}
+@keyframes slideUp{from{transform:translateY(40px);opacity:0;}to{transform:translateY(0);opacity:0.9;}}
+@keyframes blurIn{from{filter:blur(20px);opacity:0;transform:scale(1.05);}to{filter:none;opacity:1;transform:scale(1);}}
+@keyframes fadePulse{from{opacity:0;}to{opacity:0.8;}}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- Ambient intro sound -->
+<audio id="introSound" preload="auto">
+  <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_4b2b7c8c5c.mp3" type="audio/mpeg">
+</audio>
+
+<!-- POSTER INTRO -->
+<section class="poster">
+ <span class="tagline">I AM SPEED</span>
+  <div class="poster-overlay"></div>
+  <div class="poster-content">
+   
+    <h1 class="poster-title">MADHAN AADITHYA</h1>
+    <p class="poster-sub">Melophile • Student • Developer</p>
+    <p class="poster-cta">Scroll to enter</p>
+  </div>
+</section>
+
+<!-- NAVIGATION -->
 <nav>
-  <strong>M • A</strong>
+  <strong>M•A</strong>
   <div>
     <a href="#vision">Vision</a>
     <a href="#works">Works</a>
@@ -175,43 +169,34 @@ audio{
   </div>
 </nav>
 
-<!-- POSTER -->
-<section class="poster">
-  <div class="poster-overlay"></div>
-  <div class="poster-content">
-    <div class="tagline">MUSIC • CRAFT • DISCIPLINE</div>
-    <h1 class="poster-title">MADHAN AADITHYA</h1>
-    <p class="poster-sub">Composer • Student • Developer</p>
-    <p class="poster-cta">Scroll to enter</p>
-  </div>
-</section>
-
-<!-- HERO -->
-<section style="background:url('Photo.jpg') center/cover no-repeat;">
+<!-- HERO SECTION -->
+<section class="hero" style="background:url('Photo.jpg') center/cover no-repeat;">
   <div class="overlay">
     <div>
-      <h1>In pursuit of craft</h1>
-      <p>Learning relentlessly. Building quietly. Composing honestly.</p>
+      <h1>Happy with</h1>
+      <p>
+        Studyin, Upgradin, New things, Writin, Breathin, Composing .</p>
     </div>
   </div>
 </section>
 
-<!-- VISION -->
-<section id="vision" style="background:url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?fit=crop&w=1600') center/cover no-repeat;">
+<!-- VISION SECTION -->
+<section class="fs-1" id="vision" style="background:url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080') center/cover no-repeat;">
   <div class="overlay">
     <div>
       <h2>Vision</h2>
-      <p>To create work that feels timeless, restrained, and honest — where sound meets intention.</p>
+      <p>Well , truly , honestly speakinh, i will update this section later...cheers:)
+      </p>
     </div>
   </div>
 </section>
 
-<!-- WORKS -->
-<section id="works" style="background:url('https://images.unsplash.com/photo-1496181133206-80ce9b88a853?fit=crop&w=1600') center/cover no-repeat;">
+<!-- WORKS / MUSIC SECTION -->
+<section class="music" id="works" style="background:url('https://images.unsplash.com/photo-1496181133206-80ce9b88a853?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080') center/cover no-repeat;">
   <div class="overlay">
-    <div>
+    <div class="music-inner">
       <h2>Featured Composition</h2>
-      <p>An early sketch — minimal and sincere.</p>
+      <p>Just a test track</p>
       <audio controls>
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
       </audio>
@@ -219,14 +204,48 @@ audio{
   </div>
 </section>
 
-<!-- CONTACT -->
-<section id="contact" style="background:#0b0b0b;">
-  <div class="overlay">
+<!-- CONTACT SECTION -->
+<section id="contact" style="background:#111; height:100vh;">
+  <div class="overlay" style="display:flex;align-items:center;justify-content:center;">
     <div>
-      <button class="contact-btn" onclick="window.location.href='mailto:pmaadithya09@gmail.com'">Contact</button>
+      <button class="contact-btn" onclick="window.location.href='mailto:pmaadithya09@gmail.com">
+        contact me
+      </button>
     </div>
   </div>
 </section>
 
+<script>
+// Ambient intro sound
+const sound = document.getElementById('introSound');
+let played = false;
+['click','wheel','touchstart'].forEach(evt=>{
+  window.addEventListener(evt,()=>{
+    if(!played){ sound.volume=0.35;sound.play().catch(()=>{}); played=true; }
+  },{once:true});
+});
+
+// Poster fade & lock title + cinematic section animation
+const poster = document.querySelector('.poster');
+const title = document.querySelector('.poster-title');
+window.addEventListener('scroll', ()=>{
+  const y = window.scrollY;
+  poster.style.opacity = Math.max(0,1-y/400);
+  if(y > 50){
+    title.style.animationPlayState = 'paused';
+    title.style.letterSpacing = '6px';
+  }
+
+  // Trigger cinematic blur/fade-in for each section
+  document.querySelectorAll('section').forEach(section=>{
+    const rect = section.getBoundingClientRect();
+    if(rect.top < window.innerHeight*0.8){
+      section.classList.add('show');
+    }
+  });
+});
+</script>
 </body>
 </html>
+Make it more professional artist golden level
+Add an icon to browser tab music symbol white treble clef with black background 
