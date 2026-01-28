@@ -228,9 +228,17 @@ let played=false;
   },{once:true});
 });
 
-window.addEventListener('scroll',()=>{
+function revealSections(){
   document.querySelectorAll('section').forEach(sec=>{
-    const r=sec.getBoundingClientRect();
+    const r = sec.getBoundingClientRect();
+    if(r.top < window.innerHeight * 0.85){
+      sec.classList.add('show');
+    }
+  });
+}
+
+window.addEventListener('scroll', revealSections);
+window.addEventListener('load', revealSections);
     if(r.top<window.innerHeight*0.8){sec.classList.add('show');}
   });
 });
